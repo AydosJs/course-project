@@ -1,10 +1,31 @@
+"use client";
 import Button from "@/components/form-elements/Button";
 import Input from "@/components/form-elements/Input";
 import Link from "next/link";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
+  const [formData, setFormData] = useState<IUser>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(formData);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -17,13 +38,34 @@ export default function Login() {
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form
+          className="space-y-6"
+          action="#"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col space-y-4">
-            <Input name="name" type="text" id="name" label="Full name" />
-
-            <Input name="email" type="email" id="email" label="Email address" />
+            <Input
+              value={formData.name}
+              onChange={handleChange}
+              name="name"
+              type="text"
+              id="name"
+              label="Full name"
+            />
 
             <Input
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
+              type="email"
+              id="email"
+              label="Email address"
+            />
+
+            <Input
+              value={formData.password}
+              onChange={handleChange}
               name="password"
               type="password"
               id="password"
@@ -31,7 +73,9 @@ export default function Login() {
             />
           </div>
           <div className="">
-            <Button loading={false}>Create account</Button>
+            <Button type="submit" loading={false}>
+              Create account
+            </Button>
           </div>
         </form>
 
