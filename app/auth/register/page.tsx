@@ -9,7 +9,7 @@ export default function Login() {
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="text-center text-slate-900 dark:text-slate-200 font-semibold text-4xl leading-9 tracking-tight">
-          Welcome back!
+          Create an account
         </h2>
         <p className="text-center mt-2 text-slate-600 dark:text-slate-500 font-medium text-md leading-9 tracking-tight">
           We suggest using the email address you set at work.
@@ -19,17 +19,19 @@ export default function Login() {
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
           <div className="flex flex-col space-y-4">
-            <Input name="Email" type="email" id="email" label="Email address" />
+            <Input name="name" type="text" id="name" label="Full name" />
+
+            <Input name="email" type="email" id="email" label="Email address" />
 
             <Input
-              name="Password"
+              name="password"
               type="password"
               id="password"
               label="Password"
             />
           </div>
           <div className="">
-            <Button loading={false}>Login</Button>
+            <Button loading={false}>Create account</Button>
           </div>
         </form>
 
@@ -50,12 +52,12 @@ export default function Login() {
         </div>
 
         <p className="text-slate-500 dark:text-slate-500 mt-4 font-medium text-sm leading-9 tracking-tight">
-          Don&apos;t have an account?&nbsp;
+          Been here before?&nbsp;
           <Link
-            href={"/auth/register"}
+            href={"/auth/login"}
             className="inline-block text-slate-900 dark:text-sky-500 text-md underline"
           >
-            Create now
+            Log in
           </Link>
         </p>
       </div>
