@@ -2,18 +2,20 @@ import React, { InputHTMLAttributes } from "react";
 import { HiOutlineMail } from "react-icons/hi";
 
 type Props = {
-  label: string;
+  label?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({ label, ...props }: Props) {
   return (
     <div>
-      <label
-        htmlFor={props?.name ?? ""}
-        className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={props?.name ?? ""}
+          className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+        >
+          {label}
+        </label>
+      )}
       <div className="rounded relative mt-1">
         <input
           {...props}

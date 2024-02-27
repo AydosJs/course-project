@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light">
+    <html lang="en" className="dark">
       <body
-        className={`${inter.className} dark:bg-slate-900  bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]`}
+        className={`${inter.className} min-h-screen dark:bg-slate-900  bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]`}
       >
-        {children}
+        <Header />
+
+        <div className="px-4 my-10">{children}</div>
 
         {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
       </body>
