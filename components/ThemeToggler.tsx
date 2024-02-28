@@ -11,8 +11,8 @@ interface ThemeContext {
 }
 
 export default function ThemeToggler() {
-  const themeLocal = localStorage.getItem("theme") as Theme;
-  const { theme = themeLocal, setTheme } = useTheme() as ThemeContext;
+  const [localTheme, setLocalTheme] = useState<Theme>("system");
+  const { theme = localTheme, setTheme } = useTheme() as ThemeContext;
 
   const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
@@ -28,13 +28,15 @@ export default function ThemeToggler() {
   const toggleButtonRef = useRef<null | HTMLButtonElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
-    const targetElement = event.target as Node; // First cast event.target to Node
-    if (
-      toggleButtonRef.current !== targetElement.parentNode?.parentElement &&
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setOpen(false);
+    if (dropdownRef !== null && toggleButtonRef !== null) {
+      const targetElement = event.target as Node; // First cast event.target to Node
+      if (
+        toggleButtonRef.current !== targetElement.parentNode?.parentElement &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
     }
   };
 
@@ -43,6 +45,11 @@ export default function ThemeToggler() {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const themeLocal = (localStorage.getItem("theme") as Theme) || "system";
+      setLocalTheme(themeLocal);
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
