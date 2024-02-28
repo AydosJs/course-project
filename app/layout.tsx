@@ -24,7 +24,7 @@ export default function RootLayout({
         <ThemeProviders>
           <Header />
 
-          <div className="px-4 my-10 min-h-[calc(100vh-108px)]">{children}</div>
+          {children}
 
           {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
         </ThemeProviders>

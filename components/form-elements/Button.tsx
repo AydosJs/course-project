@@ -6,7 +6,11 @@ type Props = {
   loading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function Button({ className, ...props }: Props) {
+export default function Button({
+  className,
+  loading = false,
+  ...props
+}: Props) {
   return (
     <button
       className={cn(
@@ -17,7 +21,7 @@ export default function Button({ className, ...props }: Props) {
     >
       <div className="flex flex-row items-center justify-center w-full">
         {props.children}
-        {props.loading && <CgSpinner className="w-5 h-5 ml-2 animate-spin" />}
+        {loading && <CgSpinner className="w-5 h-5 ml-2 animate-spin" />}
       </div>
     </button>
   );

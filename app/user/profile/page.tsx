@@ -5,7 +5,7 @@ import { MdPhotoCamera } from "react-icons/md";
 
 export default function page() {
   return (
-    <div className="container flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 max-w-7xl">
+    <div className="container my-10 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 max-w-7xl">
       <div className=" w-full lg:max-w-sm  h-fit flex flex-col space-y-6 border bg-slate-50  border-slate-900/10  dark:border-slate-50/[0.06] rounded-lg p-6 dark:bg-slate-800/50">
         {/* <div className="w-full flex justify-center">
           <div className="size-32 bg-slate-600 rounded-full border-4 border-slate-400 cursor-pointer relative">
