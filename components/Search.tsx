@@ -10,7 +10,7 @@ export default function Search() {
         placeholder="Search catalogs..."
       />
 
-      <div className="flex flex-row gap-1 flex-wrap mt-3">
+      <div className="flex flex-row gap-2 flex-wrap mt-3">
         {[
           "Adventure",
           "Vintage",
