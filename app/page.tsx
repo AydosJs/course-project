@@ -1,5 +1,6 @@
 import CatalogCard from "@/components/CatalogCard";
 import Search from "@/components/Search";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -12,48 +13,21 @@ export default function Home() {
             Top 5 most Catalogs
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-y-4 md:gap-4 w-full">
-            <CatalogCard
-              colSpan="col-span-2 md:col-span-1 xl:col-span-2"
-              title="Museum"
-              description=" Imagine telling your collection’s stories by cataloging,
-                    maintaining, and sharing their rich histories. Streamline
-                    operations, empower your staff, and visually explore your
-                    objects."
-            />
-
-            <CatalogCard
-              colSpan="col-span-2 md:col-span-1 xl:col-span-2"
-              title="Museum"
-              description=" Imagine telling your collection’s stories by cataloging,
-                    maintaining, and sharing their rich histories. Streamline
-                    operations, empower your staff, and visually explore your
-                    objects."
-            />
-
-            <CatalogCard
-              colSpan="col-span-2 md:col-span-1 xl:col-span-2"
-              title="Museum"
-              description=" Imagine telling your collection’s stories by cataloging,
-                    maintaining, and sharing their rich histories. Streamline
-                    operations, empower your staff, and visually explore your
-                    objects."
-            />
-
-            <CatalogCard
-              colSpan="col-span-3 "
-              title="Museum"
-              description=" Imagine telling your collection’s stories by cataloging,
-                    maintaining, and sharing their rich histories. Streamline
-                    operations, empower your staff, and visually explore your
-                    objects."
-            />
-
-            <CatalogCard
-              colSpan="col-span-3 "
-              title="Museum"
-              description=" Imagine telling your collection’s stories by cataloging,
-                    objects."
-            />
+            {new Array(6).fill(" ").map((i, index) => (
+              <Link
+                className="col-span-2 md:col-span-1 xl:col-span-2"
+                href={`/catalog/${index}`}
+                key={index}
+              >
+                <CatalogCard
+                  title="Museum"
+                  description="Imagine telling your collection’s stories by cataloging,
+                   maintaining, and sharing their rich histories. Streamline
+                   operations, empower your staff, and visually explore your
+                   objects."
+                />
+              </Link>
+            ))}
           </div>
         </div>
       </div>
