@@ -11,10 +11,10 @@ export default function CatalogItem() {
       <div className="p-4 dark:font-medium">
         <div className="flex gap-2 mb-2">
           <span className="text-xs dark:hover:text-slate-100 hover:text-slate-900 text-slate-400 transition-all duration-300  dark:text-slate-500">
-            # Ethereum
+            #Ethereum
           </span>
           <span className="text-xs dark:hover:text-slate-100 hover:text-slate-900 text-slate-400 transition-all duration-300 dark:text-slate-500">
-            # Magic coin
+            #Magic coin
           </span>
         </div>
 

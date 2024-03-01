@@ -14,7 +14,7 @@ export default function page({
   return (
     <div className="p-4">
       <div className="container max-w-7xl my-10">
-        <div className="flex flex-col lg:flex-row lg:space-y-0 lg:space-x-6">
+        <div className="flex flex-col lg:flex-row lg:space-y-0 lg:space-x-8">
           <div className="lg:max-w-sm w-full rounded flex flex-col space-y-4">
             <CatalogCard />
 

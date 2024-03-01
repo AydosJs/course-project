@@ -25,9 +25,11 @@ export default function Header() {
         <div className="">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggler />
-            <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
-              <FaUserCircle className="size-6" />
-            </span>
+            <Link href={"/user/profile"}>
+              <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
+                <FaUserCircle className="size-6" />
+              </span>
+            </Link>
           </div>
         </div>
       </div>

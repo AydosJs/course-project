@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes } from "react";
-import { HiOutlineMail } from "react-icons/hi";
 
 type Props = {
   label?: string;
