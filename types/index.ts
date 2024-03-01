@@ -10,3 +10,8 @@ interface ThemeContext {
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
+
+type CatalogType = {
+  title: string;
+  description?: string;
+};
