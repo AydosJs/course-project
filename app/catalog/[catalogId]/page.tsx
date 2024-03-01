@@ -1,9 +1,8 @@
 import CommentItem from "@/components/CommentItem";
 import CatalogCard from "./CatalogCard";
 import CatalogItem from "./CatalogItem";
-import Input from "@/components/form-elements/Input";
-import Button from "@/components/form-elements/Button";
 import AddCommentTextarea from "@/components/AddCommentTextarea";
+import Link from "next/link";
 
 export default function page({
   params,
@@ -34,10 +33,18 @@ export default function page({
             </div>
           </div>
           <div className="mt-20 lg:mt-0 w-full h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            <CatalogItem />
-            <CatalogItem />
-            <CatalogItem />
-            <CatalogItem />
+            <Link href={`/catalog/${params.catalogId}/1`}>
+              <CatalogItem />
+            </Link>
+            <Link href={`/catalog/${params.catalogId}/2`}>
+              <CatalogItem />
+            </Link>
+            <Link href={`/catalog/${params.catalogId}/3`}>
+              <CatalogItem />
+            </Link>
+            <Link href={`/catalog/${params.catalogId}/4`}>
+              <CatalogItem />
+            </Link>
           </div>
         </div>
       </div>

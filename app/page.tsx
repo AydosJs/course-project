@@ -16,7 +16,7 @@ export default function Home() {
             {new Array(6).fill(" ").map((i, index) => (
               <Link
                 className="col-span-2 md:col-span-1 xl:col-span-2"
-                href={`/catalog/${index}`}
+                href={`/catalog/${index + 1}`}
                 key={index}
               >
                 <CatalogCard
