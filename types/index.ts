@@ -11,7 +11,7 @@ interface ThemeContext {
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
-type CatalogType = {
+type CollectionType = {
   title: string;
   description?: string;
 };

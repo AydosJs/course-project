@@ -1,43 +1,38 @@
 "use client";
 import Button from "@/components/form-elements/Button";
 import Input from "@/components/form-elements/Input";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { collectionValidationSchema } from "@/types/validationSchema";
 
 export default function CatalogForm() {
-  const [formData, setFormData] = useState<CatalogType>({
-    title: "",
-    description: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CollectionType>({
+    resolver: yupResolver(collectionValidationSchema),
   });
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(formData);
-  };
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const onSubmit = (data: CollectionType) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
       <div>
-        <Input
-          label="Title"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-
-        {/* {errors.title && (
+        <label
+          htmlFor={"title"}
+          className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+        >
+          Title
+        </label>
+        <div className="rounded relative mt-1">
+          <input
+            {...register("title")}
+            className={`bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 w-full outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+          />
+        </div>
+        {errors.title && (
           <p className="text-red-500 text-sm mt-1">{errors.title?.message}</p>
-        )} */}
+        )}
       </div>
 
       <div>
@@ -48,10 +43,7 @@ export default function CatalogForm() {
           Description
         </label>
         <textarea
-          value={formData.description}
-          onChange={handleChange}
-          id="description"
-          name="description"
+          {...register("description")}
           className="w-full bg-slate-100 peer text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 border-2 outline-none dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded "
           rows={3}
           placeholder="Add a comment..."
