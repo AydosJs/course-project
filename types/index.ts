@@ -11,7 +11,14 @@ interface ThemeContext {
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
+type CollectionCustomField = {
+  label: string;
+  value: string;
+};
+
 type CollectionType = {
   title: string;
   description?: string;
+
+  customFields: CollectionCustomField[];
 };
