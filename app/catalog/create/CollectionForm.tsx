@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import { IoCloseSharp } from "react-icons/io5";
 
-export default function CatalogForm() {
+export default function CollectionForm() {
   const {
     register,
     handleSubmit,
@@ -79,7 +79,7 @@ export default function CatalogForm() {
         >
           {fields.map((field, index) => (
             <div key={field.id} className="flex flex-row space-x-4 items-end">
-              <div className="flex flex-row space-x-5 items-center w-full">
+              <div className="flex flex-row space-x-3 items-center w-full">
                 <Controller
                   control={control}
                   name={
@@ -95,7 +95,7 @@ export default function CatalogForm() {
                       </label>
                       <input
                         {...field}
-                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
                       />
                     </div>
                   )}
@@ -116,7 +116,7 @@ export default function CatalogForm() {
                       </label>
                       <input
                         {...field}
-                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
                       />
                     </div>
                   )}
@@ -125,7 +125,7 @@ export default function CatalogForm() {
 
               <div className="w-fit">
                 <Button
-                  className="p-3 border-2 dark:bg-red-500/50 bg-red-500/50 border-red-500 dark:border-red-500 dark:hover:border-red-600 hover:border-red-600 dark:hover:bg-red-500/60 hover:bg-red-500/60 "
+                  className="p-2 border-2 dark:bg-red-500/50 bg-red-500/50 border-red-500 dark:border-red-500 dark:hover:border-red-600 hover:border-red-600 dark:hover:bg-red-500/60 hover:bg-red-500/60 "
                   type="button"
                   onClick={() => remove(index)}
                 >
@@ -138,7 +138,7 @@ export default function CatalogForm() {
       </div>
       <div>
         <Button
-          className="bg-sky-500 opacity-60 hover:opacity-100 transition-all duration-300 hover:bg-sky-600 !mt-2 !outline-none py-3 border-none focus:ring-0"
+          className="bg-sky-500 opacity-60 hover:opacity-100 transition-all duration-300 hover:bg-sky-600 !outline-none py-3 border-none focus:ring-0"
           type="button"
           onClick={() => append({ label: "", value: "" })}
         >
@@ -146,7 +146,7 @@ export default function CatalogForm() {
         </Button>
       </div>
 
-      <div className="flex flex-row space-x-6 py-6">
+      <div className="flex flex-row space-x-6 pt-6">
         <Button
           type="submit"
           className=" bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 py-3 dark:hover:bg-slate-700/50 border-none"

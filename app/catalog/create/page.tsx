@@ -1,5 +1,5 @@
 import { MdPhotoCamera } from "react-icons/md";
-import CatalogForm from "./CatalogForm";
+import CollectionForm from "./CollectionForm";
 
 export default function page() {
   return (
@@ -14,7 +14,7 @@ export default function page() {
             <h1 className="mb-6 text-slate-900 dark:text-slate-200 text-lg tracking-tight">
               Create Catalog
             </h1>
-            <CatalogForm />
+            <CollectionForm />
           </div>
         </div>
       </div>
