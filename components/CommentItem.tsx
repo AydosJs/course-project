@@ -24,12 +24,12 @@ export default function CommentItem() {
           </div>
           <div>
             <span className="text-slate-500 dark:text-slate-500 text-sm font-normal">
-              2 days
+              43 likes
             </span>
           </div>
           <div>
             <span className="text-slate-500 dark:text-slate-500 text-sm font-normal">
-              43 likes
+              2 days
             </span>
           </div>
         </div>

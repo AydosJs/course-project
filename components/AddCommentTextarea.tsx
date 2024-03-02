@@ -1,6 +1,6 @@
 import Button from "./form-elements/Button";
 
-export default function AddCommentTextarea() {
+export default function AddCommentTextarea({ ...props }) {
   return (
     <div className="mt-4 flex flex-row space-x-3">
       <div>
@@ -15,6 +15,7 @@ export default function AddCommentTextarea() {
           id=""
           rows={3}
           placeholder="Add a comment..."
+          {...props}
         />
         <div className="opacity-50 peer-focus:opacity-100">
           <Button className="p-1 px-2 text-sm w-auto">Comment</Button>
