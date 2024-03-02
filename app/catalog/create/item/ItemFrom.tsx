@@ -1,39 +1,11 @@
-"use client";
 import Button from "@/components/form-elements/Button";
 import Input from "@/components/form-elements/Input";
-import { useState } from "react";
 import TagsInput from "./TagsInput";
 
 export default function ItemForm() {
-  const [formData, setFormData] = useState<CatalogType>({
-    title: "",
-    description: "",
-  });
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(formData);
-  };
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-      <Input
-        label="Title"
-        id="title"
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-      />
+    <form className="flex flex-col space-y-4">
+      <Input label="Title" />
 
       <div>
         <label
@@ -43,10 +15,6 @@ export default function ItemForm() {
           Description
         </label>
         <textarea
-          value={formData.description}
-          onChange={handleChange}
-          id="description"
-          name="description"
           className="w-full bg-slate-100 peer text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 border-2 outline-none dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded "
           rows={3}
           placeholder="Add a comment..."
