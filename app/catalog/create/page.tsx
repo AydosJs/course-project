@@ -5,8 +5,8 @@ export default function page() {
   return (
     <div className="p-4">
       <div className="container max-w-7xl my-10">
-        <div className="flex flex-row space-x-4 justify-center">
-          <div className="max-w-xs h-44 w-full bg-slate-600 rounded border-slate-400 cursor-pointer relative">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 justify-center">
+          <div className="md:max-w-xs h-44 w-full bg-slate-600 rounded border-slate-400 cursor-pointer relative">
             <MdPhotoCamera className="size-8 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
 
