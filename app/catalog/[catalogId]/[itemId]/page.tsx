@@ -5,7 +5,7 @@ export default function page() {
   return (
     <div className="p-4">
       <div className="container max-w-7xl w-full my-10">
-        <div className="w-full flex flex-col max-w-2xl p-4 mx-auto">
+        <div className="w-full flex flex-col max-w-2xl mx-auto">
           <div className="w-full h-56 sm:h-80 bg-slate-100 dark:bg-slate-800 rounded bg-[url('https://images.pexels.com/photos/259165/pexels-photo-259165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center bg-no-repeat"></div>
           <div className="flex gap-4 mt-2">
             <span className="text-sm cursor-pointer dark:hover:text-slate-100 hover:text-slate-900 text-slate-400 transition-all duration-300  dark:text-slate-500">

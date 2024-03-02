@@ -11,8 +11,12 @@ interface ThemeContext {
 }
 
 export default function ThemeToggler() {
-  const [localTheme, setLocalTheme] = useState<Theme>("system");
+  const [localTheme, setLocalTheme] = useState<Theme | null>(null);
   const { theme = localTheme, setTheme } = useTheme() as ThemeContext;
+  const [open, setOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<null | HTMLUListElement>(null);
+  const toggleButtonRef = useRef<null | HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
@@ -21,11 +25,6 @@ export default function ThemeToggler() {
     setOpen(false);
     localStorage.setItem("theme", theme);
   };
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  const dropdownRef = useRef<null | HTMLUListElement>(null);
-  const toggleButtonRef = useRef<null | HTMLButtonElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef !== null && toggleButtonRef !== null) {
@@ -45,27 +44,42 @@ export default function ThemeToggler() {
   };
 
   useEffect(() => {
+    setMounted(true);
+
     if (typeof window !== "undefined" && window.localStorage) {
-      const themeLocal = (localStorage.getItem("theme") as Theme) || "system";
+      const themeLocal = localStorage.getItem("theme") as Theme;
       setLocalTheme(themeLocal);
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // Attach click outside listener only on the client-side
+    if (typeof window !== "undefined") {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Fallback for server-side rendering (optional)
+    return undefined;
   }, []);
 
+  if (!mounted) {
+    return null;
+  }
+
+  const ThemeIcon = () => {
+    if (theme === "light")
+      return <LuSunMedium className="size-6 text-sky-500 " />;
+    if (theme === "dark")
+      return <PiMoonStarsDuotone className="size-6 text-sky-500 " />;
+    if (theme === "system")
+      return <PiMoonStarsDuotone className="size-6 text-slate-400 " />;
+    return null;
+  };
+
   return (
-    <div className="relative p-0 m-0 flex items-center justify-center ">
+    <div className="relative p-0 m-0 flex items-center justify-center">
       <button ref={toggleButtonRef} onClick={toggle} className="peer">
-        {theme === "light" && <LuSunMedium className="size-6 text-sky-500 " />}
-        {theme === "dark" && (
-          <PiMoonStarsDuotone className="size-6 text-sky-500 " />
-        )}
-        {theme === "system" && (
-          <PiMoonStarsDuotone className="size-6 text-slate-400 " />
-        )}
+        <ThemeIcon />
       </button>
       {open && (
         <ul
