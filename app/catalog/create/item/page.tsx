@@ -1,3 +1,4 @@
+"use client";
 import { MdPhotoCamera } from "react-icons/md";
 import ItemForm from "./ItemFrom";
 

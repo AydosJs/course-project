@@ -1,12 +1,7 @@
-export default function CatalogItem() {
+export default function CollectionItem() {
   return (
     <div className="flex group flex-col bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800 transition-all duration-300  border-slate-900/10  dark:border-slate-50/[0.06] rounded overflow-hidden">
-      <div className="h-48 w-full">
-        <img
-          className="w-full h-full object-cover"
-          src="https://images.pexels.com/photos/730552/pexels-photo-730552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-      </div>
+      <div className="h-48 w-full bg-[url('https://images.pexels.com/photos/730552/pexels-photo-730552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center bg-no-repeat"></div>
 
       <div className="p-4 dark:font-medium">
         <div className="flex gap-2 mb-2">

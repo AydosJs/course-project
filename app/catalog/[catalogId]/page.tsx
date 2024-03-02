@@ -1,8 +1,8 @@
 import CommentItem from "@/components/CommentItem";
-import CatalogCard from "./CatalogCard";
-import CatalogItem from "./CatalogItem";
 import AddCommentTextarea from "@/components/AddCommentTextarea";
 import Link from "next/link";
+import CollectionCard from "./CollectionCard";
+import CollectionItem from "./CollectionItem";
 
 export default function page({
   params,
@@ -16,7 +16,7 @@ export default function page({
       <div className="container max-w-7xl my-10">
         <div className="flex flex-col lg:flex-row lg:space-y-0 lg:space-x-8">
           <div className="lg:max-w-sm w-full rounded flex flex-col space-y-4">
-            <CatalogCard />
+            <CollectionCard />
 
             <div className="!mt-8">
               <h1 className="text-md text-slate-800 dark:text-slate-100 font-medium">
@@ -34,16 +34,16 @@ export default function page({
           </div>
           <div className="mt-20 lg:mt-0 w-full h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
             <Link href={`/catalog/${params.catalogId}/1`}>
-              <CatalogItem />
+              <CollectionItem />
             </Link>
             <Link href={`/catalog/${params.catalogId}/2`}>
-              <CatalogItem />
+              <CollectionItem />
             </Link>
             <Link href={`/catalog/${params.catalogId}/3`}>
-              <CatalogItem />
+              <CollectionItem />
             </Link>
             <Link href={`/catalog/${params.catalogId}/4`}>
-              <CatalogItem />
+              <CollectionItem />
             </Link>
           </div>
         </div>

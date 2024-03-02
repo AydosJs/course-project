@@ -1,4 +1,4 @@
-export default function CatalogCard() {
+export default function CollectionCard() {
   return (
     <>
       <div className="w-full h-60 bg-slate-100 dark:bg-slate-800 rounded bg-[url('https://images.pexels.com/photos/259165/pexels-photo-259165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center bg-no-repeat"></div>
