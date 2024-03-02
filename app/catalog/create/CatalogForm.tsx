@@ -138,7 +138,7 @@ export default function CatalogForm() {
       </div>
       <div>
         <Button
-          className="bg-sky-500 hover:bg-sky-600 !mt-2 !outline-none py-3 border-none focus:ring-0"
+          className="bg-sky-500 opacity-60 hover:opacity-100 transition-all duration-300 hover:bg-sky-600 !mt-2 !outline-none py-3 border-none focus:ring-0"
           type="button"
           onClick={() => append({ label: "", value: "" })}
         >
