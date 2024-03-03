@@ -1,3 +1,4 @@
+"use client";
 import CatalogCard from "@/components/CatalogCard";
 import Search from "@/components/Search";
 import TagsList from "@/components/TagsList";
