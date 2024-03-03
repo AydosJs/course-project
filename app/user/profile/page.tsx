@@ -9,14 +9,17 @@ export default function page() {
     <div className="p-4">
       <div className="container my-10 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 max-w-7xl">
         <div className=" w-full lg:max-w-sm  h-fit flex flex-col space-y-6 border bg-slate-50 border-slate-900/10  dark:border-slate-50/[0.06] rounded-lg p-6 dark:bg-slate-800/50">
-          {/* <div className="w-full flex justify-center">
-          <div className="size-32 bg-slate-600 rounded-full border-4 border-slate-400 cursor-pointer relative">
-            <MdPhotoCamera className="size-8 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-          </div>
-        </div> */}
           <h1 className="text-lg text-slate-900 font-medium dark:text-slate-200">
             Profile
           </h1>
+
+          <div className="w-full flex justify-center">
+            <div className="size-32 flex items-center justify-center bg-sky-500 rounded-full border-4 border-sky-300 cursor-pointer relative">
+              <span className="text-3xl">J</span>
+              {/* <MdPhotoCamera className="size-8 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" /> */}
+            </div>
+          </div>
+
           <div className="flex flex-col space-y-3">
             <Input
               className="!py-3"
@@ -36,7 +39,7 @@ export default function page() {
         <div className="w-full  flex flex-col border bg-slate-50  border-slate-900/10  dark:border-slate-50/[0.06] rounded-lg p-6 dark:bg-slate-800/50">
           <div className="mb-4  flex flex-row  items-center justify-between">
             <h1 className="text-lg text-slate-900 font-medium dark:text-slate-200">
-              Catalogs
+              Collection list
             </h1>
 
             <div>

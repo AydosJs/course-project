@@ -18,6 +18,7 @@ type CollectionCustomField = {
 
 type CollectionType = {
   title: string;
+  topic: string;
   description?: string;
 
   customFields: CollectionCustomField[];

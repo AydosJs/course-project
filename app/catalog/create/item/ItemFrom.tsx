@@ -32,7 +32,7 @@ export default function ItemForm() {
         <TagsInput />
       </div>
 
-      <div className="flex flex-row space-x-6">
+      <div className="flex flex-row space-x-6 pt-6">
         <Button
           type="submit"
           className=" bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 py-3 dark:hover:bg-slate-700/50 border-none"

@@ -54,6 +54,24 @@ export default function CollectionForm() {
 
       <div>
         <label
+          htmlFor={"title"}
+          className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+        >
+          Topic
+        </label>
+        <div className="rounded relative mt-1">
+          <input
+            {...register("topic")}
+            className={`bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 w-full outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+          />
+        </div>
+        {errors.topic && (
+          <p className="text-red-500 text-sm mt-1">{errors.topic?.message}</p>
+        )}
+      </div>
+
+      <div>
+        <label
           htmlFor="description"
           className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
         >

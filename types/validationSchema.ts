@@ -2,6 +2,7 @@ import * as Yup from "yup";
 
 export const collectionValidationSchema = Yup.object<CollectionType>().shape({
   title: Yup.string().required("Title is required"),
+  topic: Yup.string().required("Topic is required"),
   description: Yup.string(),
   customFields: Yup.array()
     .of(
