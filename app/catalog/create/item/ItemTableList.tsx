@@ -1,4 +1,12 @@
 import { MdOutlineMoreHoriz } from "react-icons/md";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MdDelete } from "react-icons/md";
+import { MdModeEditOutline } from "react-icons/md";
 
 export default function ItemTableList() {
   return (
@@ -37,7 +45,7 @@ export default function ItemTableList() {
                         <span className="rounded-full bg-slate-200 dark:bg-slate-700 size-8"></span>
                       </div>
                       <div>
-                        <span className="font-medium text-slate-400">
+                        <span className="dark:font-medium text-slate-400">
                           John doe
                         </span>
                         <span className="block max-w-xs truncate">
@@ -55,7 +63,21 @@ export default function ItemTableList() {
                   <td className="px-2 py-3 text-sm">43 / 17</td>
                   <td className="px-2 py-3 text-sm">12.13.2010</td>
                   <td className="px-2 py-3 text-end text-sm font-medium">
-                    <MdOutlineMoreHoriz className="size-5 dark:text-sky-800 dark:group-hover:text-sky-500" />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <MdOutlineMoreHoriz className="size-5 dark:text-sky-800 dark:group-hover:text-sky-500" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="p-0 rounded bg-slate-50 text-slate-600 dark:text-slate-400 dark:bg-slate-800/30 backdrop-blur border-2 border-slate-900/10  dark:border-slate-50/[0.06]">
+                        <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
+                          <MdModeEditOutline className="size-4 mr-2" />
+                          <span className="font-medium">Edit</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
+                          <MdDelete className="size-4 mr-2" />
+                          <span className="font-medium">Delete</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </td>
                 </tr>
               ))}
