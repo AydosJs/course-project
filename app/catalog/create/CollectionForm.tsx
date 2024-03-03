@@ -5,6 +5,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import { IoCloseSharp } from "react-icons/io5";
+import { BsFillImageFill } from "react-icons/bs";
 
 export default function CollectionForm() {
   const {
@@ -34,6 +35,25 @@ export default function CollectionForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+      <div className="flex items-center justify-center border-2 w-full h-44 bg-slate-100 dark:bg-slate-600/30 rounded dark:border-slate-700 !cursor-pointer relative">
+        <div className="flex flex-col items-center w-full">
+          <BsFillImageFill className="size-7 text-slate-400 " />
+          <p className="text-sm dark:text-slate-400 mt-4">
+            Drag and drop or <span className="text-sky-500">browse</span> to
+            upload
+          </p>
+          <p className="text-sm dark:text-slate-400 mt-1">
+            PNG, JPG up to 10MB
+          </p>
+          <input
+            type="file"
+            accept="image/*"
+            className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
+          />
+        </div>
+        <div className="absolute opacity-5 inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+      </div>
+
       <div>
         <label
           htmlFor={"title"}

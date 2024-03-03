@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="px-4 my-10 min-h-[calc(100vh-108px)] flex flex-col items-center justify-between lg:p-24">
+    <main className="my-10 min-h-[calc(100vh-108px)] flex flex-col items-center justify-between lg:p-24">
       <div className="w-full flex flex-col items-center justify-center">
         <Search />
 
