@@ -2,7 +2,7 @@ import CommentItem from "@/components/CommentItem";
 import AddCommentTextarea from "@/components/AddCommentTextarea";
 import Link from "next/link";
 import CollectionCard from "./CollectionCard";
-import CollectionItem from "./CollectionItem";
+import CollectionItem from "../../../../components/CollectionItem";
 
 export default function page({
   params,
