@@ -1,13 +1,24 @@
-"use client";
 import CatalogCard from "@/components/CatalogCard";
 import Search from "@/components/Search";
 import TagsList from "@/components/TagsList";
 import Link from "next/link";
+import initTranslations from "../i18n";
 
-export default function Home() {
+interface HomeProps {
+  params: {
+    locale: string; // Specify type as string
+  };
+}
+export default async function Home({
+  params: { locale },
+}: Readonly<HomeProps>) {
+  const { t } = await initTranslations(locale, ["default"]);
+
   return (
     <main className="my-10 min-h-[calc(100vh-108px)] flex flex-col items-center justify-between lg:p-24">
       <div className="w-full flex flex-col items-center justify-center">
+        {t("hello")}
+
         <Search />
 
         <div className="container max-w-7xl w-full mt-20 flex flex-col space-y-20">
