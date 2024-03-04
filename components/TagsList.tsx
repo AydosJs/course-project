@@ -1,8 +1,13 @@
+"use client";
+
+import { useTranslation } from "react-i18next";
+
 export default function TagsList() {
+  const { t } = useTranslation();
   return (
     <div>
       <h1 className=" mb-8 text-2xl dark:text-slate-400 text-slate-900 font-medium">
-        Common Tags
+        {t("common_tags")}
       </h1>
 
       <div className="flex flex-wrap gap-2">

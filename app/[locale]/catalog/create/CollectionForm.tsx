@@ -6,8 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import { IoCloseSharp } from "react-icons/io5";
 import { BsFillImageFill } from "react-icons/bs";
+import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 
-export default function CollectionForm() {
+export default function CollectionForm({ t }: any) {
   const {
     register,
     handleSubmit,
@@ -38,13 +39,10 @@ export default function CollectionForm() {
       <div className="flex items-center justify-center border-2 w-full h-44 bg-slate-100 dark:bg-slate-600/30 rounded dark:border-slate-700 !cursor-pointer relative">
         <div className="flex flex-col items-center w-full">
           <BsFillImageFill className="size-7 text-slate-400 " />
-          <p className="text-sm dark:text-slate-400 mt-4">
-            Drag and drop or <span className="text-sky-500">browse</span> to
-            upload
+          <p className="text-md dark:text-slate-400 mt-4">
+            {t("img_upload_label")}
           </p>
-          <p className="text-sm dark:text-slate-400 mt-1">
-            PNG, JPG up to 10MB
-          </p>
+          <p className="text-sm dark:text-slate-400 mt-1">{t("up_to")}</p>
           <input
             type="file"
             accept="image/*"
@@ -110,14 +108,14 @@ export default function CollectionForm() {
           htmlFor="description"
           className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
         >
-          Custom fields
+          {t("custom_fields")}
         </label>
         <div
           className={`dark:bg-slate-800/50 bg-slate-100 border-2 flex dark:border-slate-700 p-4 rounded flex-col space-y-4`}
         >
           {fields.map((field, index) => (
-            <div key={field.id} className="flex flex-row space-x-4 items-end">
-              <div className="flex flex-row space-x-3 items-center w-full">
+            <div key={field.id} className="flex flex-row space-x-2 items-end">
+              <div className="flex flex-row space-x-2 items-center w-full">
                 <Controller
                   control={control}
                   name={
@@ -129,7 +127,7 @@ export default function CollectionForm() {
                         htmlFor="description"
                         className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
                       >
-                        Label
+                        {t("label")}
                       </label>
                       <input
                         {...field}
@@ -150,7 +148,7 @@ export default function CollectionForm() {
                         htmlFor="description"
                         className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
                       >
-                        Value
+                        {t("value")}
                       </label>
                       <input
                         {...field}
@@ -180,24 +178,11 @@ export default function CollectionForm() {
           type="button"
           onClick={() => append({ label: "", value: "" })}
         >
-          Add Field
+          {t("add_field")}
         </Button>
       </div>
 
-      <div className="flex flex-row space-x-6 pt-6">
-        <Button
-          type="submit"
-          className=" bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 py-3 dark:hover:bg-slate-700/50 border-none"
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          className="border-none bg-sky-500 py-3 hover:bg-sky-600"
-        >
-          Create
-        </Button>
-      </div>
+      <CancelAndCreateButtons />
     </form>
   );
 }

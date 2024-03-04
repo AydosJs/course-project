@@ -1,18 +1,22 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import {
+  MdOutlineMoreHoriz,
+  MdModeEditOutline,
+  MdDelete,
+} from "react-icons/md";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MdDelete } from "react-icons/md";
-import { MdModeEditOutline } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function CollectionsTable() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <div className="overflow-x-auto">
@@ -39,7 +43,7 @@ export default function CollectionsTable() {
               </tr>
             </thead>
             <tbody className="divide-y  divide-slate-200 dark:divide-slate-700/30">
-              {new Array(10).fill(" ").map((i, index) => (
+              {new Array(10).fill(" ").map((i, index: number) => (
                 <tr
                   key={index}
                   onClick={() =>
@@ -73,11 +77,11 @@ export default function CollectionsTable() {
                       <DropdownMenuContent className="p-0 rounded bg-slate-50 text-slate-600 dark:text-slate-400 dark:bg-slate-800/30 backdrop-blur border-2 border-slate-900/10  dark:border-slate-50/[0.06]">
                         <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
                           <MdModeEditOutline className="size-4 mr-2" />
-                          <span className="font-medium">Edit</span>
+                          <span className="font-medium">{t("edit")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
                           <MdDelete className="size-4 mr-2" />
-                          <span className="font-medium">Delete</span>
+                          <span className="font-medium">{t("delete")}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

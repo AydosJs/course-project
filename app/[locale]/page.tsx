@@ -17,14 +17,12 @@ export default async function Home({
   return (
     <main className="my-10 min-h-[calc(100vh-108px)] flex flex-col items-center justify-between lg:p-24">
       <div className="w-full flex flex-col items-center justify-center">
-        {t("hello")}
-
         <Search />
 
         <div className="container max-w-7xl w-full mt-20 flex flex-col space-y-20">
           <div>
             <h1 className="mb-8 text-2xl dark:text-slate-400 text-slate-900 font-medium">
-              Top 5 most Catalogs
+              {t("top_5__most_collections")}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-y-4 md:gap-4 w-full">
               {new Array(5).fill(" ").map((i, index) => (
@@ -56,11 +54,12 @@ export default async function Home({
                     CLICK IT!
                   </p>
                   <p className="text-sky-500 dark:text-sky-600  dark:group-hover:text-sky-400 transition-all duration-300 text-[1.8rem] sm:text-[2.6rem] underline leading-snug font-semibold">
-                    LOGIN
+                    {t("login_title")}
+                    {/* {t("login")}
                     <br />
-                    TO CREATE
+                    {t("to_create")}
                     <br />
-                    COLLECTIONS -&gt;
+                    {t("collections")} -&gt; */}
                   </p>
                 </div>
               </Link>

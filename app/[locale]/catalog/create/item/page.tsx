@@ -1,14 +1,16 @@
 "use client";
+import { useTranslation } from "react-i18next";
 import ItemForm from "./ItemFrom";
 import ItemTableList from "./ItemTableList";
 
-export default function page() {
+export default function CreateCollectionItem() {
+  const { t } = useTranslation();
   return (
     <div className="container max-w-7xl my-10">
       <div className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 justify-center">
         <div className="w-full md:w-1/3 h-fit flex md:max-w-md border border-slate-900/10  dark:border-slate-50/[0.06] flex-col p-4 px-5 dark:bg-slate-800/50 bg-slate-50 rounded">
           <h1 className="mb-6 text-slate-900 dark:text-slate-200 text-lg tracking-tight">
-            Create Item
+            {t("create_item")}
           </h1>
 
           <ItemForm />
@@ -16,7 +18,7 @@ export default function page() {
 
         <div className="w-full md:w-2/3 h-fit flex border border-slate-900/10  dark:border-slate-50/[0.06] flex-col p-4 px-5 dark:bg-slate-800/50 bg-slate-50 rounded">
           <h1 className="mb-6 text-slate-900 dark:text-slate-200 text-lg tracking-tight">
-            Collection Items
+            {t("collection_items")}
           </h1>
 
           <ItemTableList />

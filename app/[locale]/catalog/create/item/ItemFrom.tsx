@@ -1,7 +1,7 @@
-import Button from "@/components/form-elements/Button";
 import Input from "@/components/form-elements/Input";
 import TagsInput from "./TagsInput";
 import { BsFillImageFill } from "react-icons/bs";
+import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 
 export default function ItemForm() {
   return (
@@ -52,20 +52,7 @@ export default function ItemForm() {
         <TagsInput />
       </div>
 
-      <div className="flex flex-row space-x-6 pt-6">
-        <Button
-          type="submit"
-          className=" bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 py-3 dark:hover:bg-slate-700/50 border-none"
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          className="border-none bg-sky-500 py-3 hover:bg-sky-600"
-        >
-          Create
-        </Button>
-      </div>
+      <CancelAndCreateButtons />
     </form>
   );
 }

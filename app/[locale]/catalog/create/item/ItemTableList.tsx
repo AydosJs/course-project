@@ -1,14 +1,19 @@
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import {
+  MdOutlineMoreHoriz,
+  MdDelete,
+  MdModeEditOutline,
+} from "react-icons/md";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MdDelete } from "react-icons/md";
-import { MdModeEditOutline } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function ItemTableList() {
+  const { t } = useTranslation();
+
   return (
     <div className="overflow-x-auto">
       <div className="table-fixed min-w-full inline-block align-middle">
@@ -70,11 +75,11 @@ export default function ItemTableList() {
                       <DropdownMenuContent className="p-0 rounded bg-slate-50 text-slate-600 dark:text-slate-400 dark:bg-slate-800/30 backdrop-blur border-2 border-slate-900/10  dark:border-slate-50/[0.06]">
                         <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
                           <MdModeEditOutline className="size-4 mr-2" />
-                          <span className="font-medium">Edit</span>
+                          <span className="font-medium">{t("edit")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
                           <MdDelete className="size-4 mr-2" />
-                          <span className="font-medium">Delete</span>
+                          <span className="font-medium">{t("delete")}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

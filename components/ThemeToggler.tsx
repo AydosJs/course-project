@@ -4,6 +4,7 @@ import { PiMoonStarsDuotone } from "react-icons/pi";
 import { LuSunMedium } from "react-icons/lu";
 import { GoDeviceDesktop } from "react-icons/go";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 
 interface ThemeContext {
   theme: Theme;
@@ -17,13 +18,13 @@ export default function ThemeToggler() {
   const dropdownRef = useRef<null | HTMLUListElement>(null);
   const toggleButtonRef = useRef<null | HTMLButtonElement>(null);
   const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
 
-  const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
-    e.preventDefault();
-    const theme = e.currentTarget.textContent?.toLowerCase() as Theme;
-    setTheme(theme);
+  const handleClick = (theme: "light" | "dark" | "system") => {
+    const newTheme = theme.toLocaleLowerCase() as Theme;
+    setTheme(newTheme);
     setOpen(false);
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -87,7 +88,7 @@ export default function ThemeToggler() {
           className="-right-10 top-12 list-none absolute bg-slate-50 dark:bg-slate-900 rounded border dark:border-slate-50/[0.06] min-w-40 z-1 shadow-lg animate-slideIn"
         >
           <li
-            onClick={handleClick}
+            onClick={() => handleClick("light")}
             className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
               theme === "light"
                 ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
@@ -95,10 +96,10 @@ export default function ThemeToggler() {
             } `}
           >
             <LuSunMedium className="size-5 mr-2" />
-            Light
+            {t("light")}
           </li>
           <li
-            onClick={handleClick}
+            onClick={() => handleClick("dark")}
             className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
               theme === "dark"
                 ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
@@ -106,10 +107,10 @@ export default function ThemeToggler() {
             } `}
           >
             <PiMoonStarsDuotone className="size-5 mr-2" />
-            Dark
+            {t("dark")}
           </li>
           <li
-            onClick={handleClick}
+            onClick={() => handleClick("system")}
             className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
               theme === "system"
                 ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
@@ -117,7 +118,7 @@ export default function ThemeToggler() {
             } `}
           >
             <GoDeviceDesktop className="size-5 mr-2" />
-            System
+            {t("system")}
           </li>
         </ul>
       )}

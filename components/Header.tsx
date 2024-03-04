@@ -7,7 +7,12 @@ import LanguageToggler from "./LanguageToggler";
 
 export default function Header() {
   const pathname = usePathname();
-  const hideHeader = ["/auth/login", "/auth/register"].includes(pathname);
+  const hideHeader = [
+    "/auth/login",
+    "/uz/auth/login",
+    "/auth/register",
+    "/uz/auth/register",
+  ].includes(pathname);
 
   if (hideHeader) {
     return null;
@@ -27,7 +32,7 @@ export default function Header() {
           <div className="flex flex-row items-center space-x-4">
             <LanguageToggler />
             <ThemeToggler />
-            <Link href={"/user/profile"}>
+            <Link href={"/profile"}>
               <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
                 <FaUserCircle className="size-6" />
               </span>
