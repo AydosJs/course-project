@@ -1,21 +1,21 @@
+"use client";
 import Input from "@/components/form-elements/Input";
 import TagsInput from "./TagsInput";
 import { BsFillImageFill } from "react-icons/bs";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
+import { useTranslation } from "react-i18next";
 
 export default function ItemForm() {
+  const { t } = useTranslation();
   return (
     <form className="flex flex-col space-y-4">
       <div className="flex items-center justify-center border-2 w-full h-44 bg-slate-100 dark:bg-slate-600/30 rounded dark:border-slate-700 !cursor-pointer relative">
         <div className="flex flex-col items-center w-full">
           <BsFillImageFill className="size-7 text-slate-400 " />
           <p className="text-sm dark:text-slate-400 mt-4">
-            Drag and drop or <span className="text-sky-500">browse</span> to
-            upload
+            {t("img_upload_label")}
           </p>
-          <p className="text-sm dark:text-slate-400 mt-1">
-            PNG, JPG up to 10MB
-          </p>
+          <p className="text-sm dark:text-slate-400 mt-1">{t("up_to")}</p>
           <input
             type="file"
             accept="image/*"

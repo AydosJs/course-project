@@ -53,7 +53,7 @@ export default async function Home({
                   <p className="opacity-0 transition-all duration-300 text-sky-500 dark:text-sky-600  dark:group-hover:text-sky-400 font-semibold text-2xl group-hover:opacity-100">
                     CLICK IT!
                   </p>
-                  <p className="text-sky-500 dark:text-sky-600  dark:group-hover:text-sky-400 transition-all duration-300 text-[1.8rem] sm:text-[2.6rem] underline leading-snug font-semibold">
+                  <p className="text-sky-500 dark:text-sky-600  dark:group-hover:text-sky-400 transition-all duration-300 text-[2.5rem] sm:text-[2.6rem] underline leading-snug font-semibold">
                     {t("login_title")}
                     {/* {t("login")}
                     <br />
