@@ -5,16 +5,16 @@ import Badge from "./Badge";
 
 export default function Search() {
   return (
-    <div className="relative mt-20 flex h-full w-full items-center justify-center py-20">
-      <div className="mb-16 w-full p-[1rem] transition-all duration-300 lg:max-w-3xl lg:focus-within:max-w-4xl">
+    <div className="relative flex h-full w-full items-center justify-center py-20 md:mt-20">
+      <div className="w-full p-[1rem] transition-all duration-300 md:mb-16 lg:max-w-3xl lg:focus-within:max-w-4xl">
         <div className="peer relative">
           <input
-            className={`w-full rounded-full border-2 border-sky-200 bg-white !p-4  py-3 text-sm font-normal text-sky-500/90 outline-none backdrop-blur-sm backdrop-filter placeholder:text-sky-300 focus:border-sky-300 dark:border-sky-500/30  dark:bg-sky-500/10  dark:placeholder:text-sky-500/50  dark:focus:border-sky-500/50 lg:text-[1rem] `}
+            className={`peer w-full rounded-full border-2 border-sky-200 bg-white !p-4  py-3 text-sm font-normal text-sky-500/90 outline-none backdrop-blur-sm backdrop-filter placeholder:text-sky-300 focus:border-sky-300 dark:border-sky-500/30  dark:bg-sky-500/10  dark:placeholder:text-sky-500/50  dark:focus:border-sky-500/50 lg:text-[1rem] `}
             placeholder="Full-text search..."
           />
 
           <span className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-3 transition-all duration-300 hover:dark:bg-sky-500/10 group-focus:dark:bg-sky-500/10 ">
-            <CgSearch className="size-5 text-sky-500/50 peer-hover:text-red-500" />
+            <CgSearch className="size-5 text-sky-500/50" />
           </span>
         </div>
 
