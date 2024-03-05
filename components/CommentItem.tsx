@@ -1,34 +1,28 @@
 export default function CommentItem() {
   return (
-    <div className="w-full flex flex-row space-x-3 dark:border-slate-700 group">
+    <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
       <div>
-        <span className="size-8 rounded-full bg-sky-500 flex items-center justify-center p-2">
+        <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
           J
         </span>
       </div>
-      <div className="py-0 w-full">
-        <p className="dark:group-hover:text-slate-400 group-hover:text-slate-600 transition-all duration-300 text-slate-500 dark:text-slate-500 text-[.9rem] font-normal">
-          <span className="inline-block text-slate-900 dark:text-slate-100 mr-2 font-medium">
+      <div className="w-full py-0">
+        <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
+          <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">
             John Dev
           </span>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam adipisci
-          exercitationem sint maxime consequatur magnam doloremque sequi iste.
-          Incidunt, iste!
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error,
+          libero.
         </p>
 
-        <div className="flex flex-row space-x-4 mt-1">
+        <div className="mt-1 flex flex-row space-x-4">
           <div>
-            <span className="text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 dark:text-slate-500 cursor-pointer text-sm font-normal">
-              Like
-            </span>
-          </div>
-          <div>
-            <span className="text-slate-500 dark:text-slate-500 text-sm font-normal">
+            <span className="cursor-pointer text-sm font-normal text-slate-500 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-500">
               43 likes
             </span>
           </div>
           <div>
-            <span className="text-slate-500 dark:text-slate-500 text-sm font-normal">
+            <span className="text-sm font-normal text-slate-500 dark:text-slate-500">
               2 days
             </span>
           </div>
