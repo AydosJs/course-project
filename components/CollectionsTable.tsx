@@ -20,11 +20,11 @@ export default function CollectionsTable() {
 
   return (
     <div className="overflow-x-auto">
-      <div className="table-fixed min-w-full inline-block align-middle">
-        <div className="overflow-hidden min-w-[700px]">
+      <div className="inline-block min-w-full table-fixed align-middle">
+        <div className="min-w-[700px] overflow-hidden">
           <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700/30">
             <thead>
-              <tr className="text-slate-900 *:font-semibold dark:text-slate-100 uppercase">
+              <tr className="uppercase text-slate-900 *:font-semibold dark:text-slate-100">
                 <th scope="col" className="px-2 py-3 text-start text-xs">
                   Name
                 </th>
@@ -47,14 +47,14 @@ export default function CollectionsTable() {
                 <tr
                   key={index}
                   onClick={() =>
-                    router.push("/catalog/create/item", { scroll: false })
+                    router.push("/collection/create/item", { scroll: false })
                   }
-                  className="text-sm group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 hover:text-slate-900 text-slate-500"
+                  className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                 >
                   <td className="px-2 py-4  text-sm ">
                     <div className="flex flex-row items-center space-x-2">
-                      <div className="flex items-center h-full">
-                        <span className="rounded-full bg-slate-200 dark:bg-slate-700 size-5"></span>
+                      <div className="flex h-full items-center">
+                        <span className="size-5 rounded-full bg-slate-200 dark:bg-slate-700"></span>
                       </div>
                       <span>John doe</span>
                     </div>
@@ -68,19 +68,19 @@ export default function CollectionsTable() {
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="px-2 py-4 text-end text-sm font-medium flex justify-end"
+                    className="flex justify-end px-2 py-4 text-end text-sm font-medium"
                   >
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <MdOutlineMoreHoriz className="size-5 dark:text-sky-800 dark:group-hover:text-sky-500" />
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="p-0 rounded bg-slate-50 text-slate-600 dark:text-slate-400 dark:bg-slate-800/30 backdrop-blur border-2 border-slate-900/10  dark:border-slate-50/[0.06]">
-                        <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
-                          <MdModeEditOutline className="size-4 mr-2" />
+                      <DropdownMenuContent className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400">
+                        <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
+                          <MdModeEditOutline className="mr-2 size-4" />
                           <span className="font-medium">{t("edit")}</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex flex-row items-center rounded-none cursor-pointer dark:hover:bg-slate-500/20">
-                          <MdDelete className="size-4 mr-2" />
+                        <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
+                          <MdDelete className="mr-2 size-4" />
                           <span className="font-medium">{t("delete")}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

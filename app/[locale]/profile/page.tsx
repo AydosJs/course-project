@@ -10,26 +10,26 @@ export default function Profile() {
   const { t } = useTranslation();
 
   return (
-    <div className="container my-10 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 max-w-7xl">
-      <div className=" w-full lg:max-w-sm  h-fit flex flex-col space-y-6 border bg-slate-50 border-slate-900/10  dark:border-slate-50/[0.06] rounded-lg p-6 dark:bg-slate-800/50">
+    <div className="container my-10 flex max-w-7xl flex-col space-y-4 md:flex-row md:space-x-6 md:space-y-0">
+      <div className=" flex h-fit  w-full flex-col space-y-6 rounded-lg border border-slate-900/10 bg-slate-50  p-6 dark:border-slate-50/[0.06] dark:bg-slate-800/50 lg:max-w-sm">
         <UserProfileForms />
       </div>
-      <div className="w-full  flex flex-col border bg-slate-50  border-slate-900/10  dark:border-slate-50/[0.06] rounded-lg p-6 dark:bg-slate-800/50">
+      <div className="flex  w-full flex-col rounded-lg border  border-slate-900/10  bg-slate-50 p-6 dark:border-slate-50/[0.06] dark:bg-slate-800/50">
         <div className="mb-4  flex flex-row  items-center justify-between">
-          <h1 className="text-lg text-slate-900 font-medium dark:text-slate-200">
+          <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
             {t("collection_list")}
           </h1>
 
           <div>
-            <Link href={"/catalog/create"}>
-              <Button className="text-sm p-1.5 px-2 border-none opacity-70 transition-all duration-300 hover:opacity-100">
-                <IoIosAddCircle className="size-4 mr-1" />
+            <Link href={"/collection/create"}>
+              <Button className="border-none p-1.5 px-2 text-sm opacity-70 transition-all duration-300 hover:opacity-100">
+                <IoIosAddCircle className="mr-1 size-4" />
                 {t("create")}
               </Button>
             </Link>
           </div>
         </div>
-        <div className="overflow-hidden overflow-x-auto w-full">
+        <div className="w-full overflow-hidden overflow-x-auto">
           <CollectionsTable />
         </div>
       </div>

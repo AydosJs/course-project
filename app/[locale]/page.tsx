@@ -1,4 +1,4 @@
-import CatalogCard from "@/components/CatalogCard";
+import CollectionCard from "@/components/CollectionCard";
 import Search from "@/components/Search";
 import TagsList from "@/components/TagsList";
 import Link from "next/link";
@@ -21,35 +21,35 @@ export default async function Home({
 
       <Search />
       <main className="my-10 flex min-h-[calc(100vh-108px)] flex-col items-center justify-between lg:py-12">
-        <div className="flex w-full flex-col items-center justify-center">
+        <div className=" flex w-full flex-col items-center justify-center">
           <div className="container flex w-full max-w-7xl flex-col space-y-20">
             <div>
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
                 {t("top_5__most_collections")}
               </h1>
               <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
-                <Link href={`/catalog/1/1`}>
+                <Link href={`/collection/1/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/2/1`}>
+                <Link href={`/collection/2/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/3/1`}>
+                <Link href={`/collection/3/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/4/1`}>
+                <Link href={`/collection/4/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/1/1`}>
+                <Link href={`/collection/1/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/2/1`}>
+                <Link href={`/collection/2/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/3/1`}>
+                <Link href={`/collection/3/1`}>
                   <CollectionItem />
                 </Link>
-                <Link href={`/catalog/4/1`}>
+                <Link href={`/collection/4/1`}>
                   <CollectionItem />
                 </Link>
               </div>
@@ -62,12 +62,12 @@ export default async function Home({
                 {new Array(5).fill(" ").map((i, index) => (
                   <Link
                     className="col-span-2 md:col-span-1 xl:col-span-2"
-                    href={`/catalog/${index + 1}`}
+                    href={`/collection/${index + 1}`}
                     key={index}
                   >
-                    <CatalogCard
+                    <CollectionCard
                       title="Museum"
-                      description="Imagine telling your collection’s stories by cataloging,
+                      description="Imagine telling your collection’s stories by collecting,
                    maintaining, and sharing their rich histories. Streamline
                    operations, empower your staff, and visually explore your
                    objects."

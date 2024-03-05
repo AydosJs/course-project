@@ -1,6 +1,5 @@
 import { CgSearch } from "react-icons/cg";
 import React from "react";
-import Input from "./form-elements/Input";
 import Badge from "./Badge";
 
 export default function Search() {
