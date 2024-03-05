@@ -25,7 +25,7 @@ export default async function Home({
           <div className="container flex w-full max-w-7xl flex-col space-y-20">
             <div>
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-                {t("top_5__most_collections")}
+                {t("most_items")}
               </h1>
               <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
                 <Link href={`/collection/1/1`}>
