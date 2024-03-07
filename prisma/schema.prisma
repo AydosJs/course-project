@@ -23,21 +23,22 @@ model User {
 }
 
 model Collection {
-    id          Int    @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     name        String
     topic       String
     description String
     ownerId     Int
+    publishedAt DateTime @default(now())
 
     cover        String
     customFields Json
+    comments     Comment[]
+    items        Item[]
 
     // One Collection can have many Comments (can be empty)
-    comments Comment[]
 
     // One Collection can have many Items (can be empty)
-    items Item[]
-    User  User?  @relation(fields: [ownerId], references: [id])
+    User User? @relation(fields: [ownerId], references: [id])
 }
 
 model Comment {
@@ -69,6 +70,7 @@ model Item {
     id          Int      @id @default(autoincrement())
     name        String
     description String
+    publishedAt DateTime @default(now())
     cover       String
     likes       Like[]
     likeCount   Int

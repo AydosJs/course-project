@@ -1,43 +1,58 @@
-export default function CollectionCard() {
+import dayjs from "dayjs";
+
+export default function CollectionCard({
+  topic,
+  description,
+  publishedAt,
+  itemLength,
+  name,
+  cover,
+}: any) {
   return (
     <>
-      <div className="h-44 w-full rounded bg-slate-100 bg-[url('https://images.pexels.com/photos/259165/pexels-photo-259165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center bg-no-repeat dark:bg-slate-800 md:h-60"></div>
+      <div
+        style={{
+          backgroundImage: `url(${cover})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        className="h-44 w-full rounded bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800 md:h-60"
+      ></div>
 
       <div className="flex w-full flex-row justify-between">
-        <p className=" flex flex-col py-2 text-slate-800 dark:text-slate-100">
+        {/* <p className=" flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Author
           </span>
           John doe
-        </p>
+        </p> */}
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Topic
           </span>
-          Coins
+          {topic}
         </p>
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Items
           </span>
-          13
+          {itemLength}
         </p>
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Published
           </span>
-          12.10.2013
+          {dayjs(publishedAt).format("MMM D, YYYY	")}
         </p>
       </div>
 
-      <div className="">
+      <div>
         <h1 className="mb-2 text-2xl text-slate-800 dark:text-slate-100">
-          Museum
+          {name}
         </h1>
         <p className="text-md text-slate-800 dark:text-slate-500">
-          Imagine telling your collection’s stories by collecting, maintaining,
-          and sharing their rich histories. Streamline operations, empower your
-          staff, and visually explore your objects.
+          {description}
         </p>
       </div>
     </>

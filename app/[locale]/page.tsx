@@ -4,17 +4,34 @@ import TagsList from "@/components/TagsList";
 import Link from "next/link";
 import initTranslations from "../i18n";
 import CollectionItem from "../../components/CollectionItem";
+import prisma from "@/lib/prisma";
 
 interface HomeProps {
   params: {
     locale: string; // Specify type as string
   };
 }
+
+async function getCollection(): Promise<Collection[]> {
+  const collections = await prisma.collection.findMany();
+
+  return collections;
+}
+
+async function getItems(): Promise<Item[]> {
+  const items = await prisma.item.findMany();
+
+  return items;
+}
+
 export default async function Home({
   params: { locale },
 }: Readonly<HomeProps>) {
   const { t } = await initTranslations(locale, ["default"]);
+  const collections = await getCollection();
+  const items = await getItems();
 
+  console.log("collections", { collections, items });
   return (
     <>
       <div className="absolute inset-0 bottom-0  left-0  right-0 top-0 -z-10 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:64px_64px] opacity-10 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_140%)]"></div>
@@ -28,30 +45,14 @@ export default async function Home({
                 {t("most_items")}
               </h1>
               <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
-                <Link href={`/collection/1/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/2/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/3/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/4/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/1/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/2/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/3/1`}>
-                  <CollectionItem />
-                </Link>
-                <Link href={`/collection/4/1`}>
-                  <CollectionItem />
-                </Link>
+                {items.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`/collection/${item.collectionId}/${item.id}`}
+                  >
+                    <CollectionItem {...item} />
+                  </Link>
+                ))}
               </div>
             </div>
             <div>
@@ -59,21 +60,16 @@ export default async function Home({
                 {t("top_5__most_collections")}
               </h1>
               <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-4 xl:grid-cols-6">
-                {new Array(5).fill(" ").map((i, index) => (
-                  <Link
-                    className="col-span-2 md:col-span-1 xl:col-span-2"
-                    href={`/collection/${index + 1}`}
-                    key={index}
-                  >
-                    <CollectionCard
-                      title="Museum"
-                      description="Imagine telling your collection’s stories by collecting,
-                   maintaining, and sharing their rich histories. Streamline
-                   operations, empower your staff, and visually explore your
-                   objects."
-                    />
-                  </Link>
-                ))}
+                {collections.length !== 0 &&
+                  collections.map((collection) => (
+                    <Link
+                      className="col-span-2 md:col-span-1 xl:col-span-2"
+                      href={`/collection/${collection.id}`}
+                      key={collection.id}
+                    >
+                      <CollectionCard {...collection} />
+                    </Link>
+                  ))}
 
                 <Link
                   className="col-span-2 md:col-span-1 xl:col-span-2"
