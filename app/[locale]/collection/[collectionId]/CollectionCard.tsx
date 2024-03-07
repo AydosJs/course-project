@@ -1,18 +1,19 @@
 import dayjs from "dayjs";
 
+interface CollectionCardProps {
+  ownerUser: User | null;
+  collection: Collection;
+}
+
 export default function CollectionCard({
-  topic,
-  description,
-  publishedAt,
-  itemLength,
-  name,
-  cover,
-}: any) {
+  ownerUser,
+  collection,
+}: Readonly<CollectionCardProps>) {
   return (
     <>
       <div
         style={{
-          backgroundImage: `url(${cover})`,
+          backgroundImage: `url(${collection.cover})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -21,38 +22,38 @@ export default function CollectionCard({
       ></div>
 
       <div className="flex w-full flex-row justify-between">
-        {/* <p className=" flex flex-col py-2 text-slate-800 dark:text-slate-100">
+        <p className=" flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
-            Author
+            Owner
           </span>
-          John doe
-        </p> */}
+          {ownerUser?.name}
+        </p>
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Topic
           </span>
-          {topic}
+          {collection.topic}
         </p>
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Items
           </span>
-          {itemLength}
+          null
         </p>
         <p className="flex flex-col py-2 text-slate-800 dark:text-slate-100">
           <span className="text-sm font-normal text-slate-400 dark:text-slate-500">
             Published
           </span>
-          {dayjs(publishedAt).format("MMM D, YYYY	")}
+          {dayjs(collection.publishedAt).format("MMM D, YYYY	")}
         </p>
       </div>
 
       <div>
         <h1 className="mb-2 text-2xl text-slate-800 dark:text-slate-100">
-          {name}
+          {collection.name}
         </h1>
         <p className="text-md text-slate-800 dark:text-slate-500">
-          {description}
+          {collection.description}
         </p>
       </div>
     </>

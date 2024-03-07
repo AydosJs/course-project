@@ -14,13 +14,11 @@ interface HomeProps {
 
 async function getCollection(): Promise<Collection[]> {
   const collections = await prisma.collection.findMany();
-
   return collections;
 }
 
 async function getItems(): Promise<Item[]> {
   const items = await prisma.item.findMany();
-
   return items;
 }
 
@@ -31,7 +29,7 @@ export default async function Home({
   const collections = await getCollection();
   const items = await getItems();
 
-  console.log("collections", { collections, items });
+  console.log("collections & items", { collections, items });
   return (
     <>
       <div className="absolute inset-0 bottom-0  left-0  right-0 top-0 -z-10 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:64px_64px] opacity-10 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_140%)]"></div>

@@ -29,7 +29,6 @@ type User = {
   registeredAt: Date;
   updatedAt: Date;
   isAdmin: boolean;
-  collection: Collection[];
 };
 
 type Collection = {
@@ -39,8 +38,8 @@ type Collection = {
   description: string;
   ownerId: number;
   publishedAt: Date;
-  cover?: string;
-  customFields?: any;
+  cover: string;
+  customFields: any;
 };
 
 type CommentType = {

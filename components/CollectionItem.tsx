@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-export default function CollectionItem(item: Item) {
+export default function CollectionItem(item: Readonly<Item>) {
   return (
     <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300  hover:bg-slate-100 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
       <div
@@ -25,7 +25,7 @@ export default function CollectionItem(item: Item) {
 
         <div className="py-.5 flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-2 text-sm text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
           <FaRegHeart className="mr-1 size-3" />
-          43
+          {item.likeCount}
         </div>
 
         <div>
@@ -41,7 +41,7 @@ export default function CollectionItem(item: Item) {
         <div className="flex flex-row justify-between">
           <div className="flex items-center gap-2">
             {item.tags?.length !== 0 &&
-              item.tags?.map((item: string) => (
+              item.tags.slice(0, 2).map((item: string) => (
                 <span
                   key={item}
                   className="text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-500  dark:hover:text-slate-100"

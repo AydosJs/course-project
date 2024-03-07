@@ -4,11 +4,64 @@ import CollectionItem from "../../../../components/CollectionItem";
 import CollectionComments from "@/app/[locale]/collection/[collectionId]/CollectionComments";
 import prisma from "@/lib/prisma";
 
-async function getCollectionById(id: number) {
+async function getCollectionById(id: number): Promise<Collection | null> {
   const collection = await prisma.collection.findUnique({
     where: { id },
   });
   return collection;
+}
+
+async function getUserById(id: number): Promise<User | null> {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  return user;
+}
+
+async function getItemsByCollectionId(collectionId: number): Promise<Item[]> {
+  try {
+    const items = await prisma.item.findMany({
+      where: { collectionId }, // Filter by matching collectionId
+    });
+
+    return items;
+  } catch (error) {
+    console.error(
+      `Error fetching items for collection ID ${collectionId}:`,
+      error,
+    );
+    return []; // Indicate error by returning an empty array
+  }
+}
+
+async function getCollectionDetails(collectionId: string): Promise<{
+  collection: Collection | null;
+  ownerUser: User | null;
+  items: Item[] | [];
+}> {
+  try {
+    const parsedCollectionId = parseInt(collectionId, 10);
+    const collection = await getCollectionById(parsedCollectionId);
+
+    if (collection) {
+      try {
+        const items = await getItemsByCollectionId(collection.id);
+        const owner = await getUserById(collection.ownerId);
+        return { collection, ownerUser: owner, items };
+      } catch (error) {
+        console.error(
+          `Error fetching user for collection ${collection.id}:`,
+          error,
+        );
+        return { collection, ownerUser: null, items: [] }; // Indicate missing user data
+      }
+    }
+
+    return { collection: null, ownerUser: null, items: [] }; // Indicate missing collection
+  } catch (error) {
+    console.error(`Error fetching collection ${collectionId}:`, error);
+    return { collection: null, ownerUser: null, items: [] }; // Indicate error
+  }
 }
 
 export default async function page({
@@ -18,28 +71,32 @@ export default async function page({
     collectionId: string;
   };
 }) {
-  const collection = await getCollectionById(Number(params.collectionId));
-  console.log("collection", { collection });
+  const { collection, ownerUser, items } = await getCollectionDetails(
+    params.collectionId,
+  );
+
+  console.log("collection & owner", { collection, ownerUser });
   return (
     <div className="container my-10 max-w-7xl">
       <div className="flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
         <div className="flex w-full flex-col space-y-4 rounded lg:max-w-sm">
-          <CollectionCard
-            name={collection?.name}
-            description={collection?.description}
-            topic={collection?.topic}
-            itemLength={13}
-            publishedAt={collection?.publishedAt}
-            cover={collection?.cover}
-          />
+          {ownerUser && collection && (
+            <CollectionCard ownerUser={ownerUser} collection={collection} />
+          )}
           <CollectionComments />
         </div>
-        <div className="mt-20 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-3">
-          {/* <Link href={`/collection/${params.collectionId}/1`}>
-            <CollectionItem />
-          </Link>
-           */}
-        </div>
+        {items.length !== 0 && (
+          <div className="mt-20 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-3">
+            {items.map((item) => (
+              <Link
+                key={item.id}
+                href={`/collection/${collection?.id}/${item.id}`}
+              >
+                <CollectionItem {...item} />
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,3 @@
-// schema.prisma
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -18,52 +16,37 @@ model User {
     registeredAt DateTime @default(now())
     updatedAt    DateTime @updatedAt
     isAdmin      Boolean  @default(false)
-
-    collection Collection[]
 }
 
 model Collection {
-    id          Int      @id @default(autoincrement())
-    name        String
-    topic       String
-    description String
-    ownerId     Int
-    publishedAt DateTime @default(now())
-
+    id           Int      @id @default(autoincrement())
+    name         String
+    topic        String
+    description  String
+    ownerId      Int
+    publishedAt  DateTime @default(now())
     cover        String
     customFields Json
-    comments     Comment[]
-    items        Item[]
-
-    // One Collection can have many Comments (can be empty)
-
-    // One Collection can have many Items (can be empty)
-    User User? @relation(fields: [ownerId], references: [id])
 }
 
 model Comment {
-    id     Int      @id @default(autoincrement())
-    userId Int
-    date   DateTime
-    text   String
-
-    likes     Like[]
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    date      DateTime
+    text      String
     likeCount Int
 
-    Collection   Collection? @relation(fields: [collectionId], references: [id])
     collectionId Int?
-    Item         Item?       @relation(fields: [itemId], references: [id])
     itemId       Int?
 }
 
 model Like {
-    id        Int      @id @default(autoincrement())
-    likedAt   DateTime
-    userId    Int
-    Comment   Comment  @relation(fields: [commentId], references: [id])
-    commentId Int
-    Item      Item     @relation(fields: [itemId], references: [id])
-    itemId    Int
+    id           Int      @id @default(autoincrement())
+    likedAt      DateTime
+    userId       Int
+    commentId    Int
+    itemId       Int
+    collectionId Int
 }
 
 model Item {
@@ -72,95 +55,8 @@ model Item {
     description String
     publishedAt DateTime @default(now())
     cover       String
-    likes       Like[]
     likeCount   Int
     tags        String[]
 
-    // One Item can have many Comments (can be empty)
-    comments Comment[]
-
     collectionId Int
-    Collection   Collection @relation(fields: [collectionId], references: [id])
 }
-
-// ----------------------------------------------------------------
-// model User {
-//     id           Int      @id @default(autoincrement())
-//     name         String
-//     email        String   @unique
-//     registeredAt DateTime @default(now())
-//     updatedAt    DateTime @updatedAt
-//     isAdmin      Boolean  @default(false)
-
-//     collections Collection[]
-// }
-
-// model Collection {
-//     id          Int    @id @default(autoincrement())
-//     name        String
-//     topic       String
-//     description String
-//     ownerId     Int
-//     cover       String
-
-//     user User @relation(fields: [ownerId], references: [id])
-
-//     customFields Json
-
-//     comments Comment[]
-
-//     items Item[]
-// }
-
-// model Comment {
-//     id        Int      @id @default(autoincrement())
-//     userId    Int
-//     date      DateTime
-//     text      String
-//     likeCount Int
-
-//     user User @relation(fields: [userId], references: [id])
-
-//     likes Like[]
-//     item  Item?  @relation(fields: [itemId], references: [id])
-// }
-
-// model Like {
-//     id      Int      @id @default(autoincrement())
-//     likedAt DateTime
-// }
-
-// model Item {
-//     id           Int      @id @default(autoincrement())
-//     name         String
-//     description  String
-//     cover        String
-//     likeCount    Int
-//     tags         String[]
-//     collectionId Int
-
-//     collection Collection @relation(fields: [collectionId], references: [id]) // Assuming an implicit collectionId field
-
-//     comments Comment[]
-// }
-
-// model CommentLike {
-//     commentId Int
-//     likeId    Int
-
-//     comment Comment @relation(fields: [commentId], references: [id])
-//     like    Like    @relation(fields: [likeId], references: [id])
-
-//     @@unique([commentId, likeId])
-// }
-
-// model ItemLike {
-//     itemId Int
-//     likeId Int
-
-//     item Item @relation(fields: [itemId], references: [id])
-//     like Like @relation(fields: [likeId], references: [id])
-
-//     // Primary key constraint (unique combination of itemId and likeId)
-//     @@unique([itemId, likeId])
-// }
