@@ -42,7 +42,7 @@ export default function CollectionForm({ t }: any) {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+    <form className="flex flex-col space-y-4">
       <div className="relative flex h-44 w-full !cursor-pointer items-center justify-center rounded border-2 bg-slate-100 dark:border-slate-700 dark:bg-slate-600/30">
         <div className="flex w-full flex-col items-center">
           <BsFillImageFill className="size-7 text-slate-400 " />
