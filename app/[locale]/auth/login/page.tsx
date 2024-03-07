@@ -9,7 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState<IUser>({
+  const [formData, setFormData] = useState<Pick<User, "email" | "password">>({
     email: "",
     password: "",
   });
@@ -30,10 +30,10 @@ export default function Login() {
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-center text-slate-900 dark:text-slate-200 font-semibold text-4xl leading-9 tracking-tight">
+        <h2 className="text-center text-4xl font-semibold leading-9 tracking-tight text-slate-900 dark:text-slate-200">
           {t("welcome")}
         </h2>
-        <p className="text-center mt-2 text-slate-600 dark:text-slate-500 font-medium text-md leading-9 tracking-tight">
+        <p className="text-md mt-2 text-center font-medium leading-9 tracking-tight text-slate-600 dark:text-slate-500">
           {t("we_suggest")}
         </p>
       </div>
@@ -72,26 +72,26 @@ export default function Login() {
         </form>
 
         <div className="mt-4">
-          <div className="mb-2 py-3 flex items-center text-sm text-slate-600 dark:text-slate-500 font-medium before:flex-[1_1_0%] before:border-t before:border-slate-600 before:me-6 after:flex-[1_1_0%] after:border-t after:border-slate-600 after:ms-6 dark:before:border-slate-700 dark:after:border-slate-700">
+          <div className="mb-2 flex items-center py-3 text-sm font-medium text-slate-600 before:me-6 before:flex-[1_1_0%] before:border-t before:border-slate-600 after:ms-6 after:flex-[1_1_0%] after:border-t after:border-slate-600 dark:text-slate-500 dark:before:border-slate-700 dark:after:border-slate-700">
             {t("authorize_with")}
           </div>
           <div className="flex flex-row space-x-4">
-            <button className="w-1/2 border-2 text-md font-medium bg-slate-100 hover:bg-slate-100/50 text-slate-900 dark:text-white dark:border-slate-500 rounded dark:bg-slate-700 dark:hover:bg-slate-700/50 dark:hover:border-slate-500/50 p-2 flex flex-row items-center justify-center">
-              <FcGoogle className="size-4 mr-2" />
+            <button className="text-md flex w-1/2 flex-row items-center justify-center rounded border-2 bg-slate-100 p-2 font-medium text-slate-900 hover:bg-slate-100/50 dark:border-slate-500 dark:bg-slate-700 dark:text-white dark:hover:border-slate-500/50 dark:hover:bg-slate-700/50">
+              <FcGoogle className="mr-2 size-4" />
               Google
             </button>
-            <button className="w-1/2 border-2 text-md font-medium bg-slate-100 hover:bg-slate-100/50 text-slate-900 dark:text-white dark:border-slate-500 rounded dark:bg-slate-700 dark:hover:bg-slate-700/50 dark:hover:border-slate-500/50 p-2 flex flex-row items-center justify-center">
-              <FaGithub className="size-4 mr-2" />
+            <button className="text-md flex w-1/2 flex-row items-center justify-center rounded border-2 bg-slate-100 p-2 font-medium text-slate-900 hover:bg-slate-100/50 dark:border-slate-500 dark:bg-slate-700 dark:text-white dark:hover:border-slate-500/50 dark:hover:bg-slate-700/50">
+              <FaGithub className="mr-2 size-4" />
               Github
             </button>
           </div>
         </div>
 
-        <p className="text-slate-500 dark:text-slate-500 mt-4 font-medium text-sm leading-9 tracking-tight">
+        <p className="mt-4 text-sm font-medium leading-9 tracking-tight text-slate-500 dark:text-slate-500">
           {t("dont_have_account")} &nbsp;
           <Link
             href={"/auth/register"}
-            className="inline-block text-slate-900 dark:text-sky-500 text-md underline"
+            className="text-md inline-block text-slate-900 underline dark:text-sky-500"
           >
             {t("create_now")}
           </Link>
