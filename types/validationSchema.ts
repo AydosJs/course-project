@@ -1,17 +1,11 @@
 import * as Yup from "yup";
 
-export const collectionValidationSchema = Yup.object<
-  Pick<
-    Collection,
-    "cover" | "name" | "topic" | "description" | "ownerId" | "publishedAt"
-  >
->().shape({
+export const collectionValidationSchema = Yup.object<Collection>().shape({
   cover: Yup.string(),
   name: Yup.string(),
   topic: Yup.string(),
   description: Yup.string(),
   ownerId: Yup.number(),
-  publishedAt: Yup.date(),
 
   customFields: Yup.array().of(
     Yup.object<CollectionCustomField>().shape({

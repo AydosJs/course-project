@@ -14,7 +14,7 @@ export default function CollectionForm({ t }: any) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<Collection>({
     resolver: yupResolver(collectionValidationSchema),
   });
 
@@ -72,9 +72,9 @@ export default function CollectionForm({ t }: any) {
             className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
         </div>
-        {/* {errors.name && (
+        {errors.name && (
           <p className="mt-1 text-sm text-red-500">{errors.name?.message}</p>
-        )} */}
+        )}
       </div>
 
       <div>
@@ -90,9 +90,9 @@ export default function CollectionForm({ t }: any) {
             className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
         </div>
-        {/* {errors.topic && (
+        {errors.topic && (
           <p className="mt-1 text-sm text-red-500">{errors.topic?.message}</p>
-        )} */}
+        )}
       </div>
 
       <div>

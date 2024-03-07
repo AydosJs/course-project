@@ -32,14 +32,14 @@ type User = {
 };
 
 type Collection = {
-  id: number;
+  id?: number;
   name: string;
   topic: string;
   description: string;
   ownerId: number;
-  publishedAt: Date;
-  cover: string;
-  customFields: any; // Use the specific type for custom fields
+  publishedAt?: Date;
+  cover?: string;
+  customFields?: any; // Use the specific type for custom fields
 };
 
 type CommentType = {
