@@ -43,7 +43,7 @@ async function getCollectionDetails(collectionId: string): Promise<{
     const parsedCollectionId = parseInt(collectionId, 10);
     const collection = await getCollectionById(parsedCollectionId);
 
-    if (collection) {
+    if (collection && collection.id) {
       try {
         const items = await getItemsByCollectionId(collection.id);
         const owner = await getUserById(collection.ownerId);
