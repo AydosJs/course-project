@@ -14,90 +14,97 @@ export default function CollectionForm({ t }: any) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<CollectionType>({
+  } = useForm<any>({
     resolver: yupResolver(collectionValidationSchema),
   });
 
-  const onSubmit = (data: CollectionType) => {
+  const onSubmit = (data: Collection) => {
     const formData = {
-      title: data.title,
+      name: data.name,
+      topic: data.topic,
+      cover: data.cover,
+      ownerId: data.ownerId,
+      publishedAt: new Date(),
       description: data.description,
       ...Object.fromEntries(
-        data.customFields.map((field) => [field.label, field.value])
+        data.customFields.map((field: CollectionCustomField) => [
+          field.label,
+          field.value,
+        ]),
       ),
     };
     console.log(formData);
   };
 
-  const { fields, append, remove } = useFieldArray<CollectionType>({
+  const { fields, append, remove } = useFieldArray<Collection>({
     control,
     name: "customFields",
   });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <div className="flex items-center justify-center border-2 w-full h-44 bg-slate-100 dark:bg-slate-600/30 rounded dark:border-slate-700 !cursor-pointer relative">
-        <div className="flex flex-col items-center w-full">
+      <div className="relative flex h-44 w-full !cursor-pointer items-center justify-center rounded border-2 bg-slate-100 dark:border-slate-700 dark:bg-slate-600/30">
+        <div className="flex w-full flex-col items-center">
           <BsFillImageFill className="size-7 text-slate-400 " />
-          <p className="text-md dark:text-slate-400 mt-4">
+          <p className="text-md mt-4 dark:text-slate-400">
             {t("img_upload_label")}
           </p>
-          <p className="text-sm dark:text-slate-400 mt-1">{t("up_to")}</p>
+          <p className="mt-1 text-sm dark:text-slate-400">{t("up_to")}</p>
           <input
             type="file"
             accept="image/*"
-            className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
+            className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
           />
         </div>
-        <div className="absolute opacity-5 inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+        <div className="absolute inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-5"></div>
       </div>
 
       <div>
         <label
           htmlFor={"title"}
-          className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+          className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
           Title
         </label>
-        <div className="rounded relative mt-1">
+        <div className="relative mt-1 rounded">
           <input
-            {...register("title")}
-            className={`bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 w-full outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+            {...register("name")}
+            className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
         </div>
-        {errors.title && (
-          <p className="text-red-500 text-sm mt-1">{errors.title?.message}</p>
-        )}
+        {/* {errors.name && (
+          <p className="mt-1 text-sm text-red-500">{errors.name?.message}</p>
+        )} */}
       </div>
 
       <div>
         <label
           htmlFor={"title"}
-          className="block font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+          className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
           Topic
         </label>
-        <div className="rounded relative mt-1">
+        <div className="relative mt-1 rounded">
           <input
             {...register("topic")}
-            className={`bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 py-3 w-full outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+            className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
         </div>
-        {errors.topic && (
-          <p className="text-red-500 text-sm mt-1">{errors.topic?.message}</p>
-        )}
+        {/* {errors.topic && (
+          <p className="mt-1 text-sm text-red-500">{errors.topic?.message}</p>
+        )} */}
       </div>
 
       <div>
         <label
           htmlFor="description"
-          className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+          className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
           Description
         </label>
         <textarea
           {...register("description")}
-          className="w-full bg-slate-100 peer text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 border-2 outline-none dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded "
+          className="peer w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
           rows={3}
           placeholder="Add a comment..."
         />
@@ -106,16 +113,16 @@ export default function CollectionForm({ t }: any) {
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>
         <label
           htmlFor="description"
-          className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+          className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
           {t("custom_fields")}
         </label>
         <div
-          className={`dark:bg-slate-800/50 bg-slate-100 border-2 flex dark:border-slate-700 p-4 rounded flex-col space-y-4`}
+          className={`flex flex-col space-y-4 rounded border-2 bg-slate-100 p-4 dark:border-slate-700 dark:bg-slate-800/50`}
         >
           {fields.map((field, index) => (
-            <div key={field.id} className="flex flex-row space-x-2 items-end">
-              <div className="flex flex-row space-x-2 items-center w-full">
+            <div key={field.id} className="flex flex-row items-end space-x-2">
+              <div className="flex w-full flex-row items-center space-x-2">
                 <Controller
                   control={control}
                   name={
@@ -125,13 +132,13 @@ export default function CollectionForm({ t }: any) {
                     <div className="w-1/2 ">
                       <label
                         htmlFor="description"
-                        className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+                        className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
                       >
                         {t("label")}
                       </label>
                       <input
                         {...field}
-                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+                        className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
                     </div>
                   )}
@@ -146,13 +153,13 @@ export default function CollectionForm({ t }: any) {
                     <div className="w-1/2">
                       <label
                         htmlFor="description"
-                        className="block mb-1 font-medium text-sm text-slate-600 dark:text-slate-500 leading-6"
+                        className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
                       >
                         {t("value")}
                       </label>
                       <input
                         {...field}
-                        className={`w-full bg-slate-100 text-slate-900 dark:text-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500 placeholder:text-slate-400 font-medium p-2 outline-none  border-2 dark:border-slate-700 dark:focus:border-slate-600 focus:border-slate-400 text-sm rounded`}
+                        className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
                     </div>
                   )}
@@ -161,11 +168,11 @@ export default function CollectionForm({ t }: any) {
 
               <div className="w-fit">
                 <Button
-                  className="p-2 border-2 dark:bg-red-500/50 bg-red-500/50 border-red-500 dark:border-red-500 dark:hover:border-red-600 hover:border-red-600 dark:hover:bg-red-500/60 hover:bg-red-500/60 "
+                  className="border-2 border-red-500 bg-red-500/50 p-2 hover:border-red-600 hover:bg-red-500/60 dark:border-red-500 dark:bg-red-500/50 dark:hover:border-red-600 dark:hover:bg-red-500/60 "
                   type="button"
                   onClick={() => remove(index)}
                 >
-                  <IoCloseSharp className="size-5 dark:text-red-300 text-red-500" />
+                  <IoCloseSharp className="size-5 text-red-500 dark:text-red-300" />
                 </Button>
               </div>
             </div>
@@ -174,7 +181,7 @@ export default function CollectionForm({ t }: any) {
       </div>
       <div>
         <Button
-          className="bg-sky-500 opacity-60 hover:opacity-100 transition-all duration-300 hover:bg-sky-600 !outline-none py-3 border-none focus:ring-0"
+          className="border-none bg-sky-500 py-3 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
           type="button"
           onClick={() => append({ label: "", value: "" })}
         >

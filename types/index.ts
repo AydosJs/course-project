@@ -39,7 +39,7 @@ type Collection = {
   ownerId: number;
   publishedAt: Date;
   cover: string;
-  customFields: any;
+  customFields: any; // Use the specific type for custom fields
 };
 
 type CommentType = {

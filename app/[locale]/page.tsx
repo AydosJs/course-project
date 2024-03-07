@@ -14,6 +14,7 @@ interface HomeProps {
 
 async function getCollection(): Promise<Collection[]> {
   const collections = await prisma.collection.findMany();
+
   return collections;
 }
 
