@@ -24,3 +24,12 @@ export const registerValidationSchema = Yup.object<
     .required('"Email" is required'),
   password: Yup.string().required('"Password" is required'),
 });
+
+export const loginValidationSchema = Yup.object<
+  Pick<User, "email" | "password">
+>().shape({
+  email: Yup.string()
+    .email("Please enter a valid email address")
+    .required('"Email" is required'),
+  password: Yup.string().required('"Password" is required'),
+});
