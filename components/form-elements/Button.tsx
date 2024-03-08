@@ -13,15 +13,16 @@ export default function Button({
 }: Props) {
   return (
     <button
+      disabled={loading}
       className={cn(
-        "disabled:cursor-not-allowed disabled:opacity-60 w-full dark:bg-sky-700 dark:hover:bg-sky-800 hover:bg-slate-700 bg-slate-800 p-2 py-2.5 font-medium border-2 dark:border-sky-500 border-slate-700 rounded dark:hover:border-sky-400/50 text-slate-100 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400",
-        className
+        "w-full rounded border-2 border-slate-700 bg-slate-800 p-2 py-2.5 font-medium text-slate-100 transition-colors duration-300 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 disabled:cursor-not-allowed disabled:opacity-60 dark:border-sky-500 dark:bg-sky-700 dark:hover:border-sky-400/50 dark:hover:bg-sky-800",
+        className,
       )}
       {...props}
     >
-      <div className="flex flex-row items-center justify-center w-full">
+      <div className="flex w-full flex-row items-center justify-center">
         {props.children}
-        {loading && <CgSpinner className="w-5 h-5 ml-2 animate-spin" />}
+        {loading && <CgSpinner className="ml-2 h-5 w-5 animate-spin" />}
       </div>
     </button>
   );

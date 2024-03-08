@@ -14,3 +14,13 @@ export const collectionValidationSchema = Yup.object<Collection>().shape({
     }),
   ),
 });
+
+export const registerValidationSchema = Yup.object<
+  Pick<User, "name" | "email" | "password">
+>().shape({
+  name: Yup.string(),
+  email: Yup.string()
+    .email("Please enter a valid email address")
+    .required('"Email" is required'),
+  password: Yup.string().required('"Password" is required'),
+});

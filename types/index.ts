@@ -23,7 +23,7 @@ type CollectionType = {
 
 type User = {
   id: number;
-  name: string;
+  name?: string;
   email: string;
   password: string;
   registeredAt: Date;

@@ -7,6 +7,7 @@ import TranslationsProvider from "@/providers/TranslationsProvider";
 import initTranslations from "../i18n";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,7 +45,7 @@ export default async function RootLayout({
             <Header />
 
             {children}
-
+            <Toaster position="top-center" reverseOrder={false} />
             {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
           </TranslationsProvider>
         </ThemeProviders>
