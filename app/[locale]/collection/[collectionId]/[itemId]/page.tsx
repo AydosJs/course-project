@@ -103,7 +103,7 @@ export default async function page({
 
             <div className="mt-6 flex gap-4">
               {item.tags.length !== 0 &&
-                item.tags.map((item, index) => (
+                item.tags.map((item) => (
                   <span
                     key={item}
                     className="cursor-pointer text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-300  dark:hover:text-slate-100"
