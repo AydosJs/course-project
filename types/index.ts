@@ -32,7 +32,7 @@ type User = {
 };
 
 type Collection = {
-  id?: number;
+  id: number;
   name: string;
   topic: string;
   description: string;
@@ -47,13 +47,10 @@ type CommentType = {
   userId: number;
   date: Date;
   text: string;
-  likes: Like[];
   likeCount: number;
 
-  Collection?: Collection;
-  collectionId?: number;
-  Item?: Item;
-  itemId?: number;
+  collectionId?: number | null;
+  itemId?: number | null;
 };
 
 type Like = {

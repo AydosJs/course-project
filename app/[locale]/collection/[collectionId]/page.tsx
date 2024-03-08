@@ -75,15 +75,16 @@ export default async function page({
     params.collectionId,
   );
 
-  console.log("collection & owner", { collection, ownerUser });
   return (
     <div className="container my-10 max-w-7xl">
       <div className="flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
         <div className="flex w-full flex-col space-y-4 rounded lg:max-w-sm">
           {ownerUser && collection && (
-            <CollectionCard ownerUser={ownerUser} collection={collection} />
+            <>
+              <CollectionCard ownerUser={ownerUser} collection={collection} />
+              <CollectionComments collectionId={collection?.id} />
+            </>
           )}
-          <CollectionComments />
         </div>
         {items.length !== 0 && (
           <div className="mt-20 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-3">

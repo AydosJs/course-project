@@ -1,5 +1,4 @@
 import CommentItem from "@/components/CommentItem";
-import Button from "@/components/form-elements/Button";
 import { FaRegCalendarAlt, FaRegHeart } from "react-icons/fa";
 import { MdDriveFileRenameOutline, MdOutlineTopic } from "react-icons/md";
 import prisma from "@/lib/prisma";
@@ -20,6 +19,25 @@ async function getItemById(id: number): Promise<Item | null> {
   return item;
 }
 
+async function getItemComments(itemId: number): Promise<CommentType[]> {
+  if (!itemId) {
+    return []; // Early return if itemId is not provided
+  }
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { itemId }, // Filter by matching itemId
+    });
+
+    return comments;
+  } catch (error) {
+    console.error(
+      `Error fetching comments for collection ID ${itemId}:`,
+      error,
+    );
+    return []; // Indicate error by returning an empty array
+  }
+}
+
 export default async function page({
   params,
 }: {
@@ -30,6 +48,7 @@ export default async function page({
 }) {
   const item = await getItemById(Number(params.itemId));
   const collection = await getCollectionById(Number(params.collectionId));
+  const itemComments = await getItemComments(Number(params.itemId));
 
   return (
     <>
@@ -104,35 +123,18 @@ export default async function page({
 
             <div className="!mt-12">
               <h1 className="text-md font-medium text-slate-800 dark:text-slate-100">
-                13 Comments
+                {itemComments.length} Comments
               </h1>
 
               <AddCommentTextarea />
-              {/* <div className="mt-4 flex flex-row space-x-3">
-                <div>
-                  <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
-                    J
-                  </span>
-                </div>
-                <div className="flex w-full flex-col items-end space-y-2">
-                  <textarea
-                    className="text-md peer w-full rounded border-2 bg-slate-100 p-2 font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
-                    name=""
-                    id=""
-                    rows={2}
-                    placeholder="Add a comment..."
-                  />
-                  <div className="opacity-50 peer-focus:opacity-100">
-                    <Button className="w-auto p-2 text-sm">Comment</Button>
-                  </div>
-                </div>
-              </div> */}
 
-              <div className="mt-6 flex flex-col space-y-6">
-                <CommentItem />
-                <CommentItem />
-                <CommentItem />
-              </div>
+              {itemComments.length > 0 && (
+                <div className="mt-6 flex flex-col space-y-6">
+                  {itemComments.map((item) => (
+                    <CommentItem key={item.id} {...item} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
