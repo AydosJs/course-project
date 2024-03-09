@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { PiMoonStarsDuotone } from "react-icons/pi";
-import { LuSunMedium } from "react-icons/lu";
-import { GoDeviceDesktop } from "react-icons/go";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
+import { Monitor, MoonStar, Sun } from "lucide-react";
 
 interface ThemeContext {
   theme: Theme;
@@ -68,56 +66,54 @@ export default function ThemeToggler() {
   }
 
   const ThemeIcon = () => {
-    if (theme === "light")
-      return <LuSunMedium className="size-6 text-sky-500 " />;
-    if (theme === "dark")
-      return <PiMoonStarsDuotone className="size-6 text-sky-500 " />;
+    if (theme === "light") return <Sun className="size-5 text-sky-500" />;
+    if (theme === "dark") return <MoonStar className="size-5 text-sky-500 " />;
     if (theme === "system")
-      return <PiMoonStarsDuotone className="size-6 text-slate-400 " />;
+      return <MoonStar className="size-5 text-slate-400 " />;
     return null;
   };
 
   return (
-    <div className="relative p-0 m-0 flex items-center justify-center">
+    <div className="relative m-0 flex items-center justify-center p-0">
       <button ref={toggleButtonRef} onClick={toggle} className="peer">
         <ThemeIcon />
       </button>
       {open && (
         <ul
           ref={dropdownRef}
-          className="-right-10 top-12 list-none absolute bg-slate-50 dark:bg-slate-900 rounded border dark:border-slate-50/[0.06] min-w-40 z-1 shadow-lg animate-slideIn"
+          className="z-1 animate-slideIn absolute -right-10 top-12 min-w-40 list-none rounded border bg-slate-50 shadow-lg dark:border-slate-50/[0.06] dark:bg-slate-900"
         >
           <li
             onClick={() => handleClick("light")}
-            className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
+            className={`flex cursor-pointer flex-row items-center p-2.5 text-sm font-medium ${
               theme === "light"
-                ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
-                : "dark:hover:bg-slate-800/50 text-slate-500 hover:bg-slate-200 dark:hover:text-slate-100"
+                ? "bg-slate-200 text-sky-500 dark:bg-slate-800/50 dark:hover:bg-slate-800/50"
+                : "text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
             } `}
           >
-            <LuSunMedium className="size-5 mr-2" />
+            <Sun className="mr-2 size-5" />
             {t("light")}
           </li>
           <li
             onClick={() => handleClick("dark")}
-            className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
+            className={`flex cursor-pointer flex-row items-center p-2.5 text-sm font-medium ${
               theme === "dark"
-                ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
-                : "dark:hover:bg-slate-800/50 text-slate-500 hover:bg-slate-200 dark:hover:text-slate-100"
+                ? "bg-slate-200 text-sky-500 dark:bg-slate-800/50 dark:hover:bg-slate-800/50"
+                : "text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
             } `}
           >
-            <PiMoonStarsDuotone className="size-5 mr-2" />
+            <MoonStar className="mr-2 size-5" />
             {t("dark")}
           </li>
           <li
             onClick={() => handleClick("system")}
-            className={`p-2.5 flex flex-row items-center font-medium text-sm cursor-pointer ${
+            className={`flex cursor-pointer flex-row items-center p-2.5 text-sm font-medium ${
               theme === "system"
-                ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
-                : "dark:hover:bg-slate-800/50 text-slate-500 hover:bg-slate-200 dark:hover:text-slate-100"
+                ? "bg-slate-200 text-sky-500 dark:bg-slate-800/50 dark:hover:bg-slate-800/50"
+                : "text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
             } `}
           >
-            <GoDeviceDesktop className="size-5 mr-2" />
+            <Monitor className="mr-2 size-5" />
             {t("system")}
           </li>
         </ul>

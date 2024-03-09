@@ -1,10 +1,9 @@
 "use client";
 import i18nConfig from "@/i18nConfig";
+import { Dot, Languages } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiMiniLanguage } from "react-icons/hi2";
-import { LuDot } from "react-icons/lu";
 
 export default function LanguageToggler() {
   const [open, setOpen] = useState<boolean>(false);
@@ -66,26 +65,26 @@ export default function LanguageToggler() {
   }, []);
 
   return (
-    <div className="relative p-0 m-0 flex items-center justify-center">
+    <div className="relative m-0 flex items-center justify-center p-0">
       <button ref={toggleButtonRef} onClick={toggle} className="peer">
-        <HiMiniLanguage className="size-6 text-sky-500 " />
+        <Languages className="size-5 text-sky-500 " />
       </button>
       {open && (
         <ul
           ref={dropdownRef}
-          className="-right-10 top-12 list-none absolute bg-slate-50 dark:bg-slate-900 rounded border dark:border-slate-50/[0.06] min-w-40 z-1 shadow-lg animate-slideIn"
+          className="z-1 animate-slideIn absolute -right-10 top-12 min-w-40 list-none rounded border bg-slate-50 shadow-lg dark:border-slate-50/[0.06] dark:bg-slate-900"
         >
           <li
             role="button"
             onClick={() => handleChange("uz")}
-            className={`p-2.5 px-1 flex flex-row items-center font-medium text-sm cursor-pointer ${
+            className={`flex cursor-pointer flex-row items-center p-2.5 px-1 text-sm font-medium ${
               currentLocale === "uz"
-                ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
-                : "dark:hover:bg-slate-800/50 text-slate-500 hover:bg-slate-200 dark:hover:text-slate-100"
+                ? "bg-slate-200 text-sky-500 dark:bg-slate-800/50 dark:hover:bg-slate-800/50"
+                : "text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
             } `}
           >
-            <LuDot
-              className={`size-5 mr-1 opacity-0 ${
+            <Dot
+              className={`mr-1 size-5 opacity-0 ${
                 currentLocale === "uz" && "opacity-100"
               }`}
             />
@@ -93,14 +92,14 @@ export default function LanguageToggler() {
           </li>
           <li
             onClick={() => handleChange("en")}
-            className={`p-2.5 px-1 flex flex-row items-center font-medium text-sm cursor-pointer ${
+            className={`flex cursor-pointer flex-row items-center p-2.5 px-1 text-sm font-medium ${
               currentLocale === "en"
-                ? "dark:hover:bg-slate-800/50 bg-slate-200 dark:bg-slate-800/50 text-sky-500"
-                : "dark:hover:bg-slate-800/50 text-slate-500 hover:bg-slate-200 dark:hover:text-slate-100"
+                ? "bg-slate-200 text-sky-500 dark:bg-slate-800/50 dark:hover:bg-slate-800/50"
+                : "text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
             } `}
           >
-            <LuDot
-              className={`size-5 mr-1 opacity-0 ${
+            <Dot
+              className={`mr-1 size-5 opacity-0 ${
                 currentLocale === "en" && "opacity-100"
               }`}
             />

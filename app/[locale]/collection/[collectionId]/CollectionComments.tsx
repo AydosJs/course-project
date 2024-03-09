@@ -4,10 +4,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { RiExpandUpDownLine } from "react-icons/ri";
 import AddCommentTextarea from "../../../../components/AddCommentTextarea";
 import CommentItem from "../../../../components/CommentItem";
 import prisma from "@/lib/prisma";
+import { ChevronsUpDown } from "lucide-react";
 
 type Props = {
   collectionId: number;
@@ -46,8 +46,7 @@ export default async function CollectionComments({
           <h1 className=" text-slate-800 dark:text-slate-100">
             {comments.length} Comments...
           </h1>
-
-          <RiExpandUpDownLine className="size-4 dark:text-slate-300" />
+          <ChevronsUpDown className="size-4 dark:text-slate-300" />
         </CollapsibleTrigger>
         <CollapsibleContent>
           <AddCommentTextarea />

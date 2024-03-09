@@ -1,10 +1,14 @@
 import CommentItem from "@/components/CommentItem";
-import { FaRegCalendarAlt, FaRegHeart } from "react-icons/fa";
-import { MdDriveFileRenameOutline, MdOutlineTopic } from "react-icons/md";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
-import { BiSolidUser } from "react-icons/bi";
 import AddCommentTextarea from "@/components/AddCommentTextarea";
+import {
+  CalendarDays,
+  Heart,
+  MessageCircleCode,
+  SquarePen,
+  UserRound,
+} from "lucide-react";
 
 async function getCollectionById(id: number): Promise<Collection | null> {
   const collection = await prisma.collection.findUnique({
@@ -65,35 +69,35 @@ export default async function page({
             <div className="mt-6 flex flex-col space-y-4">
               <div className="mb-4 flex w-full items-center justify-end sm:mb-0">
                 <div className="flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-3 py-1.5 text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
-                  <FaRegHeart className="size-4.5 mr-2" />
+                  <Heart className="mr-2 size-5" />
                   {item.likeCount}
                 </div>
               </div>
               <div className="flex w-full flex-col flex-wrap divide-y md:flex-row md:divide-y-0">
                 <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
                   <span className="flex flex-row flex-nowrap">
-                    <BiSolidUser className="mr-2 size-5 md:hidden" />
+                    <UserRound className="mr-2 size-5 md:hidden" />
                     Author:&nbsp;
                   </span>
                   {collection?.name}
                 </div>
                 <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
                   <span className="flex flex-row flex-nowrap">
-                    <MdDriveFileRenameOutline className="mr-2 size-5 md:hidden" />
+                    <SquarePen className="mr-2 size-5 md:hidden" />
                     Name:&nbsp;
                   </span>
                   {collection?.name}
                 </div>
                 <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
                   <span className="flex flex-row flex-nowrap">
-                    <MdOutlineTopic className="mr-2 size-5 md:hidden" />
+                    <MessageCircleCode className="mr-2 size-5 md:hidden" />
                     Topic:&nbsp;
                   </span>
                   {collection?.topic}
                 </div>
                 <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
                   <span className="flex flex-row flex-nowrap">
-                    <FaRegCalendarAlt className="mr-2 size-5 sm:size-4 md:hidden" />
+                    <CalendarDays className="mr-2 size-5 sm:size-4 md:hidden" />
                     Published:&nbsp;
                   </span>
                   {dayjs(item.publishedAt).format("MMM D, YYYY	")}

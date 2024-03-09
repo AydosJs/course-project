@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import prisma from "@/lib/prisma";
-import { FaRegHeart } from "react-icons/fa";
+import { Heart } from "lucide-react";
 
 async function getUserById(id: number): Promise<User | null> {
   const user = await prisma.user.findUnique({
@@ -19,9 +19,11 @@ export default async function CommentItem(comment: CommentType) {
       {owner && (
         <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
           <div>
-            <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
-              {owner.name.charAt(0)}
-            </span>
+            {owner?.name && (
+              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
+                {owner.name.charAt(0)}
+              </span>
+            )}
           </div>
           <div className="w-full py-0">
             <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
@@ -33,7 +35,7 @@ export default async function CommentItem(comment: CommentType) {
 
             <div className="mt-1 flex flex-row space-x-4">
               <div className="flex cursor-pointer flex-row flex-nowrap items-center text-slate-500 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-500">
-                <FaRegHeart className="mr-2 size-4" />
+                <Heart className="mr-2 size-4" />
                 <span className="text-sm font-normal ">
                   {comment.likeCount}
                 </span>

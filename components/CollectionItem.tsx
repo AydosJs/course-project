@@ -1,6 +1,6 @@
-import { FaRegHeart } from "react-icons/fa";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Heart } from "lucide-react";
 dayjs.extend(relativeTime);
 
 export default function CollectionItem(item: Readonly<Item>) {
@@ -25,7 +25,7 @@ export default function CollectionItem(item: Readonly<Item>) {
 
         <div className="flex w-full items-center justify-end">
           <div className="py-.5 flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-2 text-sm text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
-            <FaRegHeart className="mr-1 size-3" />
+            <Heart className="mr-1 size-3" />
             {item.likeCount}
           </div>
         </div>

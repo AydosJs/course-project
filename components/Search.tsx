@@ -1,6 +1,6 @@
-import { CgSearch } from "react-icons/cg";
 import React from "react";
 import Badge from "./Badge";
+import { Search as SearchIcon } from "lucide-react";
 
 export default function Search() {
   return (
@@ -13,7 +13,7 @@ export default function Search() {
           />
 
           <span className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-3 transition-all duration-300 hover:dark:bg-sky-500/10 group-focus:dark:bg-sky-500/10 ">
-            <CgSearch className="size-5 text-sky-500/50" />
+            <SearchIcon className="size-5 text-sky-500/50" />
           </span>
         </div>
 

@@ -1,11 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import {
-  MdOutlineMoreHoriz,
-  MdModeEditOutline,
-  MdDelete,
-} from "react-icons/md";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function CollectionsTable() {
   const router = useRouter();
@@ -76,11 +73,11 @@ export default function CollectionsTable() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400">
                         <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                          <MdModeEditOutline className="mr-2 size-4" />
+                          <Pencil className="mr-2 size-4" />
                           <span className="font-medium">{t("edit")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                          <MdDelete className="mr-2 size-4" />
+                          <Trash2 className="mr-2 size-4" />
                           <span className="font-medium">{t("delete")}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

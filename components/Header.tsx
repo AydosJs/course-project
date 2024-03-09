@@ -4,6 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
+import { CircleUserRound } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
@@ -19,8 +20,8 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky z-50 top-0 border-b backdrop-blur  border-slate-900/10 dark:border-slate-50/[0.06] dark:bg-slate-900/75 supports-backdrop-blur:bg-white/95 ">
-      <div className="container max-w-7xl flex flex-row justify-between items-center py-5">
+    <header className="supports-backdrop-blur:bg-white/95 sticky top-0 z-50 border-b  border-slate-900/10 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900/75 ">
+      <div className="container flex max-w-7xl flex-row items-center justify-between py-5">
         <div>
           <Link href="/">
             <h1 className="text-md font-normal text-sky-500">
@@ -34,7 +35,7 @@ export default function Header() {
             <ThemeToggler />
             <Link href={"/profile"}>
               <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
-                <FaUserCircle className="size-6" />
+                <CircleUserRound className="size-6 rounded-full" />
               </span>
             </Link>
           </div>

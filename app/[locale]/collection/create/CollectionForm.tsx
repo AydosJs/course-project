@@ -5,8 +5,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import { IoCloseSharp } from "react-icons/io5";
-import { BsFillImageFill } from "react-icons/bs";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
+import { BadgeMinus, ImageUp } from "lucide-react";
 
 export default function CollectionForm({ t }: any) {
   const {
@@ -45,7 +45,7 @@ export default function CollectionForm({ t }: any) {
     <form className="flex flex-col space-y-4">
       <div className="relative flex h-44 w-full !cursor-pointer items-center justify-center rounded border-2 bg-slate-100 dark:border-slate-700 dark:bg-slate-600/30">
         <div className="flex w-full flex-col items-center">
-          <BsFillImageFill className="size-7 text-slate-400 " />
+          <ImageUp className="size-7 text-slate-400 " />
           <p className="text-md mt-4 dark:text-slate-400">
             {t("img_upload_label")}
           </p>
@@ -172,7 +172,7 @@ export default function CollectionForm({ t }: any) {
                   type="button"
                   onClick={() => remove(index)}
                 >
-                  <IoCloseSharp className="size-5 text-red-500 dark:text-red-300" />
+                  <BadgeMinus className="size-5 text-red-500 dark:text-red-300" />
                 </Button>
               </div>
             </div>
