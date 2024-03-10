@@ -10,7 +10,7 @@ import { dir } from "i18next";
 import { Toaster } from "react-hot-toast";
 import SessionProviderContext from "@/providers/SessionProviderContext";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 
