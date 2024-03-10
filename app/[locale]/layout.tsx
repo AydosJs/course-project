@@ -10,7 +10,7 @@ import { dir } from "i18next";
 import { Toaster } from "react-hot-toast";
 import SessionProviderContext from "@/providers/SessionProviderContext";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +33,7 @@ export default async function RootLayout({
   };
 }>) {
   const { resources } = await initTranslations(locale, ["default"]);
-  const session = await getServerSession(AuthOptions);
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang={locale} dir={dir(locale)} suppressHydrationWarning>

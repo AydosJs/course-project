@@ -13,7 +13,9 @@ const handler: NextAuthOptions = NextAuth({
         isAdmin: {},
       },
       async authorize(credentials) {
-        const userPromise = await prisma.user.findUnique({
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const userPromise = await prisma.user.findFirst({
           where: {
             email: credentials?.email,
           },
@@ -72,4 +74,4 @@ const handler: NextAuthOptions = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST, handler as AuthOptions };
+export { handler as GET, handler as POST, handler as authOptions };
