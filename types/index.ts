@@ -23,12 +23,14 @@ type CollectionType = {
 
 type User = {
   id: string;
-  name?: string | null;
+  name: string | null;
+  image: string | null;
   email: string;
+  emailVerified: Date | null;
   password: string;
+  isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;
-  isAdmin: boolean;
 };
 
 type Collection = {

@@ -12,6 +12,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { registerValidationSchema } from "@/types/validationSchema";
 
+interface registrInput {
+  name?: string;
+  email: string;
+  password: string;
+}
 export default function RegisterForm() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,13 +27,11 @@ export default function RegisterForm() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<Pick<User, "name" | "email" | "password">>({
+  } = useForm<registrInput>({
     resolver: yupResolver(registerValidationSchema),
   });
 
-  const onSubmit: SubmitHandler<
-    Pick<User, "name" | "email" | "password">
-  > = async (values) => {
+  const onSubmit: SubmitHandler<registrInput> = async (values) => {
     try {
       setLoading(true);
       const res = await fetch("/api/auth/register", {

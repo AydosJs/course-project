@@ -5,7 +5,7 @@ export const collectionValidationSchema = Yup.object<Collection>().shape({
   name: Yup.string(),
   topic: Yup.string(),
   description: Yup.string(),
-  ownerId: Yup.number(),
+  ownerId: Yup.string(),
 
   customFields: Yup.array().of(
     Yup.object<CollectionCustomField>().shape({
@@ -15,9 +15,12 @@ export const collectionValidationSchema = Yup.object<Collection>().shape({
   ),
 });
 
-export const registerValidationSchema = Yup.object<
-  Pick<User, "name" | "email" | "password">
->().shape({
+export const registerValidationSchema = Yup.object<{
+  name: string;
+  email: string;
+  password: string;
+}>().shape({
+  // Use plain object type
   name: Yup.string(),
   email: Yup.string()
     .email("Please enter a valid email address")

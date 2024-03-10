@@ -24,7 +24,7 @@ const handler: NextAuthOptions = NextAuth({
         password: {},
         isAdmin: {},
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<User | null> {
         if (!credentials?.email || !credentials?.password) return null;
 
         const userPromise = await prisma.user.findFirst({
@@ -52,8 +52,7 @@ const handler: NextAuthOptions = NextAuth({
 
           return {
             ...user,
-            id: user.id,
-          };
+          } as User;
         }
 
         throw new Error("User not found with given email address");
@@ -75,7 +74,7 @@ const handler: NextAuthOptions = NextAuth({
       }
       if (user) {
         token.isAdmin = user.isAdmin as boolean;
-        token.id = user.id as number;
+        token.id = user.id as string;
       }
       return token;
     },

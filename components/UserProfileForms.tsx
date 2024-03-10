@@ -9,12 +9,12 @@ export default function UserProfileForms() {
 
   return (
     <>
-      <h1 className="text-lg text-slate-900 font-medium dark:text-slate-200">
+      <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
         {t("profile")}
       </h1>
 
-      <div className="w-full flex justify-center">
-        <div className="size-32 flex items-center justify-center bg-sky-500 rounded-full border-4 border-sky-300 cursor-pointer relative">
+      <div className="flex w-full justify-center">
+        <div className="relative flex size-32 cursor-pointer items-center justify-center rounded-full border-4 border-sky-300 bg-sky-500">
           <span className="text-3xl">J</span>
           {/* <MdPhotoCamera className="size-8 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" /> */}
         </div>
