@@ -1,12 +1,21 @@
 "use client";
-import { usePathname } from "next/navigation";
-import { FaUserCircle } from "react-icons/fa";
+import { usePathname, useRouter } from "next/navigation";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, DoorOpen, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
+import Button from "./form-elements/Button";
 
 export default function Header() {
+  const { status, data: session } = useSession();
+  const router = useRouter();
   const pathname = usePathname();
   const hideHeader = [
     "/auth/login",
@@ -18,6 +27,8 @@ export default function Header() {
   if (hideHeader) {
     return null;
   }
+
+  console.log("session , status", session, status);
 
   return (
     <header className="supports-backdrop-blur:bg-white/95 sticky top-0 z-50 border-b  border-slate-900/10 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900/75 ">
@@ -33,11 +44,45 @@ export default function Header() {
           <div className="flex flex-row items-center space-x-4">
             <LanguageToggler />
             <ThemeToggler />
-            <Link href={"/profile"}>
-              <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
-                <CircleUserRound className="size-6 rounded-full" />
-              </span>
-            </Link>
+
+            {status === "authenticated" && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
+                    <CircleUserRound className="size-6 rounded-full" />
+                  </span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mt-6 rounded border bg-slate-50   p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
+                  <Link href={"/profile"}>
+                    <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] font-medium text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
+                      <CircleUserRound className="mr-2 size-5" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      if (confirm("Are you sure you want to logout?")) {
+                        signOut({ redirect: false });
+                      }
+                    }}
+                    className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] font-medium text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
+                  >
+                    <LogOut className="mr-2 size-5" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+            {status === "unauthenticated" && (
+              <div className="pl-2">
+                <Link href={"/auth/register"}>
+                  <Button className="px-2 py-1 text-sm dark:bg-opacity-30 dark:text-sky-500 dark:hover:bg-opacity-100 dark:hover:text-sky-50">
+                    <DoorOpen className="mr-2 size-4 " />
+                    Register
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

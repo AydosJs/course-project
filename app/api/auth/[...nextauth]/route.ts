@@ -1,21 +1,16 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
 
-declare module "next-auth" {
-  interface Session {
-    user: User;
-  }
-}
-
-const handler = NextAuth({
+const handler: NextAuthOptions = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: {},
         password: {},
+        isAdmin: {},
       },
       async authorize(credentials) {
         const userPromise = await prisma.user.findUnique({
@@ -43,7 +38,7 @@ const handler = NextAuth({
 
           return {
             ...user,
-            id: String(user.id),
+            id: user.id,
           };
         }
 
@@ -53,15 +48,27 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as number;
-        session.user.name = token.name as string;
-        session.user.email = token.email as string;
-        session.user.isAdmin = token.isAdmin as boolean;
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.isAdmin = token.isAdmin;
       }
 
       return session;
     },
+    async jwt({ token, user }) {
+      // if (!token.sub) return token;
+      if (user) {
+        token.isAdmin = user.isAdmin as boolean;
+        token.id = user.id as number;
+      }
+      return token;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
+  pages: {
+    signIn: "/auth/login",
   },
 });
 

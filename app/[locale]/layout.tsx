@@ -8,6 +8,9 @@ import initTranslations from "../i18n";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";
 import { Toaster } from "react-hot-toast";
+import SessionProviderContext from "@/providers/SessionProviderContext";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "../api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,25 +33,28 @@ export default async function RootLayout({
   };
 }>) {
   const { resources } = await initTranslations(locale, ["default"]);
+  const session = await getServerSession(AuthOptions);
 
   return (
     <html lang={locale} dir={dir(locale)} suppressHydrationWarning>
       <body
         className={`${inter.className} min-h-screen bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]  dark:bg-slate-900`}
       >
-        <ThemeProviders>
-          <TranslationsProvider
-            resources={resources}
-            locale={locale}
-            namespaces={["default"]}
-          >
-            <Header />
+        <SessionProviderContext session={session}>
+          <ThemeProviders>
+            <TranslationsProvider
+              resources={resources}
+              locale={locale}
+              namespaces={["default"]}
+            >
+              <Header />
 
-            {children}
-            <Toaster position="top-center" reverseOrder={false} />
-            {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
-          </TranslationsProvider>
-        </ThemeProviders>
+              {children}
+              <Toaster position="top-center" reverseOrder={false} />
+              {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
+            </TranslationsProvider>
+          </ThemeProviders>
+        </SessionProviderContext>
       </body>
     </html>
   );
