@@ -6,7 +6,7 @@ import initTranslations from "../i18n";
 import CollectionItem from "../../components/CollectionItem";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { AuthOptions } from "../api/auth/[...nextauth]/route";
 
 interface HomeProps {
   params: {
@@ -32,7 +32,7 @@ export default async function Home({
   const collections = await getCollection();
   const items = await getItems();
 
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(AuthOptions);
 
   console.log("server sesstion ", JSON.stringify(session, null, 2));
 
