@@ -52,9 +52,9 @@ export default function Header() {
                     <CircleUserRound className="size-6 rounded-full" />
                   </span>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-6 rounded border bg-slate-50   p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
+                <DropdownMenuContent className="mt-6 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
                   <Link href={"/profile"}>
-                    <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] font-medium text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
+                    <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
                       <CircleUserRound className="mr-2 size-5" />
                       <span>Profile</span>
                     </DropdownMenuItem>
@@ -65,7 +65,7 @@ export default function Header() {
                         signOut({ redirect: false });
                       }
                     }}
-                    className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] font-medium text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
+                    className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
                   >
                     <LogOut className="mr-2 size-5" />
                     <span>Log out</span>
