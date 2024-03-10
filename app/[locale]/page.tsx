@@ -34,7 +34,7 @@ export default async function Home({
 
   const session = await getServerSession(authOptions);
 
-  console.log("server sesstion ", JSON.stringify(session, null, 2));
+  console.log("server sesstion ", session);
 
   return (
     <>
@@ -63,11 +63,11 @@ export default async function Home({
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
                 {t("top_5__most_collections")}
               </h1>
-              <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-4 xl:grid-cols-6">
+              <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-4 md:gap-4 xl:grid-cols-6">
                 {collections.length !== 0 &&
                   collections.map((collection) => (
                     <Link
-                      className="col-span-2 md:col-span-1 xl:col-span-2"
+                      className="col-span-2 xl:col-span-2"
                       href={`/collection/${collection.id}`}
                       key={collection.id}
                     >
@@ -75,23 +75,22 @@ export default async function Home({
                     </Link>
                   ))}
 
-                <Link
-                  className="col-span-2 md:col-span-1 xl:col-span-2"
-                  href="/auth/login"
-                >
-                  <div
-                    className={`group relative col-span-2 flex min-h-60 cursor-pointer flex-col justify-between rounded border-2 border-sky-600/20 bg-sky-300/10 p-4 transition-all duration-300 dark:bg-sky-600/10 dark:hover:border-sky-500 md:col-span-1 xl:col-span-2`}
-                  >
-                    <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:6.6rem_4.6rem] opacity-10 transition-all duration-300 group-hover:bg-[size:7.6rem_5.6rem] group-hover:opacity-20"></div>
+                {session === null && (
+                  <Link className="col-span-2 xl:col-span-2" href="/auth/login">
+                    <div
+                      className={`group relative col-span-2 flex min-h-60 cursor-pointer flex-col justify-between rounded border-2 border-sky-600/20 bg-sky-300/10 p-4 transition-all duration-300 dark:bg-sky-600/10 dark:hover:border-sky-500 md:col-span-1 xl:col-span-2`}
+                    >
+                      <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:6.6rem_4.6rem] opacity-10 transition-all duration-300 group-hover:bg-[size:7.6rem_5.6rem] group-hover:opacity-20"></div>
 
-                    <p className="text-2xl font-semibold text-sky-500 opacity-0 transition-all  duration-300 group-hover:opacity-100 dark:text-sky-600 dark:group-hover:text-sky-400">
-                      CLICK IT!
-                    </p>
-                    <p className="text-[2.5rem] font-semibold  leading-snug text-sky-500 underline transition-all duration-300 dark:text-sky-600 dark:group-hover:text-sky-400 sm:text-[2.6rem]">
-                      {t("login_title")}
-                    </p>
-                  </div>
-                </Link>
+                      <p className="text-2xl font-semibold text-sky-500 opacity-0 transition-all  duration-300 group-hover:opacity-100 dark:text-sky-600 dark:group-hover:text-sky-400">
+                        CLICK IT!
+                      </p>
+                      <p className="text-[2.5rem] font-semibold  leading-snug text-sky-500 underline transition-all duration-300 dark:text-sky-600 dark:group-hover:text-sky-400 sm:text-[2.6rem]">
+                        {t("login_title")}
+                      </p>
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
 

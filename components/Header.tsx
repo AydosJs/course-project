@@ -15,6 +15,7 @@ import Button from "./form-elements/Button";
 
 export default function Header() {
   const { status, data: session } = useSession();
+  const router = useRouter();
 
   const pathname = usePathname();
   const hideHeader = [
@@ -62,7 +63,9 @@ export default function Header() {
                   <DropdownMenuItem
                     onClick={() => {
                       if (confirm("Are you sure you want to logout?")) {
-                        signOut({ redirect: false });
+                        signOut({ redirect: false }).then(() => {
+                          router.refresh();
+                        });
                       }
                     }}
                     className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"

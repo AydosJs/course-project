@@ -3,9 +3,16 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import RegisterForm from "./RegisterForm";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Login() {
+  const { status } = useSession();
   const { t } = useTranslation();
+
+  if (status === "authenticated") {
+    redirect("/");
+  }
 
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
