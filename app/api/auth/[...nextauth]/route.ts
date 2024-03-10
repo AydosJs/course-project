@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
@@ -6,7 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-const handler: NextAuthOptions = NextAuth({
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -68,13 +68,12 @@ const handler: NextAuthOptions = NextAuth({
       return session;
     },
     async jwt({ token, user, account }) {
-      // if (!token.sub) return token;
       if (account) {
         token.isAdmin = false;
       }
       if (user) {
         token.isAdmin = user.isAdmin as boolean;
-        token.id = user.id as string;
+        token.id = user.id;
       }
       return token;
     },
@@ -84,6 +83,8 @@ const handler: NextAuthOptions = NextAuth({
   pages: {
     signIn: "/auth/login",
   },
-});
+};
 
-export { handler as GET, handler as POST, handler as authOptions };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions };
