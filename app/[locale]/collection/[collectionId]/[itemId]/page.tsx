@@ -10,25 +10,33 @@ import {
   UserRound,
 } from "lucide-react";
 
-async function getCollectionById(id: number): Promise<Collection | null> {
-  const collection = await prisma.collection.findUnique({
+async function getCollectionById(id: string): Promise<Collection | null> {
+  const collection = await prisma.collection.findFirst({
     where: { id },
   });
   return collection;
 }
-async function getItemById(id: number): Promise<Item | null> {
-  const item = await prisma.item.findUnique({
+async function getItemById(id: string): Promise<Item | null> {
+  const item = await prisma.item.findFirst({
     where: { id },
   });
   return item;
 }
 
-async function getItemComments(itemId: number): Promise<CommentType[]> {
+async function getUserById(id: string): Promise<User | null> {
+  const user = await prisma.user.findFirst({
+    where: { id },
+  });
+
+  return user;
+}
+
+async function getItemComments(itemId: string): Promise<CommentType[]> {
   if (!itemId) {
     return []; // Early return if itemId is not provided
   }
   try {
-    const comments = await prisma.comment.findMany({
+    const comments = await prisma.itemComments.findMany({
       where: { itemId }, // Filter by matching itemId
     });
 
@@ -42,6 +50,19 @@ async function getItemComments(itemId: number): Promise<CommentType[]> {
   }
 }
 
+async function getItemLikes(itemId: string): Promise<ItemLike[]> {
+  if (!itemId) {
+    return []; // Early return if itemId is not provided
+  }
+  const item = await prisma.itemLike.findMany({
+    where: {
+      itemId,
+    },
+  });
+
+  return item;
+}
+
 export default async function page({
   params,
 }: {
@@ -50,10 +71,16 @@ export default async function page({
     itemId: string;
   };
 }) {
-  const item = await getItemById(Number(params.itemId));
-  const collection = await getCollectionById(Number(params.collectionId));
-  const itemComments = await getItemComments(Number(params.itemId));
+  const item = await getItemById(params.itemId);
+  const collection = await getCollectionById(params.collectionId);
+  const itemComments = await getItemComments(params.itemId);
+  // const likes = await getItemLikes(params.itemId);
+  let owner;
 
+  if (item) {
+    const user = await getUserById(item.ownerId);
+    owner = user;
+  }
   return (
     <>
       {item && (
@@ -67,20 +94,24 @@ export default async function page({
             ></div>
 
             <div className="mt-6 flex flex-col space-y-4">
-              <div className="mb-4 flex w-full items-center justify-end sm:mb-0">
-                <div className="flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-3 py-1.5 text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
-                  <Heart className="mr-2 size-5" />
-                  {item.likeCount}
+              {item?.likeCount !== 0 && (
+                <div className="mb-4 flex w-full items-center justify-end sm:mb-0">
+                  <div className="flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-3 py-1.5 text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
+                    <Heart className="mr-2 size-5" />
+                    {item?.likeCount}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex w-full flex-col flex-wrap divide-y md:flex-row md:divide-y-0">
-                <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
-                  <span className="flex flex-row flex-nowrap">
-                    <UserRound className="mr-2 size-5 md:hidden" />
-                    Author:&nbsp;
-                  </span>
-                  {collection?.name}
-                </div>
+                {owner && (
+                  <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
+                    <span className="flex flex-row flex-nowrap">
+                      <UserRound className="mr-2 size-5 md:hidden" />
+                      Author:&nbsp;
+                    </span>
+                    {owner?.name}
+                  </div>
+                )}
                 <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
                   <span className="flex flex-row flex-nowrap">
                     <SquarePen className="mr-2 size-5 md:hidden" />

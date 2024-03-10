@@ -31,7 +31,7 @@ export default function CollectionItem(item: Readonly<Item>) {
         </div>
 
         <div>
-          <h1 className="text-sm text-slate-800 dark:text-slate-300">
+          <h1 className="text-md text-slate-800 dark:text-slate-300">
             {item.name}
           </h1>
 
@@ -46,7 +46,7 @@ export default function CollectionItem(item: Readonly<Item>) {
               item.tags.slice(0, 2).map((item: string) => (
                 <span
                   key={item}
-                  className="text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-500  dark:hover:text-slate-100"
+                  className="truncate text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-500  dark:hover:text-slate-100"
                 >
                   #{item}
                 </span>
@@ -54,7 +54,7 @@ export default function CollectionItem(item: Readonly<Item>) {
           </div>
 
           <div>
-            <span className="text-sm text-slate-400 dark:text-slate-500">
+            <span className="truncate text-sm text-slate-400 dark:text-slate-500">
               {dayjs(item.publishedAt).fromNow(true)}
             </span>
           </div>

@@ -10,18 +10,20 @@ import prisma from "@/lib/prisma";
 import { ChevronsUpDown } from "lucide-react";
 
 type Props = {
-  collectionId: number;
+  collectionId: string;
 };
 
 async function getCollectionComments(
-  collectionId: number,
+  collectionId: string,
 ): Promise<CommentType[]> {
   if (!collectionId) {
     return []; // Early return if collectionId is not provided
   }
   try {
-    const comments = await prisma.comment.findMany({
-      where: { collectionId }, // Filter by matching collectionId
+    const comments = await prisma.collectionComments.findMany({
+      where: {
+        collectionId,
+      }, // Filter by matching collectionId
     });
 
     return comments;

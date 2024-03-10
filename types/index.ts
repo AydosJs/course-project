@@ -11,66 +11,70 @@ type CollectionCustomField = {
 };
 
 type CollectionType = {
-  id: number;
+  id: string;
   name: string;
   topic: string;
   description: string;
-  ownerId: number;
+  ownerId: string;
   publishedAt: Date;
   cover: string;
   customFields?: any;
 };
 
 type User = {
-  id: number;
-  name?: string;
+  id: string;
+  name?: string | null;
   email: string;
   password: string;
-  registeredAt: Date;
+  createdAt: Date;
   updatedAt: Date;
   isAdmin: boolean;
 };
 
 type Collection = {
-  id: number;
+  id: string;
   name: string;
   topic: string;
   description: string;
-  ownerId: number;
+  ownerId: string;
   publishedAt?: Date;
   cover?: string;
   customFields?: any; // Use the specific type for custom fields
 };
 
 type CommentType = {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   date: Date;
   text: string;
   likeCount: number;
 
-  collectionId?: number | null;
-  itemId?: number | null;
+  collectionId?: string | null;
+  itemId?: string | null;
 };
 
-type Like = {
-  id: number;
+type ItemLike = {
+  id: string;
   likedAt: Date;
-  userId: number;
-  commentId: number;
+  userId: string;
+  itemId: string | null;
+};
 
-  Comment: Comment;
-  Item: Item;
-  itemId: number;
+type CommentLike = {
+  id: string;
+  likedAt: Date;
+  userId: string;
+  commentId: string | null;
 };
 
 type Item = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   publishedAt: Date;
   cover: string;
   likeCount: number;
   tags: string[];
-  collectionId: number;
+  collectionId: string;
+  ownerId: string;
 };

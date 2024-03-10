@@ -4,21 +4,22 @@ import CollectionItem from "../../../../components/CollectionItem";
 import CollectionComments from "@/app/[locale]/collection/[collectionId]/CollectionComments";
 import prisma from "@/lib/prisma";
 
-async function getCollectionById(id: number): Promise<Collection | null> {
-  const collection = await prisma.collection.findUnique({
+async function getCollectionById(id: string): Promise<Collection | null> {
+  const collection = await prisma.collection.findFirst({
     where: { id },
   });
   return collection;
 }
 
-async function getUserById(id: number): Promise<User | null> {
-  const user = await prisma.user.findUnique({
+async function getUserById(id: string): Promise<User | null> {
+  const user = await prisma.user.findFirst({
     where: { id },
   });
+
   return user;
 }
 
-async function getItemsByCollectionId(collectionId: number): Promise<Item[]> {
+async function getItemsByCollectionId(collectionId: string): Promise<Item[]> {
   try {
     const items = await prisma.item.findMany({
       where: { collectionId }, // Filter by matching collectionId
@@ -40,10 +41,9 @@ async function getCollectionDetails(collectionId: string): Promise<{
   items: Item[] | [];
 }> {
   try {
-    const parsedCollectionId = parseInt(collectionId, 10);
-    const collection = await getCollectionById(parsedCollectionId);
+    const collection = await getCollectionById(collectionId);
 
-    if (collection && collection.id) {
+    if (collection) {
       try {
         const items = await getItemsByCollectionId(collection.id);
         const owner = await getUserById(collection.ownerId);

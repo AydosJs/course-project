@@ -4,15 +4,29 @@ dayjs.extend(relativeTime);
 import prisma from "@/lib/prisma";
 import { Heart } from "lucide-react";
 
-async function getUserById(id: number): Promise<User | null> {
-  const user = await prisma.user.findUnique({
+async function getUserById(id: string): Promise<User | null> {
+  const user = await prisma.user.findFirst({
     where: { id },
   });
   return user;
 }
 
-export default async function CommentItem(comment: CommentType) {
+async function getCommentLikes(commentId: string): Promise<CommentLike[]> {
+  if (!commentId) {
+    return []; // Early return if itemId is not provided
+  }
+  const item = await prisma.commentLike.findMany({
+    where: {
+      commentId,
+    },
+  });
+
+  return item;
+}
+
+export default async function CommentItem(comment: Readonly<CommentType>) {
   const owner = await getUserById(comment.userId);
+  // const likes = await getCommentLikes(comment.id);
 
   return (
     <>
