@@ -1,16 +1,22 @@
-"use client";
-
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 import RegisterForm from "./RegisterForm";
-import { useSession } from "next-auth/react";
+import initTranslations from "@/app/i18n";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
 import { redirect } from "next/navigation";
 
-export default function Login() {
-  const { status } = useSession();
-  const { t } = useTranslation();
+interface Props {
+  params: {
+    locale: string; // Specify type as string
+  };
+}
 
-  if (status === "authenticated") {
+export default async function Register({
+  params: { locale },
+}: Readonly<Props>) {
+  const { t } = await initTranslations(locale, ["default"]);
+  const session = await getServerSession(authOptions);
+  if (session) {
     redirect("/");
   }
 

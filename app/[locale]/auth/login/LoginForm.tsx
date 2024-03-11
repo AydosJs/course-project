@@ -46,10 +46,10 @@ export default function LoginForm() {
         }
 
         if (data.ok && !data?.error && data.status === 200) {
+          router.push("/");
           toast.success("Successfully logged in", {
             id: "successfullyLoggedIn",
           });
-          router.push("/");
           reset({ email: "", password: "" });
         }
       });
