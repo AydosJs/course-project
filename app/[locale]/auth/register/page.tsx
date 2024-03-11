@@ -15,10 +15,10 @@ export default async function Register({
   params: { locale },
 }: Readonly<Props>) {
   const { t } = await initTranslations(locale, ["default"]);
-  const session = await getServerSession(authOptions);
-  if (session) {
-    redirect("/");
-  }
+  // const session = await getServerSession(authOptions);
+  // if (session) {
+  //   redirect("/");
+  // }
 
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
