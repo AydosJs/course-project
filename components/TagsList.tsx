@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 async function getTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany();
 
-  return tags;
+  return tags || [];
 }
 export default async function TagsList() {
   const tags = await getTags();
@@ -18,6 +18,7 @@ export default async function TagsList() {
             #{tag.text}
           </div>
         ))}
+      {tags.length === 0 && <div>No tags yet!</div>}
     </div>
   );
 }

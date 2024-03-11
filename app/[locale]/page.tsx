@@ -1,12 +1,11 @@
-import CollectionCard from "@/components/CollectionCard";
 import Search from "@/components/Search";
 import TagsList from "@/components/TagsList";
 import Link from "next/link";
 import initTranslations from "../i18n";
-import CollectionItem from "../../components/CollectionItem";
-import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/authOptions";
+import CollectionList from "@/components/CollectionList";
+import CollectionItemsList from "@/components/CollectionItemsList";
 
 interface HomeProps {
   params: {
@@ -14,27 +13,11 @@ interface HomeProps {
   };
 }
 
-async function getCollection(): Promise<Collection[]> {
-  const collections = await prisma.collection.findMany();
-
-  return collections;
-}
-
-async function getItems(): Promise<Item[]> {
-  const items = await prisma.item.findMany();
-  return items;
-}
-
 export default async function Home({
   params: { locale },
 }: Readonly<HomeProps>) {
   const { t } = await initTranslations(locale, ["default"]);
-  const collections = await getCollection();
-  const items = await getItems();
-
   const session = await getServerSession(authOptions);
-
-  console.log("server sesstion ", session);
 
   return (
     <>
@@ -48,32 +31,15 @@ export default async function Home({
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
                 {t("most_items")}
               </h1>
-              <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
-                {items.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={`/collection/${item.collectionId}/${item.id}`}
-                  >
-                    <CollectionItem {...item} />
-                  </Link>
-                ))}
-              </div>
+              <CollectionItemsList />
             </div>
+
             <div>
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
                 {t("top_5__most_collections")}
               </h1>
               <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-4 md:gap-4 xl:grid-cols-6">
-                {collections.length !== 0 &&
-                  collections.map((collection) => (
-                    <Link
-                      className="col-span-2 xl:col-span-2"
-                      href={`/collection/${collection.id}`}
-                      key={collection.id}
-                    >
-                      <CollectionCard {...collection} />
-                    </Link>
-                  ))}
+                <CollectionList />
 
                 {session === null && (
                   <Link className="col-span-2 xl:col-span-2" href="/auth/login">
