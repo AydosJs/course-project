@@ -94,7 +94,12 @@ export default async function Home({
               </div>
             </div>
 
-            <TagsList />
+            <div>
+              <h1 className=" mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
+                {t("common_tags")}
+              </h1>
+              <TagsList />
+            </div>
           </div>
         </div>
       </main>
