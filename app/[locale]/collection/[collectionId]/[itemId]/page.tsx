@@ -50,6 +50,14 @@ async function getItemComments(itemId: string): Promise<CommentType[]> {
   }
 }
 
+async function getItemTagsById(itemId: string): Promise<Tags[]> {
+  const tags = await prisma.tags.findMany({
+    where: { itemId },
+  });
+
+  return tags;
+}
+
 async function getItemLikes(itemId: string): Promise<ItemLike[]> {
   if (!itemId) {
     return []; // Early return if itemId is not provided
@@ -74,6 +82,8 @@ export default async function page({
   const item = await getItemById(params.itemId);
   const collection = await getCollectionById(params.collectionId);
   const itemComments = await getItemComments(params.itemId);
+  const tags = await getItemTagsById(params.itemId);
+
   // const likes = await getItemLikes(params.itemId);
   let owner;
 
@@ -137,13 +147,13 @@ export default async function page({
             </div>
 
             <div className="mt-6 flex gap-4">
-              {item.tags.length !== 0 &&
-                item.tags.map((item) => (
+              {tags.length !== 0 &&
+                tags.map((item) => (
                   <span
-                    key={item}
+                    key={item.id}
                     className="cursor-pointer text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-300  dark:hover:text-slate-100"
                   >
-                    #{item}
+                    #{item.text}
                   </span>
                 ))}
             </div>

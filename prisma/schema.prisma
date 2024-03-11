@@ -24,6 +24,7 @@ model User {
     collections   Collection[]
     Like          ItemLike[]
     Item          Item[]
+    Tags          Tags[]
     Comment       CollectionComments[]
     ItemComments  ItemComments[]
     CommentLike   CommentLike[]
@@ -51,7 +52,6 @@ model Item {
     publishedAt DateTime @default(now())
     cover       String
     likeCount   Int
-    tags        String[]
 
     ownerId      String
     collectionId String
@@ -60,6 +60,18 @@ model Item {
     collection   Collection?    @relation(fields: [collectionId], references: [id])
     ItemLike     ItemLike[]
     ItemComments ItemComments[]
+    Tags         Tags[]
+}
+
+model Tags {
+    id        String   @id @default(cuid())
+    userId    String
+    itemId    String
+    text      String
+    createdAt DateTime @default(now())
+
+    Item Item @relation(fields: [itemId], references: [id])
+    User User @relation(fields: [userId], references: [id])
 }
 
 model CollectionComments {

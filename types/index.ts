@@ -76,7 +76,14 @@ type Item = {
   publishedAt: Date;
   cover: string;
   likeCount: number;
-  tags: string[];
   collectionId: string;
   ownerId: string;
+};
+
+type Tags = {
+  id: string;
+  text: string;
+  userId: string;
+  itemId: string;
+  createdAt: Date;
 };
