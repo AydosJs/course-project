@@ -14,7 +14,7 @@ import { signOut, useSession } from "next-auth/react";
 import Button from "./form-elements/Button";
 
 export default function Header() {
-  const { status, data: session } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   const pathname = usePathname();
@@ -28,8 +28,6 @@ export default function Header() {
   if (hideHeader) {
     return null;
   }
-
-  console.log("session , status", session, status);
 
   return (
     <header className="supports-backdrop-blur:bg-white/95 sticky top-0 z-50 border-b  border-slate-900/10 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900/75 ">
@@ -48,8 +46,8 @@ export default function Header() {
 
             {status === "authenticated" && (
               <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <span className="cursor-pointer text-slate-400 hover:text-slate-500 dark:hover:text-slate-100">
+                <DropdownMenuTrigger className="outline-none">
+                  <span className="cursor-pointer text-slate-400 outline-none hover:text-slate-500 dark:hover:text-slate-100">
                     <CircleUserRound className="size-6 rounded-full" />
                   </span>
                 </DropdownMenuTrigger>

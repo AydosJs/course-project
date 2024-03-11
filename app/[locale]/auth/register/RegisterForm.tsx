@@ -5,12 +5,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { registerValidationSchema } from "@/types/validationSchema";
+import { signIn } from "next-auth/react";
 
 interface registrInput {
   name?: string;
