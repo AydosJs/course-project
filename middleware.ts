@@ -5,6 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const loggedIn = request.cookies.has("next-auth.session-token");
+  const productionLoggedIn = request.cookies.has(
+    "__Secure-next-auth.session-token",
+  );
+
   const protectedPaths = [
     "/profile",
     "/collection/create",
@@ -20,7 +24,7 @@ export async function middleware(request: NextRequest) {
   ];
 
   if (protectedPaths.includes(url.pathname)) {
-    if (!loggedIn) {
+    if (!loggedIn && !productionLoggedIn) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
