@@ -34,6 +34,7 @@ export default async function RootLayout({
 }>) {
   const { resources } = await initTranslations(locale, ["default"]);
   const session = await getServerSession(authOptions);
+  console.log("session", session);
 
   return (
     <html lang={locale} dir={dir(locale)} suppressHydrationWarning>

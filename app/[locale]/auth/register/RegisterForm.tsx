@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { registerValidationSchema } from "@/types/validationSchema";
 import { signIn } from "next-auth/react";
 
-interface registrInput {
+interface registerInput {
   name?: string;
   email: string;
   password: string;
@@ -27,11 +27,11 @@ export default function RegisterForm() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<registrInput>({
+  } = useForm<registerInput>({
     resolver: yupResolver(registerValidationSchema),
   });
 
-  const onSubmit: SubmitHandler<registrInput> = async (values) => {
+  const onSubmit: SubmitHandler<registerInput> = async (values) => {
     try {
       setLoading(true);
       const res = await fetch("/api/auth/register", {
@@ -155,16 +155,14 @@ export default function RegisterForm() {
         </div>
         <div className="flex flex-row space-x-4">
           <button
-            onClick={() => signIn("google")}
-            disabled={loading}
+            disabled={true}
             className=" text-md flex w-1/2 flex-row items-center justify-center rounded border-2 bg-slate-100 p-2 font-medium text-slate-900 hover:bg-slate-100/50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-500 dark:bg-slate-700 dark:text-white dark:hover:border-slate-500/50 dark:hover:bg-slate-700/50"
           >
             <FcGoogle className="mr-2 size-4" />
             Google
           </button>
           <button
-            onClick={() => signIn("github")}
-            disabled={loading}
+            disabled={true}
             className=" text-md flex w-1/2 flex-row items-center justify-center rounded border-2 bg-slate-100 p-2 font-medium text-slate-900 hover:bg-slate-100/50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-500 dark:bg-slate-700 dark:text-white dark:hover:border-slate-500/50 dark:hover:bg-slate-700/50"
           >
             <FaGithub className="mr-2 size-4" />

@@ -12,7 +12,7 @@ export default async function CollectionList() {
 
   return (
     <>
-      {collections.length === 0 && <div>No collections yet!</div>}
+      {/* {collections.length === 0 && <div>No collections yet!</div>} */}
 
       {collections.length !== 0 &&
         collections.map((collection) => (

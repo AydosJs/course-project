@@ -176,20 +176,27 @@ export const authOptions: NextAuthOptions = {
     //   return true;
     // },
     async session({ session, token }) {
-      // session.user.id = token.id;
-      // session.user.email = token.email;
-      // session.user.isAdmin = token.isAdmin;
+      session.user.id = token.id;
+      session.user.email = token.email;
+      session.user.isAdmin = token.isAdmin;
 
       return session;
     },
-    async jwt({ token, user, account }) {
-      // if (account) {
-      //   token.isAdmin = false;
-      // }
-      // if (user) {
-      //   token.isAdmin = user.isAdmin as boolean;
-      //   token.id = user.id;
-      // }
+    async jwt({ token, user, account, trigger, session }) {
+      if (trigger === "update" && session?.name) {
+        console.log("uraaaa", session);
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.name = session.name;
+        token.email = session.email;
+      }
+
+      if (account) {
+        token.isAdmin = false;
+      }
+      if (user) {
+        token.isAdmin = user.isAdmin as boolean;
+        token.id = user.id;
+      }
       return token;
     },
   },
