@@ -39,7 +39,6 @@ export default function UserProfileForms({ user }: Props) {
     },
   });
 
-  console.log("watch", watch("email"), watch("name"));
   const onSubmit: SubmitHandler<userInput> = async (values) => {
     if (values.name !== user.name || values.email !== user.email) {
       try {
@@ -94,32 +93,34 @@ export default function UserProfileForms({ user }: Props) {
           <div className="relative mt-1 rounded">
             <input
               {...register("name")}
-              className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  ${errors.email ? "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500" : "focus:border-slate-400 dark:border-slate-700 dark:focus:border-slate-600"} dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500`}
+              className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  ${errors.name ? "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500" : "focus:border-slate-400 dark:border-slate-700 dark:focus:border-slate-600"} dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500`}
             />
           </div>
         </div>
-        <div className="flex flex-col space-y-3">
-          <div>
-            <label
-              htmlFor={"email"}
-              className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-            >
-              {t("email_address")}
-            </label>
-            <div className="relative mt-1 rounded">
-              <input
-                type="email"
-                {...register("email")}
-                className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  ${errors.email ? "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500" : "focus:border-slate-400 dark:border-slate-700 dark:focus:border-slate-600"} dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500`}
-              />
-            </div>
+        <div>
+          <label
+            htmlFor={"email"}
+            className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
+          >
+            {t("email_address")}
+          </label>
+          <div className="relative mt-1 rounded">
+            <input
+              type="email"
+              {...register("email")}
+              className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  ${errors.email ? "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500" : "focus:border-slate-400 dark:border-slate-700 dark:focus:border-slate-600"} dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500`}
+            />
           </div>
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">{errors.email?.message}</p>
+          )}
         </div>
         <Button
           loading={loading}
           disabled={
             loading ||
-            (watch("name") == user.name && watch("email") == user.email)
+            (watch("name") == user.name && watch("email") == user.email) ||
+            Boolean(errors.email)
           }
           className="!mt-6"
         >

@@ -16,7 +16,6 @@ import Button from "./form-elements/Button";
 export default function Header() {
   const { status, data: session } = useSession();
   const router = useRouter();
-  console.log("session", session);
 
   const pathname = usePathname();
   const hideHeader = [

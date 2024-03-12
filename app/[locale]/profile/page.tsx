@@ -23,6 +23,18 @@ async function getUserById(id: string): Promise<User | null> {
   return user;
 }
 
+async function getUserCollections(id: string): Promise<Collection[]> {
+  const userCollections = await prisma.collection.findMany({
+    where: {
+      user: {
+        id,
+      },
+    },
+  });
+
+  return userCollections;
+}
+
 export default async function Profile({ params: { locale } }: Readonly<Props>) {
   const { t } = await initTranslations(locale, ["default"]);
   const session = await getServerSession(authOptions);
@@ -31,6 +43,7 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
   }
 
   const user = await getUserById(session?.user.id);
+  const userCollections = await getUserCollections(session?.user.id);
 
   return (
     <div className="container my-10 flex max-w-7xl flex-col space-y-4 md:flex-row md:space-x-6 md:space-y-0">
@@ -52,8 +65,8 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
             </Link>
           </div>
         </div>
-        <div className="w-full overflow-hidden overflow-x-auto">
-          <CollectionsTable />
+        <div className="h-fit w-full overflow-hidden overflow-x-auto">
+          <CollectionsTable userCollections={userCollections} />
         </div>
       </div>
     </div>
