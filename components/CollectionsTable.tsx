@@ -20,8 +20,6 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   const router = useRouter();
   const { t } = useTranslation();
 
-  console.log("userCollections", userCollections);
-
   return (
     <div className="h-fit overflow-x-auto">
       <div className="inline-block h-fit min-w-full table-fixed align-middle">

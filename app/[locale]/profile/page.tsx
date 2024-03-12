@@ -57,7 +57,7 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
           </h1>
 
           <div>
-            <Link href={"/collection/create"}>
+            <Link href={`/collection/create`}>
               <Button className="border-none p-1.5 px-2 text-sm opacity-70 transition-all duration-300 hover:opacity-100">
                 <BadgePlus className="mr-1 size-4" />
                 {t("create")}

@@ -2,7 +2,6 @@
 
 import { useTranslation } from "react-i18next";
 import Button from "./form-elements/Button";
-import Input from "./form-elements/Input";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +9,8 @@ import { userValidation } from "@/types/validationSchema";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { UploadDropzone } from "@/utils/uploadthing";
+import { Trash2 } from "lucide-react";
 
 interface userInput {
   name?: string;
@@ -20,11 +21,12 @@ type Props = {
   user: User;
 };
 
-export default function UserProfileForms({ user }: Props) {
+export default function UserProfileForms({ user }: Readonly<Props>) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
   const { update } = useSession();
   const router = useRouter();
+  const [image, setImage] = useState<string | null>(null);
 
   const {
     register,
@@ -34,8 +36,8 @@ export default function UserProfileForms({ user }: Props) {
   } = useForm<userInput>({
     resolver: yupResolver(userValidation),
     defaultValues: {
-      name: user.name || "",
-      email: user.email || "",
+      name: user.name ?? "",
+      email: user.email ?? "",
     },
   });
 
@@ -72,17 +74,61 @@ export default function UserProfileForms({ user }: Props) {
       <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
         {t("profile")}
       </h1>
-      <div className="flex w-full justify-center">
-        <div className="relative flex size-32 cursor-pointer items-center justify-center rounded-full border-4 border-sky-300 bg-sky-500">
-          {user.name && <span className="text-3xl">{user.name.charAt(0)}</span>}
-          {/* <MdPhotoCamera className="size-8 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" /> */}
-        </div>
-      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-3"
+        className="flex flex-col space-y-4"
       >
+        <div>
+          <label
+            htmlFor={"name"}
+            className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
+          >
+            {t("profile_image")}
+          </label>
+          {!image && (
+            <div className="relative m-0 p-0">
+              <UploadDropzone
+                className=" ut-button:dark:bg-sky-700 ut-button:rounded ut-label:text-sky-500 ut-allowed-content:text-sky-500 ut-label:font-medium ut-button:dark:hover:bg-sky-800 m-0 w-full cursor-pointer rounded border-2 bg-slate-100 py-6 dark:border-slate-700 dark:bg-slate-600/30"
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  console.log("Files: ", res);
+                  setImage(res[0].url);
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  toast.error(`ERROR! ${error.message}`);
+                }}
+              />
+
+              <div className="absolute inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-5"></div>
+            </div>
+          )}
+
+          {image && (
+            <div className="flex w-full items-start justify-center">
+              <div
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+                className="group relative h-44 w-44 cursor-pointer rounded-full border-2 border-sky-500  border-opacity-50 bg-slate-800 transition-all duration-300 hover:border-red-500 dark:border-opacity-50"
+              >
+                <button
+                  onClick={() => {
+                    confirm("Are you sure?") && setImage(null);
+                  }}
+                  className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
+                >
+                  <Trash2 className="size-5  text-slate-50 " />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div>
           <label
             htmlFor={"name"}
