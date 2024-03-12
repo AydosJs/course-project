@@ -76,6 +76,7 @@ type Item = {
   publishedAt: Date;
   cover: string;
   likeCount: number;
+
   collectionId: string;
   ownerId: string;
 };

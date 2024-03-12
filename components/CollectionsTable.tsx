@@ -16,7 +16,7 @@ type Props = {
   userCollections: Collection[];
 };
 
-export default function CollectionsTable({ userCollections }: Props) {
+export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -52,7 +52,9 @@ export default function CollectionsTable({ userCollections }: Props) {
                   <tr
                     key={collection.id}
                     onClick={() =>
-                      router.push("/collection/create/item", { scroll: false })
+                      router.push(`/collection/${collection.id}/create/item`, {
+                        scroll: false,
+                      })
                     }
                     className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                   >
