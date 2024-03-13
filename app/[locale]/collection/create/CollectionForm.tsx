@@ -9,7 +9,6 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
-import { IoCloseSharp } from "react-icons/io5";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 import { BadgeMinus, ImageUp, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
@@ -57,7 +56,6 @@ export default function CollectionForm({ t }: any) {
       ownerId: session?.user.id,
       customFields: data.customFields,
     };
-    console.log(formData);
 
     try {
       setLoading(true);
@@ -106,10 +104,10 @@ export default function CollectionForm({ t }: any) {
 
   const handleDelete = () => {
     const isConfirmed = confirm("Are you sure?");
-    if (isConfirmed && watch("cover")) {
+    if (isConfirmed && watch("cover") && cover) {
       setCover(null);
       setValue("cover", null);
-      deleteImage(watch("cover") ?? "");
+      deleteImage(cover);
     }
   };
 
@@ -126,6 +124,7 @@ export default function CollectionForm({ t }: any) {
         {!cover && (
           <div className="relative m-0 p-0">
             <UploadDropzoneInput
+              disabled={loading}
               setFn={(imageUrl: string) => {
                 setCover(imageUrl);
                 setValue("cover", imageUrl);
@@ -168,6 +167,7 @@ export default function CollectionForm({ t }: any) {
         </label>
         <div className="relative mt-1 rounded">
           <input
+            disabled={loading}
             {...register("name")}
             className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
@@ -186,6 +186,7 @@ export default function CollectionForm({ t }: any) {
         </label>
         <div className="relative mt-1 rounded">
           <input
+            disabled={loading}
             {...register("topic")}
             className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
           />
@@ -203,6 +204,7 @@ export default function CollectionForm({ t }: any) {
           Description
         </label>
         <textarea
+          disabled={loading}
           {...register("description")}
           className="peer w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
           rows={3}
@@ -242,6 +244,7 @@ export default function CollectionForm({ t }: any) {
                         {t("label")}
                       </label>
                       <input
+                        disabled={loading}
                         {...field}
                         className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
@@ -269,6 +272,7 @@ export default function CollectionForm({ t }: any) {
                         {t("value")}
                       </label>
                       <input
+                        disabled={loading}
                         {...field}
                         className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
@@ -306,7 +310,17 @@ export default function CollectionForm({ t }: any) {
         </Button>
       </div>
 
-      <CancelAndCreateButtons />
+      <CancelAndCreateButtons
+        fallBackFn={() => {
+          if (cover) {
+            deleteImage(watch("cover") ?? "");
+            setCover(null);
+            setValue("cover", null);
+          }
+        }}
+        linkBack="/profile"
+        loading={loading}
+      />
     </form>
   );
 }

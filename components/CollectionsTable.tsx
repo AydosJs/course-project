@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2 } from "lucide-react";
+import { ImageOff, Pencil, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
 
 type Props = {
@@ -27,6 +27,9 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
           <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700/30">
             <thead>
               <tr className="uppercase text-slate-900 *:font-semibold dark:text-slate-100">
+                <th scope="col" className="px-2 py-3 text-start text-xs">
+                  Cover
+                </th>
                 <th scope="col" className="px-2 py-3 text-start text-xs">
                   Name
                 </th>
@@ -56,27 +59,33 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                     }
                     className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                   >
-                    <td className="px-2 py-4  text-sm ">
+                    <td className="px-2 py-3  text-sm ">
+                      <div className="flex  items-center">
+                        <span
+                          style={{
+                            backgroundImage: `url(${collection.cover})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                          }}
+                          className="flex h-10 w-full items-center justify-center rounded border-2 border-sky-500 border-opacity-20 bg-slate-200 group-hover:border-opacity-100 dark:bg-slate-700"
+                        >
+                          {collection.cover ? null : (
+                            <ImageOff className="size-4" />
+                          )}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-2 py-3  text-sm ">
                       <div className="flex flex-row items-center space-x-2">
-                        <div className="mr-1 flex h-full items-center">
-                          <span
-                            style={{
-                              backgroundImage: `url(${collection.cover})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                            className="size-8 rounded-full bg-slate-200 dark:bg-slate-700"
-                          ></span>
-                        </div>
                         <span>{collection.name}</span>
                       </div>
                     </td>
-                    <td className="px-2 py-4 text-sm">{collection.topic}</td>
-                    <td className="px-2 py-4  text-sm">
+                    <td className="px-2 py-3 text-sm">{collection.topic}</td>
+                    <td className="px-2 py-3  text-sm">
                       {collection.description}
                     </td>
-                    <td className="px-2 py-4 text-sm">
+                    <td className="px-2 py-3 text-sm">
                       {dayjs(collection.publishedAt).format("DD MMM YYYY")}
                     </td>
                     <td
