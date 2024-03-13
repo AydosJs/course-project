@@ -47,9 +47,22 @@ export default function Header() {
             {status === "authenticated" && (
               <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none">
-                  <span className="cursor-pointer text-slate-400 outline-none hover:text-slate-500 dark:hover:text-slate-100">
-                    <CircleUserRound className="size-6 rounded-full" />
-                  </span>
+                  {session.user.image && (
+                    <div
+                      style={{
+                        backgroundImage: `url(${session.user.image ?? ""})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                      className="size-7 rounded-full border-2 border-sky-500 dark:border-opacity-50"
+                    ></div>
+                  )}
+                  {session.user && !session.user.image && (
+                    <span className="flex size-7 items-center justify-center rounded-full bg-sky-500 p-2">
+                      {session.user.name ? session.user.name.charAt(0) : "?"}
+                    </span>
+                  )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="mt-6 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
                   <Link href={"/profile"}>

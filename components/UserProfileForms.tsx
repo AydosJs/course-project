@@ -9,13 +9,13 @@ import { userValidation } from "@/types/validationSchema";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { UploadDropzone } from "@/utils/uploadthing";
 import { Trash2 } from "lucide-react";
 import UploadDropzoneInput from "./form-elements/UploadDropzoneInput";
 
 interface userInput {
   name?: string;
   email: string;
+  image?: string | null;
 }
 
 type Props = {
@@ -27,10 +27,13 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
   const [loading, setLoading] = useState<boolean>(false);
   const { update } = useSession();
   const router = useRouter();
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(
+    user.image === "" ? null : user.image,
+  );
 
   const {
     register,
+    setValue,
     handleSubmit,
     watch,
     formState: { errors },
@@ -39,11 +42,16 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
     defaultValues: {
       name: user.name ?? "",
       email: user.email ?? "",
+      image: user.image === "" ? null : user.image,
     },
   });
 
   const onSubmit: SubmitHandler<userInput> = async (values) => {
-    if (values.name !== user.name || values.email !== user.email) {
+    if (
+      values.name !== user.name ||
+      values.email !== user.email ||
+      values.image !== user.image
+    ) {
       try {
         setLoading(true);
 
@@ -56,7 +64,11 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
         });
 
         if (res.ok && res.status === 200) {
-          update({ name: values.name, email: values.email });
+          update({
+            name: values.name,
+            email: values.email,
+            image: values.image,
+          });
           toast.success("Successfully updated!", {
             id: "successfullyUpdated",
           });
@@ -72,16 +84,32 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
 
   const deleteImage = async function (url: string) {
     try {
-      const req = await fetch("/api/uploadthing", {
+      setLoading(true);
+      await fetch("/api/uploadthing", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ url }),
       });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      console.log("req", req);
-    } catch (error) {}
+  const handleDelete = () => {
+    const isConfirmed = confirm("Are you sure?");
+    if (isConfirmed) {
+      setImage(null);
+      setValue("image", null);
+      deleteImage(watch("image") ?? user.image ?? "");
+      onSubmit({
+        name: watch("name"),
+        email: watch("email"),
+        image: null,
+      });
+    }
   };
 
   return (
@@ -103,7 +131,17 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
           </label>
           {!image && (
             <div className="relative m-0 p-0">
-              <UploadDropzoneInput setFn={setImage} />
+              <UploadDropzoneInput
+                setFn={(imageUrl: string) => {
+                  setImage(imageUrl);
+                  setValue("image", imageUrl);
+                  onSubmit({
+                    image: imageUrl,
+                    email: watch("email"),
+                    name: watch("name"),
+                  });
+                }}
+              />
 
               <div className="absolute inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-5"></div>
             </div>
@@ -121,10 +159,7 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
                 className="group relative h-44 w-44 cursor-pointer rounded-full border-2 border-sky-500  border-opacity-50 bg-slate-800 transition-all duration-300 hover:border-red-500 dark:border-opacity-50"
               >
                 <button
-                  onClick={() => {
-                    confirm("Are you sure?") &&
-                      (setImage(null), deleteImage(image));
-                  }}
+                  onClick={handleDelete}
                   className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
                 >
                   <Trash2 className="size-5  text-slate-50 " />

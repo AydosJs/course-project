@@ -37,9 +37,14 @@ export const loginValidationSchema = Yup.object<
   password: Yup.string().required('"Password" is required'),
 });
 
-export const userValidation = Yup.object<Pick<User, "email" | "name">>().shape({
+export const userValidation = Yup.object<{
+  name: string;
+  email: string;
+  image: string | null;
+}>().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required('"Email" is required'),
   name: Yup.string().min(1),
+  image: Yup.string().nullable(),
 });

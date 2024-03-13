@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function PATCH(request: Request): Promise<Response> {
-  const { id, email, name } = await request.json();
+  const { id, email, name, image } = await request.json();
 
   try {
     if (id) {
@@ -12,6 +12,7 @@ export async function PATCH(request: Request): Promise<Response> {
         data: {
           email: email,
           name: name,
+          image: image,
         },
       });
 

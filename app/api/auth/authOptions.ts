@@ -179,6 +179,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.id;
       session.user.email = token.email;
       session.user.isAdmin = token.isAdmin;
+      session.user.image = token.image;
 
       return session;
     },
@@ -188,6 +189,7 @@ export const authOptions: NextAuthOptions = {
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.name = session.name;
         token.email = session.email;
+        token.image = session.image;
       }
 
       if (account) {
@@ -196,6 +198,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.isAdmin = user.isAdmin as boolean;
         token.id = user.id;
+        token.image = user.image as string;
       }
       return token;
     },
