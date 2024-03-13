@@ -10,17 +10,6 @@ type CollectionCustomField = {
   value: string;
 };
 
-type CollectionType = {
-  id: string;
-  name: string;
-  topic: string;
-  description: string;
-  ownerId: string;
-  publishedAt: Date;
-  cover: string;
-  customFields?: any;
-};
-
 type User = {
   id: string;
   name: string | null;
@@ -35,13 +24,13 @@ type User = {
 
 type Collection = {
   id: string;
+  publishedAt?: Date;
+  ownerId: string;
+  description: string;
   name: string;
   topic: string;
-  description: string;
-  ownerId: string;
-  publishedAt?: Date;
   cover?: string;
-  customFields?: any; // Use the specific type for custom fields
+  customFields: CollectionCustomField[];
 };
 
 type CommentType = {

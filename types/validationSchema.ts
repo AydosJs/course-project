@@ -1,12 +1,18 @@
 import * as Yup from "yup";
 
-export const collectionValidationSchema = Yup.object<Collection>().shape({
-  cover: Yup.string(),
-  name: Yup.string(),
-  topic: Yup.string(),
-  description: Yup.string(),
+export const collectionValidationSchema = Yup.object<{
+  ownerId: string;
+  description: string;
+  name: string;
+  topic: string;
+  cover: string;
+  customFields: CollectionCustomField[];
+}>().shape({
+  name: Yup.string().required('"Name" is required'),
   ownerId: Yup.string(),
-
+  description: Yup.string(),
+  topic: Yup.string(),
+  cover: Yup.string().nullable(),
   customFields: Yup.array().of(
     Yup.object<CollectionCustomField>().shape({
       label: Yup.string().required("Label is required"),
