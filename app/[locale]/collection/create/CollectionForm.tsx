@@ -54,7 +54,7 @@ export default function CollectionForm({ t }: any) {
       topic: data.topic,
       cover: cover ?? "",
       ownerId: session?.user.id,
-      customFields: data.customFields,
+      customFields: JSON.stringify(data.customFields),
     };
 
     try {

@@ -10,12 +10,16 @@ import {
   UserRound,
 } from "lucide-react";
 
-async function getCollectionById(id: string): Promise<Collection | null> {
+async function getCollectionById(
+  id: string,
+): Promise<Omit<Collection, "customFields"> | null> {
   const collection = await prisma.collection.findFirst({
     where: { id },
   });
+
   return collection;
 }
+
 async function getItemById(id: string): Promise<Item | null> {
   const item = await prisma.item.findFirst({
     where: { id },

@@ -22,6 +22,13 @@ type User = {
   updatedAt: Date;
 };
 
+type JSONValue =
+  | string
+  | number
+  | boolean
+  | { [x: string]: JSONValue }
+  | Array<JSONValue>;
+
 type Collection = {
   id: string;
   publishedAt?: Date;
@@ -30,7 +37,7 @@ type Collection = {
   name: string;
   topic: string;
   cover?: string;
-  customFields: CollectionCustomField[];
+  customFields: JSONValue;
 };
 
 type CommentType = {

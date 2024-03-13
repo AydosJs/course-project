@@ -19,6 +19,7 @@ type Props = {
 export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   const router = useRouter();
   const { t } = useTranslation();
+  console.log("collectins", userCollections);
 
   return (
     <div className="h-fit overflow-x-auto">
