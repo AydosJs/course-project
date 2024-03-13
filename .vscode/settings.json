@@ -3,6 +3,7 @@
         "hookform",
         "lucide",
         "NEXTAUTH",
-        "uploadthing"
+        "uploadthing",
+        "utapi"
     ]
 }

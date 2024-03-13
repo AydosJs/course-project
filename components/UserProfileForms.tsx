@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { Trash2 } from "lucide-react";
+import UploadDropzoneInput from "./form-elements/UploadDropzoneInput";
 
 interface userInput {
   name?: string;
@@ -69,6 +70,20 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
     }
   };
 
+  const deleteImage = async function (url: string) {
+    try {
+      const req = await fetch("/api/uploadthing", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      console.log("req", req);
+    } catch (error) {}
+  };
+
   return (
     <>
       <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
@@ -88,18 +103,7 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
           </label>
           {!image && (
             <div className="relative m-0 p-0">
-              <UploadDropzone
-                className=" ut-button:dark:bg-sky-700 ut-button:rounded ut-label:text-sky-500 ut-allowed-content:text-sky-500 ut-label:font-medium ut-button:dark:hover:bg-sky-800 m-0 w-full cursor-pointer rounded border-2 bg-slate-100 py-6 dark:border-slate-700 dark:bg-slate-600/30"
-                endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                  console.log("Files: ", res);
-                  setImage(res[0].url);
-                }}
-                onUploadError={(error: Error) => {
-                  // Do something with the error.
-                  toast.error(`ERROR! ${error.message}`);
-                }}
-              />
+              <UploadDropzoneInput setFn={setImage} />
 
               <div className="absolute inset-0 -z-50 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-5"></div>
             </div>
@@ -118,7 +122,8 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
               >
                 <button
                   onClick={() => {
-                    confirm("Are you sure?") && setImage(null);
+                    confirm("Are you sure?") &&
+                      (setImage(null), deleteImage(image));
                   }}
                   className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
                 >
