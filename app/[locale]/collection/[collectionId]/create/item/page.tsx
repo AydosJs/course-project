@@ -42,7 +42,14 @@ export default async function CreateCollectionItem({
             {t("collection_items")}
           </h1>
 
-          <ItemTableList collectionItems={collectionItems} />
+          {collectionItems.length !== 0 && (
+            <ItemTableList collectionItems={collectionItems} />
+          )}
+          {collectionItems.length === 0 && (
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              No items yet!
+            </p>
+          )}
         </div>
       </div>
     </div>

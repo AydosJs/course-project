@@ -78,7 +78,7 @@ const TagsInput = (props: any) => {
         control: ({ isFocused }) =>
           cn(
             isFocused ? controlStyles.focus : controlStyles.nonFocus,
-            controlStyles.base
+            controlStyles.base,
           ),
         placeholder: () => placeholderStyles,
         input: () => selectInputStyles,
@@ -95,7 +95,7 @@ const TagsInput = (props: any) => {
           cn(
             isFocused && optionStyles.focus,
             isSelected && optionStyles.selected,
-            optionStyles.base
+            optionStyles.base,
           ),
         noOptionsMessage: () => noOptionsMessageStyles,
       }}

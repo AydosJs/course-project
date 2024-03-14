@@ -21,6 +21,23 @@ export const collectionValidationSchema = Yup.object<{
   ),
 });
 
+export const itemValidationSchema = Yup.object<{
+  name: string;
+  description: string;
+  cover: string;
+  customFields: CollectionCustomField[];
+}>().shape({
+  name: Yup.string().required('"Name" is required'),
+  description: Yup.string(),
+  cover: Yup.string().nullable(),
+  customFields: Yup.array().of(
+    Yup.object<CollectionCustomField>().shape({
+      label: Yup.string().required("Label is required"),
+      value: Yup.string().required("Value is required"),
+    }),
+  ),
+});
+
 export const registerValidationSchema = Yup.object<{
   name: string;
   email: string;

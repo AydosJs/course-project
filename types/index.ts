@@ -73,6 +73,7 @@ type Item = {
   cover: string;
   likeCount: number;
 
+  tagsId: string[];
   collectionId: string;
   ownerId: string;
 };
