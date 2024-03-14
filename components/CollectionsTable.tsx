@@ -19,7 +19,6 @@ type Props = {
 export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   const router = useRouter();
   const { t } = useTranslation();
-  console.log("collectins", userCollections);
 
   return (
     <div className="h-fit overflow-x-auto">
@@ -78,15 +77,15 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                       </div>
                     </td>
                     <td className="px-2 py-3  text-sm ">
-                      <div className="flex flex-row items-center space-x-2">
-                        <span>{collection.name}</span>
+                      <div className=" flex flex-row items-center space-x-2">
+                        <span className="line-clamp-2">{collection.name}</span>
                       </div>
                     </td>
                     <td className="px-2 py-3 text-sm">{collection.topic}</td>
-                    <td className="px-2 py-3  text-sm">
-                      {collection.description}
+                    <td className="px-2  py-3 text-sm">
+                      <p className="line-clamp-2">{collection.description}</p>
                     </td>
-                    <td className="px-2 py-3 text-sm">
+                    <td className="truncate px-2 py-3 text-sm">
                       {dayjs(collection.publishedAt).format("DD MMM YYYY")}
                     </td>
                     <td

@@ -10,7 +10,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
-import { BadgeMinus, ImageUp, Trash2 } from "lucide-react";
+import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -119,7 +119,7 @@ export default function CollectionForm({ t }: any) {
           htmlFor={"name"}
           className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
-          Cover
+          {t("cover")}
         </label>
         {!cover && (
           <div className="relative m-0 p-0">
@@ -163,7 +163,7 @@ export default function CollectionForm({ t }: any) {
           htmlFor={"title"}
           className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
-          Name
+          {t("title")}
         </label>
         <div className="relative mt-1 rounded">
           <input
@@ -182,7 +182,7 @@ export default function CollectionForm({ t }: any) {
           htmlFor={"title"}
           className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
-          Topic
+          {t("topic")}
         </label>
         <div className="relative mt-1 rounded">
           <input
@@ -201,7 +201,7 @@ export default function CollectionForm({ t }: any) {
           htmlFor="description"
           className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
-          Description
+          {t("description")}
         </label>
         <textarea
           disabled={loading}
