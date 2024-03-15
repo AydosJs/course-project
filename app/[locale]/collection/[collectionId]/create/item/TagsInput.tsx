@@ -69,6 +69,8 @@ const TagsInput = (props: any) => {
 
   return (
     <CreatableSelect
+      isLoading={loading}
+      isDisabled={loading}
       instanceId={"tags-input"}
       isClearable={true}
       placeholder="Add or create tags"

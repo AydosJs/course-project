@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { ItemComments } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function TableItem({
   item,
@@ -73,10 +74,15 @@ export default function TableItem({
             <MdOutlineMoreHoriz className="size-5 dark:text-sky-800 dark:group-hover:text-sky-500" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400">
-            <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-              <Pencil className="mr-2 size-4" />
-              <span className="font-medium">{t("edit")}</span>
-            </DropdownMenuItem>
+            <Link
+              onClick={(e) => e.stopPropagation()}
+              href={`/collection/${item.collectionId}/${item.id}/edit`}
+            >
+              <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
+                <Pencil className="mr-2 size-4" />
+                <span className="font-medium">{t("edit")}</span>
+              </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
               <Trash2 className="mr-2 size-4" />
               <span className="font-medium">{t("delete")}</span>

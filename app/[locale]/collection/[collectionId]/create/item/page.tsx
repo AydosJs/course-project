@@ -1,11 +1,11 @@
 import ItemForm from "./ItemFrom";
-import ItemTableList from "./ItemTableList";
+import ItemTableList from "./ItemTable/ItemTableList";
 import initTranslations from "@/app/i18n";
 import prisma from "@/lib/prisma";
 
 interface Props {
   params: {
-    locale: string; // Specify type as string
+    locale: string;
     collectionId: string;
   };
 }

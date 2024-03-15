@@ -1,20 +1,11 @@
 import { ItemComments } from "@prisma/client";
-import TableItem from "./TableItem";
 import prisma from "@/lib/prisma";
 import { Heart, MessageCircle } from "lucide-react";
-import Link from "next/link";
+import TableItem from "./TableItem";
 
 async function getTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany({});
   return tags;
-}
-
-async function getTagsByItem(item: { tagsId: string[] }): Promise<Tags[]> {
-  const allTags = await prisma.tags.findMany({});
-
-  const matchingTags = allTags.filter((tag) => item.tagsId.includes(tag.id));
-
-  return matchingTags;
 }
 
 async function getComments(): Promise<ItemComments[]> {
