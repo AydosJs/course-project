@@ -13,7 +13,7 @@ async function getItemTagsById(itemId: string): Promise<Tags[]> {
 }
 
 export default async function CollectionItem(item: Readonly<Item>) {
-  const tags = await getItemTagsById(item.id);
+  const tags = await getItemTagsById(item.id ? item.id : "");
   return (
     <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300  hover:bg-slate-100 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
       <div
