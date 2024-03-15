@@ -25,10 +25,7 @@ export default function TableItem({
   const { t } = useTranslation();
 
   return (
-    <tr
-      key={item.id}
-      className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-    >
+    <tr className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200">
       <td className="truncate px-2  py-3 text-sm ">
         <div className="flex flex-row items-center space-x-2">
           <div className="mr-1 flex h-full items-center">
@@ -39,7 +36,7 @@ export default function TableItem({
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              className=" size-10 rounded-full bg-slate-200 dark:bg-slate-700"
+              className=" size-10 rounded bg-slate-200 dark:bg-slate-700"
             ></span>
           </div>
           <div>
@@ -51,7 +48,7 @@ export default function TableItem({
         </div>
       </td>
       <td className="px-2 py-3 text-sm">
-        <div className="flex flex-row items-end justify-end space-x-2">
+        <div className="flex flex-row space-x-2">
           {tags.map((tag) => (
             <span key={tag.id}>#{tag.text}</span>
           ))}

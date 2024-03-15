@@ -34,7 +34,7 @@ export default async function CreateCollectionItem({
             {t("create_item")}
           </h1>
 
-          <ItemForm />
+          <ItemForm collectionId={collectionId} />
         </div>
 
         <div className="flex h-fit w-full flex-col rounded border  border-slate-900/10 bg-slate-50 p-4 px-5 dark:border-slate-50/[0.06] dark:bg-slate-800/50 md:w-2/3">

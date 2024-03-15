@@ -1,10 +1,19 @@
 import { ItemComments } from "@prisma/client";
 import TableItem from "./TableItem";
 import prisma from "@/lib/prisma";
+import { getItemTagsById } from "../../[itemId]/page";
 
 async function getTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany({});
   return tags;
+}
+
+async function getTagsByItem(item: { tagsId: string[] }): Promise<Tags[]> {
+  const allTags = await prisma.tags.findMany({});
+
+  const matchingTags = allTags.filter((tag) => item.tagsId.includes(tag.id));
+
+  return matchingTags;
 }
 
 async function getComments(): Promise<ItemComments[]> {
@@ -22,9 +31,9 @@ export default async function ItemTableList({
 }: Readonly<{
   collectionItems: Item[];
 }>) {
-  const tags = await getTags();
   const comments = await getComments();
   const likes = await getLikes();
+  const tags = await getTags();
 
   return (
     <div className="overflow-x-auto">
@@ -56,9 +65,13 @@ export default async function ItemTableList({
             <tbody className="divide-y  divide-slate-200 dark:divide-slate-700/30">
               {collectionItems.length !== 0 &&
                 collectionItems.map((item) => {
-                  const matchingTags = tags.filter(
-                    (tag) => tag.itemId === item.id,
-                  );
+                  const matchingTag = tags.filter((tag) => {
+                    for (let i = 0; i < item.tagsId.length; i++) {
+                      if (tag.id === item.tagsId[i]) {
+                        return tag;
+                      }
+                    }
+                  });
 
                   const matchingComments = comments.filter(
                     (comment) => comment.itemId === item.id,
@@ -72,7 +85,7 @@ export default async function ItemTableList({
                     <TableItem
                       key={item.id}
                       item={item}
-                      tags={matchingTags}
+                      tags={matchingTag}
                       comments={matchingComments}
                       likes={matchingLikes}
                     />

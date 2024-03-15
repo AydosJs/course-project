@@ -71,7 +71,7 @@ model Tags {
     id        String   @id @default(cuid())
     userId    String
     itemId    String
-    text      String
+    text      String   @unique
     createdAt DateTime @default(now())
 
     Item Item @relation(fields: [itemId], references: [id])

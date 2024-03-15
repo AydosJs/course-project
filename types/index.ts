@@ -66,12 +66,12 @@ type CommentLike = {
 };
 
 type Item = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  publishedAt: Date;
   cover: string;
   likeCount: number;
+  publishedAt?: Date;
 
   tagsId: string[];
   collectionId: string;

@@ -34,10 +34,9 @@ export default async function RootLayout({
 }>) {
   const { resources } = await initTranslations(locale, ["default"]);
   const session = await getServerSession(authOptions);
-  console.log("session", session);
 
   return (
-    <html lang={locale} dir={dir(locale)} suppressHydrationWarning>
+    <html lang={locale} dir={dir(locale)}>
       <body
         className={`${inter.className} min-h-screen bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]  dark:bg-slate-900`}
       >

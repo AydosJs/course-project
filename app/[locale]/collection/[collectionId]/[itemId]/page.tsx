@@ -54,9 +54,15 @@ async function getItemComments(itemId: string): Promise<CommentType[]> {
   }
 }
 
-async function getItemTagsById(itemId: string): Promise<Tags[]> {
+export async function getItemTagsById(ids: string[]): Promise<Tags[]> {
+  if (!ids || !ids.length) {
+    return [];
+  }
+
   const tags = await prisma.tags.findMany({
-    where: { itemId },
+    where: {
+      OR: ids.map((id) => ({ id })),
+    },
   });
 
   return tags;
@@ -86,15 +92,19 @@ export default async function page({
   const item = await getItemById(params.itemId);
   const collection = await getCollectionById(params.collectionId);
   const itemComments = await getItemComments(params.itemId);
-  const tags = await getItemTagsById(params.itemId);
 
   // const likes = await getItemLikes(params.itemId);
   let owner;
+  let tags: Tags[] = [];
 
   if (item) {
     const user = await getUserById(item.ownerId);
+    const fetchTags = await getItemTagsById(item.tagsId);
+    console.log(fetchTags);
+    tags = fetchTags;
     owner = user;
   }
+
   return (
     <>
       {item && (

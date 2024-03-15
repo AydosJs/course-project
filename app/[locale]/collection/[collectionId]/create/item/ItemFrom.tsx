@@ -1,10 +1,9 @@
 "use client";
-import Input from "@/components/form-elements/Input";
 import TagsInput from "./TagsInput";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Controller,
@@ -17,6 +16,7 @@ import { itemValidationSchema } from "@/types/validationSchema";
 import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import Button from "@/components/form-elements/Button";
+import toast from "react-hot-toast";
 
 interface itemInputs {
   name: string;
@@ -28,9 +28,12 @@ interface itemInputs {
 interface TagsType {
   label: string;
   value: string;
+  __isNew__?: boolean;
 }
 
-export default function ItemForm() {
+export default function ItemForm({
+  collectionId,
+}: Readonly<{ collectionId: string }>) {
   const { t } = useTranslation();
   const { data: session, status } = useSession();
   if (status === "unauthenticated") {
@@ -38,7 +41,8 @@ export default function ItemForm() {
   }
   const [cover, setCover] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [tags, setTags] = useState<TagsType[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagsType[]>([]);
+  const route = useRouter();
 
   const {
     register,
@@ -58,36 +62,51 @@ export default function ItemForm() {
   });
 
   const onSubmit: SubmitHandler<itemInputs> = async (data) => {
-    console.log(data, tags);
-    // const formData = {
-    //   name: data.name,
-    //   description: data.description,
-    //   topic: data.topic,
-    //   cover: cover ?? "",
-    //   ownerId: session?.user.id,
-    //   customFields: JSON.stringify(data.customFields),
-    // };
+    const tagsId = selectedTags
+      .filter((item) => !item.__isNew__)
+      .map((item) => item.value);
 
-    // try {
-    //   setLoading(true);
-    //   const res = await fetch("/api/collection/create", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-    //   if (res.status === 200) {
-    //     reset();
-    //     toast.success("Successfully created!", {
-    //       id: "successfullyCreated",
-    //     });
-    //     setCover(null);
-    //   }
-    // } catch (error) {
-    // } finally {
-    //   setLoading(false);
-    // }
+    const newTags = selectedTags
+      .filter((item) => item.__isNew__)
+      .map((item) => item.value);
+
+    const formData = {
+      name: data.name,
+      description: data.description,
+      cover: cover ?? "",
+      ownerId: session?.user.id,
+      customFields: JSON.stringify(data.customFields) ?? "",
+      collectionId: collectionId,
+      likeCount: 0,
+      tagsId,
+    } as Item;
+
+    try {
+      setLoading(true);
+      const res = await fetch("/api/collection/item/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ formData, newTags }),
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        console.log("res item", data);
+        reset();
+        toast.success("Successfully created!", {
+          id: "successfullyCreated",
+        });
+        setCover(null);
+        route.refresh();
+        reset();
+        setSelectedTags([]);
+        remove();
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteImage = async function (url: string) {
@@ -210,12 +229,7 @@ export default function ItemForm() {
           Tags
         </label>
 
-        <TagsInput
-          onChange={(e: TagsType[]) => {
-            console.log(e);
-            setTags(e.map((item: TagsType) => item));
-          }}
-        />
+        <TagsInput onChange={(e: TagsType[]) => setSelectedTags(e)} />
       </div>
 
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>
@@ -311,7 +325,7 @@ export default function ItemForm() {
         </Button>
       </div>
 
-      <CancelAndCreateButtons />
+      <CancelAndCreateButtons loading={loading} />
     </form>
   );
 }
