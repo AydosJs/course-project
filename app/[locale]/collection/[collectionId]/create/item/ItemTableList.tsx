@@ -1,7 +1,6 @@
 import { ItemComments } from "@prisma/client";
 import TableItem from "./TableItem";
 import prisma from "@/lib/prisma";
-import { getItemTagsById } from "../../[itemId]/page";
 
 async function getTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany({});
@@ -66,8 +65,8 @@ export default async function ItemTableList({
               {collectionItems.length !== 0 &&
                 collectionItems.map((item) => {
                   const matchingTag = tags.filter((tag) => {
-                    for (let i = 0; i < item.tagsId.length; i++) {
-                      if (tag.id === item.tagsId[i]) {
+                    for (const tagId of item.tagsId) {
+                      if (tag.id === tagId) {
                         return tag;
                       }
                     }
