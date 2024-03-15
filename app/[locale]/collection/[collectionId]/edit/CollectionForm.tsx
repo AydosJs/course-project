@@ -1,10 +1,6 @@
 "use client";
-import TagsInput from "./TagsInput";
-import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
-import { useTranslation } from "react-i18next";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+
+import Button from "@/components/form-elements/Button";
 import {
   Controller,
   SubmitHandler,
@@ -12,37 +8,37 @@ import {
   useForm,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { itemValidationSchema } from "@/types/validationSchema";
+import { collectionValidationSchema } from "@/types/validationSchema";
+import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
-import Button from "@/components/form-elements/Button";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
-interface itemInputs {
-  name: string;
+interface collectionInputs {
+  ownerId?: string;
   description?: string;
+  name: string;
+  topic?: string;
   cover?: string | null;
   customFields?: CollectionCustomField[];
 }
 
-interface TagsType {
-  label: string;
-  value: string;
-  __isNew__?: boolean;
-}
-
-export default function ItemForm({
-  collectionId,
-}: Readonly<{ collectionId: string }>) {
-  const { t } = useTranslation();
+export default function CollectionForm({
+  collection,
+}: Readonly<{
+  collection: Collection | null;
+}>) {
   const { data: session, status } = useSession();
+  const { t } = useTranslation();
+
   if (status === "unauthenticated") {
     redirect("/");
   }
-  const [cover, setCover] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [selectedTags, setSelectedTags] = useState<TagsType[]>([]);
-  const route = useRouter();
+  const router = useRouter();
 
   const {
     register,
@@ -52,62 +48,68 @@ export default function ItemForm({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<itemInputs>({
-    resolver: yupResolver(itemValidationSchema),
+  } = useForm<collectionInputs>({
+    resolver: yupResolver(collectionValidationSchema),
+    defaultValues: {
+      ownerId: collection?.ownerId ?? "",
+      description: collection?.description ?? "",
+      name: collection?.name ?? "",
+      topic: collection?.topic ?? "",
+      cover: collection?.cover ?? "",
+      customFields: JSON.parse(collection?.customFields as string) ?? [],
+    },
   });
+  const [cover, setCover] = useState<string | null>(collection?.cover ?? "");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { fields, append, remove } = useFieldArray<itemInputs>({
-    control,
-    name: "customFields",
-  });
-
-  const onSubmit: SubmitHandler<itemInputs> = async (data) => {
-    const tagsId = selectedTags
-      .filter((item) => !item.__isNew__)
-      .map((item) => item.value);
-
-    const newTags = selectedTags
-      .filter((item) => item.__isNew__)
-      .map((item) => item.value);
+  const onSubmit: SubmitHandler<collectionInputs> = async (data) => {
+    if (
+      collection?.cover === data.cover &&
+      collection?.name === data.name &&
+      collection?.description === data.description &&
+      collection?.topic === data.topic
+    ) {
+      return toast.error("Nothing to update!", {
+        id: "nothingToUpdate",
+      });
+    }
 
     const formData = {
+      id: collection?.id,
       name: data.name,
       description: data.description,
+      topic: data.topic,
       cover: cover ?? "",
-      ownerId: session?.user.id,
-      customFields: JSON.stringify(data.customFields) ?? "",
-      collectionId: collectionId,
-      likeCount: 0,
-      tagsId,
-    } as Item;
+      customFields: JSON.stringify(data.customFields),
+    };
 
     try {
       setLoading(true);
-      const res = await fetch("/api/collection/item/create", {
-        method: "POST",
+      const res = await fetch("/api/collection/update", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData, newTags }),
+        body: JSON.stringify(formData),
       });
       if (res.status === 200) {
-        const data = await res.json();
-        console.log("res item", data);
-        reset();
-        toast.success("Successfully created!", {
+        toast.success("Successfully updated!", {
           id: "successfullyCreated",
         });
         setCover(null);
-        route.refresh();
-        reset();
-        setSelectedTags([]);
-        remove();
+        router.push("/profile");
+        router.refresh();
       }
     } catch (error) {
     } finally {
       setLoading(false);
     }
   };
+
+  const { fields, append, remove } = useFieldArray<collectionInputs>({
+    control,
+    name: "customFields",
+  });
 
   const deleteImage = async function (url: string) {
     try {
@@ -127,7 +129,7 @@ export default function ItemForm({
 
   const handleDelete = () => {
     const isConfirmed = confirm("Are you sure?");
-    if (isConfirmed && watch("cover") && cover) {
+    if (isConfirmed && cover) {
       setCover(null);
       setValue("cover", null);
       deleteImage(cover);
@@ -202,6 +204,25 @@ export default function ItemForm({
 
       <div>
         <label
+          htmlFor={"title"}
+          className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
+        >
+          {t("topic")}
+        </label>
+        <div className="relative mt-1 rounded">
+          <input
+            disabled={loading}
+            {...register("topic")}
+            className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
+          />
+        </div>
+        {errors.topic && (
+          <p className="mt-1 text-sm text-red-500">{errors.topic?.message}</p>
+        )}
+      </div>
+
+      <div>
+        <label
           htmlFor="description"
           className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
         >
@@ -219,17 +240,6 @@ export default function ItemForm({
             {errors.description?.message}
           </p>
         )}
-      </div>
-
-      <div>
-        <label
-          htmlFor="tags"
-          className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-        >
-          Tags
-        </label>
-
-        <TagsInput onChange={(e: TagsType[]) => setSelectedTags(e)} />
       </div>
 
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>
@@ -317,7 +327,7 @@ export default function ItemForm({
       </div>
       <div>
         <Button
-          className="mt-2 border-none bg-sky-500 py-2 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
+          className="border-none bg-sky-500 py-3 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
           type="button"
           onClick={() => append({ label: "", value: "" })}
         >
@@ -325,10 +335,23 @@ export default function ItemForm({
         </Button>
       </div>
 
-      <CancelAndCreateButtons
-        fallBackFn={() => route.back()}
-        loading={loading}
-      />
+      <div>
+        <Button
+          // disabled={
+          //   !Boolean(
+          //     loading ||
+          //       collection?.name !== watch("name") ||
+          //       collection.cover !== watch("cover") ||
+          //       collection.description !== watch("description") ||
+          //       collection.topic !== watch("topic"),
+          //   )
+          // }
+          loading={loading}
+          className="mt-4"
+        >
+          Update
+        </Button>
+      </div>
     </form>
   );
 }

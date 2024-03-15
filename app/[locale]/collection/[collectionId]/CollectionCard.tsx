@@ -13,15 +13,11 @@ export default function CollectionCard({
 }: Readonly<CollectionCardProps>) {
   const { t } = useTranslation();
   const customFields = JSON.parse(collection.customFields as any);
-
   return (
     <>
       <div
         style={{
           backgroundImage: `url(${collection.cover})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
         }}
         className="h-44 w-full rounded border-2 bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800 md:h-60"
       ></div>

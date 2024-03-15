@@ -129,7 +129,7 @@ export default async function page({
                   {tags.length !== 0 &&
                     tags.map((item) => (
                       <span
-                        className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-3 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
+                        className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
                         key={item.id}
                       >
                         #{item.text}
