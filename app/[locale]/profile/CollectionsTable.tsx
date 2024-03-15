@@ -37,9 +37,6 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                   Topic
                 </th>
                 <th scope="col" className="px-2 py-3 text-start text-xs">
-                  Description
-                </th>
-                <th scope="col" className="px-2 py-3 text-start text-xs">
                   Published
                 </th>
                 <th scope="col" className="px-2 py-3 text-end text-xs">
@@ -60,7 +57,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                     className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                   >
                     <td className="px-2 py-3  text-sm ">
-                      <div className="flex  items-center">
+                      <div className="mr-1 flex h-full items-center">
                         <span
                           style={{
                             backgroundImage: `url(${collection.cover})`,
@@ -68,23 +65,19 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                             backgroundPosition: "center",
                             backgroundRepeat: "no-repeat",
                           }}
-                          className="flex h-10 w-full items-center justify-center rounded border-2 border-sky-500 border-opacity-20 bg-slate-200 group-hover:border-opacity-100 dark:bg-slate-700"
-                        >
-                          {collection.cover ? null : (
-                            <ImageOff className="size-4" />
-                          )}
+                          className="h-10 w-14 rounded bg-slate-200 dark:bg-slate-700"
+                        ></span>
+                      </div>
+                    </td>
+                    <td className="px-2 py-3 text-sm">
+                      <div className="flex flex-col">
+                        <span className="line-clamp-2">{collection.name}</span>
+                        <span className="line-clamp-1">
+                          {collection.description}
                         </span>
                       </div>
                     </td>
-                    <td className="px-2 py-3  text-sm ">
-                      <div className=" flex flex-row items-center space-x-2">
-                        <span className="line-clamp-2">{collection.name}</span>
-                      </div>
-                    </td>
                     <td className="px-2 py-3 text-sm">{collection.topic}</td>
-                    <td className="px-2  py-3 text-sm">
-                      <p className="line-clamp-2">{collection.description}</p>
-                    </td>
                     <td className="truncate px-2 py-3 text-sm">
                       {dayjs(collection.publishedAt).format("DD MMM YYYY")}
                     </td>

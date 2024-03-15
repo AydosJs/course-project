@@ -41,7 +41,7 @@ export default function TableItem({
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              className=" size-10 rounded bg-slate-200 dark:bg-slate-700"
+              className="h-10 w-12 rounded bg-slate-200 dark:bg-slate-700"
             ></span>
           </div>
           <div>
@@ -55,7 +55,9 @@ export default function TableItem({
       <td className="px-2 py-3 text-sm">
         <div className="flex flex-row space-x-2">
           {tags.map((tag) => (
-            <span key={tag.id}>#{tag.text}</span>
+            <span className="truncate" key={tag.id}>
+              #{tag.text}
+            </span>
           ))}
         </div>
       </td>

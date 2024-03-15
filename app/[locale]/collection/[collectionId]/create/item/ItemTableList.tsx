@@ -55,11 +55,11 @@ export default async function ItemTableList({
                 >
                   <div className="flex flex-row flex-nowrap items-center">
                     <span>
-                      <Heart className="size-4" fill="white" />
+                      <Heart className="size-4" />
                     </span>
                     &nbsp;/&nbsp;
                     <span>
-                      <MessageCircle className="size-4" fill="white" />
+                      <MessageCircle className="size-4" />
                     </span>
                   </div>
                 </th>
