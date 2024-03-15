@@ -55,10 +55,6 @@ async function getItemComments(itemId: string): Promise<CommentType[]> {
 }
 
 export async function getItemTagsById(ids: string[]): Promise<Tags[]> {
-  if (!ids || !ids.length) {
-    return [];
-  }
-
   const tags = await prisma.tags.findMany({
     where: {
       OR: ids.map((id) => ({ id })),
