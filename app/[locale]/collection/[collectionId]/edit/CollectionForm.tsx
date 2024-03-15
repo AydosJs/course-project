@@ -9,10 +9,9 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
-import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -32,7 +31,7 @@ export default function CollectionForm({
 }: Readonly<{
   collection: Collection | null;
 }>) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { t } = useTranslation();
 
   if (status === "unauthenticated") {
@@ -44,9 +43,7 @@ export default function CollectionForm({
     register,
     handleSubmit,
     control,
-    reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<collectionInputs>({
     resolver: yupResolver(collectionValidationSchema),
@@ -63,16 +60,16 @@ export default function CollectionForm({
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<collectionInputs> = async (data) => {
-    if (
-      collection?.cover === data.cover &&
-      collection?.name === data.name &&
-      collection?.description === data.description &&
-      collection?.topic === data.topic
-    ) {
-      return toast.error("Nothing to update!", {
-        id: "nothingToUpdate",
-      });
-    }
+    // if (
+    //   collection?.cover === data.cover &&
+    //   collection?.name === data.name &&
+    //   collection?.description === data.description &&
+    //   collection?.topic === data.topic
+    // ) {
+    //   return toast.error("Nothing to update!", {
+    //     id: "nothingToUpdate",
+    //   });
+    // }
 
     const formData = {
       id: collection?.id,
@@ -336,19 +333,7 @@ export default function CollectionForm({
       </div>
 
       <div>
-        <Button
-          // disabled={
-          //   !Boolean(
-          //     loading ||
-          //       collection?.name !== watch("name") ||
-          //       collection.cover !== watch("cover") ||
-          //       collection.description !== watch("description") ||
-          //       collection.topic !== watch("topic"),
-          //   )
-          // }
-          loading={loading}
-          className="mt-4"
-        >
+        <Button loading={loading} className="mt-4">
           Update
         </Button>
       </div>
