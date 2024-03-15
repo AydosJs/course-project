@@ -1,6 +1,8 @@
 import { ItemComments } from "@prisma/client";
 import TableItem from "./TableItem";
 import prisma from "@/lib/prisma";
+import { Heart, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 async function getTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany({});
@@ -51,7 +53,15 @@ export default async function ItemTableList({
                   scope="col"
                   className="truncate px-2 py-3 text-start text-xs"
                 >
-                  Likes & Comm..
+                  <div className="flex flex-row flex-nowrap items-center">
+                    <span>
+                      <Heart className="size-4" fill="white" />
+                    </span>
+                    &nbsp;/&nbsp;
+                    <span>
+                      <MessageCircle className="size-4" fill="white" />
+                    </span>
+                  </div>
                 </th>
                 <th scope="col" className="px-2 py-3 text-start text-xs">
                   Published

@@ -2,13 +2,7 @@ import CommentItem from "@/components/CommentItem";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import AddCommentTextarea from "@/components/AddCommentTextarea";
-import {
-  CalendarDays,
-  Heart,
-  MessageCircleCode,
-  SquarePen,
-  UserRound,
-} from "lucide-react";
+import { Heart } from "lucide-react";
 
 async function getCollectionById(
   id: string,
@@ -64,19 +58,6 @@ async function getItemTagsById(ids: string[]): Promise<Tags[]> {
   return tags;
 }
 
-async function getItemLikes(itemId: string): Promise<ItemLike[]> {
-  if (!itemId) {
-    return []; // Early return if itemId is not provided
-  }
-  const item = await prisma.itemLike.findMany({
-    where: {
-      itemId,
-    },
-  });
-
-  return item;
-}
-
 export default async function page({
   params,
 }: {
@@ -96,16 +77,17 @@ export default async function page({
   if (item) {
     const user = await getUserById(item.ownerId);
     const fetchTags = await getItemTagsById(item.tagsId);
-    console.log(fetchTags);
     tags = fetchTags;
     owner = user;
   }
+
+  const customFields = JSON.parse(item?.customFields as string);
 
   return (
     <>
       {item && (
         <div className="container my-10 w-full max-w-7xl">
-          <div className="mx-auto flex w-full max-w-2xl flex-col">
+          <div className="mx-auto flex w-full max-w-2xl flex-col space-y-6">
             <div
               style={{
                 backgroundImage: `url(${item.cover})`,
@@ -113,68 +95,64 @@ export default async function page({
               className="h-56 w-full rounded bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800 sm:h-80"
             ></div>
 
-            <div className="mt-6 flex flex-col space-y-4">
-              {item?.likeCount !== 0 && (
-                <div className="mb-4 flex w-full items-center justify-end sm:mb-0">
-                  <div className="flex w-fit cursor-pointer flex-row items-center truncate rounded-full border-2 border-sky-500/30 px-3 py-1.5 text-sky-500 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 dark:hover:text-sky-400">
-                    <Heart className="mr-2 size-5" />
-                    {item?.likeCount}
-                  </div>
+            <div className="flex flex-row items-center space-x-2">
+              <div className="group flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
+                <div className="rounded-full p-1.5 group-hover:bg-sky-500/30">
+                  <Heart className="relative size-5" />
                 </div>
-              )}
-              <div className="flex w-full flex-col flex-wrap divide-y md:flex-row md:divide-y-0">
-                {owner && (
-                  <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
-                    <span className="flex flex-row flex-nowrap">
-                      <UserRound className="mr-2 size-5 md:hidden" />
-                      Author:&nbsp;
-                    </span>
-                    {owner?.name}
-                  </div>
-                )}
-                <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
-                  <span className="flex flex-row flex-nowrap">
-                    <SquarePen className="mr-2 size-5 md:hidden" />
-                    Name:&nbsp;
-                  </span>
-                  {collection?.name}
-                </div>
-                <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
-                  <span className="flex flex-row flex-nowrap">
-                    <MessageCircleCode className="mr-2 size-5 md:hidden" />
-                    Topic:&nbsp;
-                  </span>
-                  {collection?.topic}
-                </div>
-                <div className="flex  w-full cursor-pointer flex-row items-center border-sky-500/30 p-2 py-3 text-sky-500 transition-all duration-300 hover:border-sky-500 dark:hover:text-sky-400 md:w-auto">
-                  <span className="flex flex-row flex-nowrap">
-                    <CalendarDays className="mr-2 size-5 sm:size-4 md:hidden" />
-                    Published:&nbsp;
-                  </span>
-                  {dayjs(item.publishedAt).format("MMM D, YYYY	")}
-                </div>
+                <span className="text-base font-medium">17k</span>
               </div>
             </div>
 
-            <div className="mt-6 flex gap-4">
-              {tags.length !== 0 &&
-                tags.map((item) => (
-                  <span
-                    key={item.id}
-                    className="cursor-pointer text-sm text-slate-400 transition-all duration-300 hover:text-slate-900 dark:text-slate-300  dark:hover:text-slate-100"
-                  >
-                    #{item.text}
-                  </span>
-                ))}
+            <div>
+              <h1 className="text-xl text-slate-800 dark:text-slate-100">
+                {item.name}
+              </h1>
+              <p className="text-md mt-4 text-slate-400 transition-all duration-300 dark:text-slate-400">
+                {item.description}
+              </p>
             </div>
 
-            <h1 className="mt-2 text-xl text-slate-800 dark:text-slate-100">
-              {item.name}
-            </h1>
+            <div className="flex flex-col divide-y rounded font-normal">
+              <ListItem
+                label="Collection name"
+                value={collection?.name as string}
+              />
+              <ListItem
+                label="Collection topic"
+                value={collection?.topic as string}
+              />
+              <ListItem label="Author" value={owner?.name as string} />
+              <div className="flex flex-row items-center text-sm">
+                <p className="w-1/2 py-2.5 md:w-1/3">Tags</p>
+                <div className="flex w-1/2 flex-row flex-wrap gap-2 py-2.5 md:w-2/3 ">
+                  {tags.length !== 0 &&
+                    tags.map((item) => (
+                      <span
+                        className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-3 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
+                        key={item.id}
+                      >
+                        #{item.text}
+                      </span>
+                    ))}
+                </div>
+              </div>
 
-            <p className="text-md mt-2 text-slate-400 transition-all duration-300 dark:text-slate-400">
-              {item.description}
-            </p>
+              {customFields?.map(
+                (field: { label: string; value: string }, index: number) => (
+                  <ListItem
+                    key={index + field.label}
+                    label={field.label}
+                    value={field.value}
+                  />
+                ),
+              )}
+
+              <ListItem
+                label="Published"
+                value={dayjs(item.publishedAt).format("MMM D, YYYY")}
+              />
+            </div>
 
             <div className="!mt-12">
               <h1 className="text-md font-medium text-slate-800 dark:text-slate-100">
@@ -197,3 +175,12 @@ export default async function page({
     </>
   );
 }
+
+const ListItem = ({ label, value }: { label: string; value: string }) => {
+  return (
+    <div className="flex flex-row items-center text-sm">
+      <p className="w-1/2 py-2.5 md:w-1/3">{label}</p>
+      <p className="w-1/2 py-2.5 text-slate-400 md:w-2/3">{value}</p>
+    </div>
+  );
+};

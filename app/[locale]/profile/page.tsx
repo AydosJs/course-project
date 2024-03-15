@@ -1,4 +1,3 @@
-import CollectionsTable from "@/components/CollectionsTable";
 import UserProfileForms from "@/components/UserProfileForms";
 import Button from "@/components/form-elements/Button";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import { redirect } from "next/navigation";
+import CollectionsTable from "./CollectionsTable";
 
 interface Props {
   params: {

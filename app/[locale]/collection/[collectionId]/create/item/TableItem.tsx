@@ -10,6 +10,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { ItemComments } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 export default function TableItem({
   item,
@@ -23,9 +24,13 @@ export default function TableItem({
   likes: ItemLike[];
 }>) {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
-    <tr className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+    <tr
+      onClick={() => router.push(`/collection/${item.collectionId}/${item.id}`)}
+      className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+    >
       <td className="truncate px-2  py-3 text-sm ">
         <div className="flex flex-row items-center space-x-2">
           <div className="mr-1 flex h-full items-center">
