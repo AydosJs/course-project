@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import UploadDropzoneInput from "./form-elements/UploadDropzoneInput";
+import Loader from "./loader/Loader";
 
 interface userInput {
   name?: string;
@@ -122,6 +123,7 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col space-y-4"
       >
+        <Loader loading={loading} />
         <div>
           <label
             htmlFor={"name"}

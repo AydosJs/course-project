@@ -46,11 +46,11 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
   const userCollections = await getUserCollections(session?.user.id);
 
   return (
-    <div className="container my-10 flex max-w-7xl flex-col space-y-4 md:flex-row md:space-x-6 md:space-y-0">
-      <div className=" flex h-fit  w-full flex-col space-y-6 rounded-lg border border-slate-900/10 bg-slate-50  p-6 dark:border-slate-50/[0.06] dark:bg-slate-800/50 lg:max-w-sm">
+    <div className="container my-10 flex max-w-7xl flex-col space-y-12 md:flex-row md:space-x-6 md:space-y-0">
+      <div className="flex h-fit  w-full flex-col space-y-6 rounded-lg border-slate-900/10 sm:border sm:bg-slate-50 sm:p-6 sm:dark:border-slate-50/[0.06] sm:dark:bg-slate-800/50 lg:max-w-sm">
         {user && <UserProfileForms user={user} />}
       </div>
-      <div className="flex  w-full flex-col rounded-lg border  border-slate-900/10  bg-slate-50 p-6 dark:border-slate-50/[0.06] dark:bg-slate-800/50">
+      <div className="flex w-full flex-col rounded-lg border  border-slate-900/10  bg-slate-50 p-6 dark:border-slate-50/[0.06] dark:bg-slate-800/50">
         <div className="mb-4  flex flex-row  items-center justify-between">
           <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
             {t("collection_list")}

@@ -334,9 +334,16 @@ export default function CollectionForm({
         </Button>
       </div>
 
-      <div>
-        <Button loading={loading} className="mt-4">
-          Update
+      <div className="flex flex-row space-x-4 pt-4">
+        <Button
+          type="button"
+          onClick={() => router.back()}
+          className=" w-1/2 border-0 bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-700/50"
+        >
+          {t("cancel")}
+        </Button>
+        <Button loading={loading} className="w-1/2 border-0">
+          {t("update")}
         </Button>
       </div>
     </form>
