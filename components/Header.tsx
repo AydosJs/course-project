@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
-import { CircleUserRound, DoorOpen, LogOut } from "lucide-react";
+import { CircleUserRound, DoorOpen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,7 +60,7 @@ export default function Header() {
 
             {status === "authenticated" && (
               <AlertDialog>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="outline-none">
                     {session.user.image && (
                       <div
@@ -79,29 +79,26 @@ export default function Header() {
                       </span>
                     )}
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="mt-6 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
+                  <DropdownMenuContent className="mt-5 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
                     <Link href={"/profile"}>
-                      <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
-                        <CircleUserRound className="mr-2 size-5" />
+                      <DropdownMenuItem className="group/menu flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-500 hover:bg-slate-800 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
+                        <CircleUserRound className="mr-3 size-5" />
                         <span>Profile</span>
                       </DropdownMenuItem>
                     </Link>
                     <AlertDialogTrigger asChild>
-                      <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
-                        <LogOut className="mr-2 size-5" />
-                        <span>Log out</span>
+                      <DropdownMenuItem className="group/menu flex cursor-pointer flex-row items-center rounded-none p-2.5 text-[.9rem] text-slate-500 hover:bg-slate-800 dark:hover:bg-slate-800/50 dark:hover:text-slate-100">
+                        <DoorOpen className="mr-3 size-5" />
+                        <span>{t("logout")}</span>
                       </DropdownMenuItem>
                     </AlertDialogTrigger>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you sure you want to log out?
-                    </AlertDialogTitle>
+                    <AlertDialogTitle>{t("you_sure_logout")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You will be logged out of your account. Click
-                      &quot;Logout&quot; to confirm.
+                      {t("will_be_logged_out")}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="mt-4">
