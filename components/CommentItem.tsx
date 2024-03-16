@@ -33,7 +33,18 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
       {owner && (
         <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
           <div>
-            {owner?.name && (
+            {owner.image && (
+              <div
+                style={{
+                  backgroundImage: `url(${owner.image ?? ""})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+                className="size-8 rounded-full"
+              ></div>
+            )}
+            {!owner.image && owner.name && (
               <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
                 {owner.name.charAt(0)}
               </span>
@@ -48,11 +59,11 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
             </p>
 
             <div className="mt-1 flex flex-row space-x-4">
-              <div className="flex cursor-pointer flex-row flex-nowrap items-center text-slate-500 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-500">
-                <Heart className="mr-2 size-4" />
-                <span className="text-sm font-normal ">
-                  {comment.likeCount}
-                </span>
+              <div className="group/like flex w-fit cursor-pointer flex-row items-center text-slate-500 hover:text-sky-500">
+                <div className="rounded-full p-1  group-hover/like:bg-sky-500/30">
+                  <Heart className="relative size-4" />
+                </div>
+                <span className="text-sm font-medium">{comment.likeCount}</span>
               </div>
               <div>
                 <span className="text-sm font-normal text-slate-500 dark:text-slate-500">
