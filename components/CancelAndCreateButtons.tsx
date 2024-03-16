@@ -15,7 +15,7 @@ export default function CancelAndCreateButtons({
 }>) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-row space-x-6 pt-6">
+    <div className="flex flex-row space-x-6 pt-4">
       <Link href={linkBack} className="w-full">
         <Button
           onClick={fallBackFn}

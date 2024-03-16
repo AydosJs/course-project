@@ -151,14 +151,14 @@ export default function TableItem({
                   onClick={(e) => e.stopPropagation()}
                   href={`/collection/${item.collectionId}/${item.id}/edit`}
                 >
-                  <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                    <Pencil className="mr-2 size-4" />
+                  <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
+                    <Pencil className="mr-3 size-4" />
                     <span className="font-medium">{t("edit")}</span>
                   </DropdownMenuItem>
                 </Link>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                    <Trash2 className="mr-2 size-4" />
+                  <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
+                    <Trash2 className="mr-3 size-4" />
                     <span className="font-medium">{t("delete")}</span>
                   </DropdownMenuItem>
                 </AlertDialogTrigger>

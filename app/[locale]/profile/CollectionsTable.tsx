@@ -167,16 +167,16 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400">
                               <Link href={`/collection/${collection.id}/edit`}>
-                                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                                  <Pencil className="mr-2 size-4" />
+                                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
+                                  <Pencil className="mr-3 size-4" />
                                   <span className="font-medium">
                                     {t("edit")}
                                   </span>
                                 </DropdownMenuItem>
                               </Link>
                               <AlertDialogTrigger asChild>
-                                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none dark:hover:bg-slate-500/20">
-                                  <Trash2 className="mr-2 size-4" />
+                                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
+                                  <Trash2 className="mr-3 size-4" />
                                   <span className="font-medium">
                                     {t("delete")}
                                   </span>

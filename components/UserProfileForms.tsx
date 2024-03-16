@@ -125,12 +125,6 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
       >
         <Loader loading={loading} />
         <div>
-          <label
-            htmlFor={"name"}
-            className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-          >
-            {t("profile_image")}
-          </label>
           {!image && (
             <div className="relative m-0 p-0">
               <UploadDropzoneInput
