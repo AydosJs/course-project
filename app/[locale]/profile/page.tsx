@@ -1,7 +1,7 @@
 import UserProfileForms from "@/components/UserProfileForms";
 import Button from "@/components/form-elements/Button";
 import Link from "next/link";
-import { BadgePlus } from "lucide-react";
+import { BadgePlus, CirclePlus } from "lucide-react";
 import initTranslations from "@/app/i18n";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -58,8 +58,8 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
 
           <div>
             <Link href={`/collection/create`}>
-              <Button className="border-none p-1.5 px-2 text-sm opacity-70 transition-all duration-300 hover:opacity-100">
-                <BadgePlus className="mr-1 size-4" />
+              <Button className="rounded-full border-none px-3 py-1.5 text-sm uppercase opacity-70 transition-all duration-300 hover:opacity-100">
+                <CirclePlus className="mr-2 size-4 " />
                 {t("create")}
               </Button>
             </Link>

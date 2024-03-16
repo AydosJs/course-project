@@ -74,7 +74,7 @@ export default function Header() {
                       ></div>
                     )}
                     {session.user && !session.user.image && (
-                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
                         {session.user.name ? session.user.name.charAt(0) : "?"}
                       </span>
                     )}

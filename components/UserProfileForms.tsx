@@ -205,7 +205,7 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
             (watch("name") == user.name && watch("email") == user.email) ||
             Boolean(errors.email)
           }
-          className="!mt-6"
+          className="!mt-6 border-0"
         >
           {t("update")}
         </Button>
