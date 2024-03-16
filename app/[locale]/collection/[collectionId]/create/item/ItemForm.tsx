@@ -17,6 +17,7 @@ import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import Button from "@/components/form-elements/Button";
 import toast from "react-hot-toast";
+import Loader from "@/components/loader/Loader";
 
 interface itemInputs {
   name: string;
@@ -92,7 +93,6 @@ export default function ItemForm({
       });
       if (res.status === 200) {
         const data = await res.json();
-        console.log("res item", data);
         reset();
         toast.success("Successfully created!", {
           id: "successfullyCreated",
@@ -136,7 +136,8 @@ export default function ItemForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      {loading && <p>loading...</p>}
+      <Loader loading={loading} />
+
       <div>
         <label
           htmlFor={"name"}

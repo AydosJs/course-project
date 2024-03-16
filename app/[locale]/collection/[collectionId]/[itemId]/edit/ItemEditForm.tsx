@@ -16,6 +16,7 @@ import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput"
 import Button from "@/components/form-elements/Button";
 import toast from "react-hot-toast";
 import TagsInput from "../../create/item/TagsInput";
+import Loader from "@/components/loader/Loader";
 
 interface itemInputs {
   name: string;
@@ -147,7 +148,7 @@ export default function ItemEditForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      {loading && <p>loading...</p>}
+      <Loader loading={loading} />
       <div>
         <label
           htmlFor={"name"}

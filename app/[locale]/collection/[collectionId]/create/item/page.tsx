@@ -1,7 +1,7 @@
-import ItemForm from "./ItemFrom";
 import ItemTableList from "./ItemTable/ItemTableList";
 import initTranslations from "@/app/i18n";
 import prisma from "@/lib/prisma";
+import ItemForm from "./ItemForm";
 
 interface Props {
   params: {

@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import Loader from "@/components/loader/Loader";
 
 interface collectionInputs {
   ownerId?: string;
@@ -135,7 +136,8 @@ export default function CollectionForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      {loading && <p>loading...</p>}
+      <Loader loading={loading} />
+
       <div>
         <label
           htmlFor={"name"}
