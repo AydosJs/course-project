@@ -36,8 +36,15 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   const [loading, setLoading] = React.useState(false);
   const { t } = useTranslation();
 
-  const handleDelete = async (collectionId: string) => {
+  const handleDelete = async ({
+    collectionId,
+    cover,
+  }: {
+    collectionId: string;
+    cover: string | undefined;
+  }) => {
     try {
+      console.log("cover", cover);
       setLoading(true);
 
       const res = await fetch("/api/collection/delete", {
@@ -49,6 +56,18 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
       });
 
       if (res.ok && res.status === 200) {
+        if (cover) {
+          await fetch("/api/uploadthing", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              url: cover,
+            }),
+          });
+        }
+
         toast.success("Collection deleted successfully", {
           id: "successDeleting",
         });
@@ -183,10 +202,14 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                                 {t("cancel")}
                               </AlertDialogCancel>
                               <AlertDialogAction
-                                onClick={() => handleDelete(collection.id)}
+                                onClick={() =>
+                                  handleDelete({
+                                    collectionId: collection.id,
+                                    cover: collection.cover,
+                                  })
+                                }
                                 className="bg-red-500 text-red-100 hover:bg-red-400"
                               >
-                                <Trash2 className="mr-2 size-4" />
                                 {t("delete")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
