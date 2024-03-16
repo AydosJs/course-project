@@ -95,7 +95,7 @@ export default async function page({
               className="h-56 w-full rounded bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800 sm:h-80"
             ></div>
 
-            <div className="flex flex-row items-center space-x-2">
+            <div className="flex w-full flex-row items-center justify-end space-x-2 px-4 sm:justify-start sm:px-0">
               <div className="group flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
                 <div className="rounded-full p-1.5 group-hover:bg-sky-500/30">
                   <Heart className="relative size-5" />
