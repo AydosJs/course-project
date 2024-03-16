@@ -45,7 +45,6 @@ export default function TableItem({
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      console.log("cover", item.cover);
 
       if (!id) throw new Error("Id not found");
 
@@ -165,7 +164,7 @@ export default function TableItem({
                 </AlertDialogTrigger>
               </DropdownMenuContent>
             </DropdownMenu>
-            <AlertDialogContent>
+            <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
               <AlertDialogHeader>
                 <AlertDialogTitle>
                   Are you sure you want to permanently delete this item?
@@ -175,8 +174,10 @@ export default function TableItem({
                   lost.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
+                  {t("cancel")}
+                </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => handleDelete(item.id as string)}
                   className="bg-red-500 text-red-100 hover:bg-red-400"

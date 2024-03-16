@@ -44,7 +44,6 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
     cover: string | undefined;
   }) => {
     try {
-      console.log("cover", cover);
       setLoading(true);
 
       const res = await fetch("/api/collection/delete", {
@@ -185,7 +184,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                               </AlertDialogTrigger>
                             </DropdownMenuContent>
                           </DropdownMenu>
-                          <AlertDialogContent>
+                          <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
                             <AlertDialogHeader>
                               <AlertDialogTitle>
                                 Are you sure you want to permanently delete this
@@ -198,7 +197,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>
+                              <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
                                 {t("cancel")}
                               </AlertDialogCancel>
                               <AlertDialogAction

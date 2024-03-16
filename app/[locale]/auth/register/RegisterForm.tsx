@@ -75,6 +75,13 @@ export default function RegisterForm() {
 
   return (
     <>
+      {loading && (
+        <div className="fixed left-0 top-0 z-50 w-full">
+          <div className="h-1 w-full overflow-hidden bg-sky-200 dark:bg-sky-100/10">
+            <div className="h-full w-full origin-left-right animate-progress rounded-full bg-sky-500"></div>
+          </div>
+        </div>
+      )}
       <form
         className="space-y-6"
         action="#"
