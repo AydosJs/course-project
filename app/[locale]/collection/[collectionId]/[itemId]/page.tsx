@@ -1,6 +1,6 @@
 import initTranslations from "@/app/i18n";
-import CommentItem from "@/components/CommentItem";
-import ItemCommentTextarea from "@/components/item-comment/ItemCommentTextarea";
+import CommentItem from "@/components/comments/CommentItem";
+import ItemCommentTextarea from "@/components/comments/item-comment/ItemCommentTextarea";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import { Heart } from "lucide-react";
@@ -167,9 +167,12 @@ export default async function page({
 
               {itemComments.length > 0 && (
                 <div className="mt-4 flex flex-col space-y-6">
-                  {itemComments.map((item) => (
-                    <CommentItem key={item.id} {...item} />
-                  ))}
+                  {itemComments
+                    .slice(0)
+                    .reverse()
+                    .map((item) => (
+                      <CommentItem key={item.id} {...item} />
+                    ))}
                 </div>
               )}
             </div>

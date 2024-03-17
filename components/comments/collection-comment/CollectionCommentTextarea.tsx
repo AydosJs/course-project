@@ -1,5 +1,5 @@
 "use client";
-import Button from "../form-elements/Button";
+import Button from "../../form-elements/Button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
-import Loader from "../loader/Loader";
+import Loader from "../../loader/Loader";
 import { useTranslation } from "react-i18next";
 
 export default function CollectionCommentTextarea({

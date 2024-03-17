@@ -4,8 +4,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import CollectionCommentTextarea from "../../../../components/collection-comment/CollectionCommentTextarea";
-import CommentItem from "../../../../components/CommentItem";
+import CollectionCommentTextarea from "../../../../components/comments/collection-comment/CollectionCommentTextarea";
+import CommentItem from "../../../../components/comments/CommentItem";
 import prisma from "@/lib/prisma";
 import { ChevronsUpDown } from "lucide-react";
 
@@ -37,9 +37,7 @@ export default async function CollectionComments({
   collectionId,
 }: Readonly<Props>) {
   if (!collectionId) return;
-
   const comments = await getCollectionComments(collectionId);
-  console.log("comments", comments);
   return (
     <div className="!mt-8">
       <Collapsible>

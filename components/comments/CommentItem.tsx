@@ -23,10 +23,7 @@ async function getCommentLikes(commentId: string): Promise<CommentLike[]> {
 
 export default async function CommentItem(comment: Readonly<CommentType>) {
   if (!comment.userId) return;
-
   const owner = await getUserById(comment.userId);
-  console.log("owner", owner);
-  // const likes = await getCommentLikes(comment.id);
 
   return (
     <>
@@ -58,18 +55,16 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
               {comment.text}
             </p>
 
-            <div className="mt-1 flex flex-row space-x-4">
-              <div className="group/like flex w-fit cursor-pointer flex-row items-center text-slate-500 hover:text-sky-500">
+            <div className="mt-1 flex flex-row items-center space-x-4">
+              <div className="group/like flex w-fit cursor-pointer flex-row items-center justify-center text-slate-500 hover:text-sky-500">
                 <div className="rounded-full p-1  group-hover/like:bg-sky-500/30">
                   <Heart className="relative size-4" />
                 </div>
                 <span className="text-sm font-medium">{comment.likeCount}</span>
               </div>
-              <div>
-                <span className="text-sm font-normal text-slate-500 dark:text-slate-500">
-                  {dayjs(comment.date).fromNow(true)}
-                </span>
-              </div>
+              <span className="text-sm font-normal text-slate-500 dark:text-slate-500">
+                {dayjs(comment.date).fromNow(true)}
+              </span>
             </div>
           </div>
         </div>
