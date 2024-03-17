@@ -16,9 +16,6 @@ type Props = {
 async function getCollectionComments(
   collectionId: string,
 ): Promise<CommentType[]> {
-  if (!collectionId) {
-    return []; // Early return if collectionId is not provided
-  }
   try {
     const comments = await prisma.collectionComments.findMany({
       where: {
@@ -39,6 +36,8 @@ async function getCollectionComments(
 export default async function CollectionComments({
   collectionId,
 }: Readonly<Props>) {
+  if (!collectionId) return;
+
   const comments = await getCollectionComments(collectionId);
   return (
     <div className="!mt-8">
@@ -52,7 +51,7 @@ export default async function CollectionComments({
         <CollapsibleContent>
           <CollectionCommentTextarea collectionId={collectionId} />
 
-          {comments.length !== 0 && (
+          {Boolean(comments.length) && (
             <div className="mt-6 flex flex-col space-y-4">
               {comments.toReversed().map((comment) => (
                 <CommentItem key={comment.id} {...comment} />

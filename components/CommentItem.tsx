@@ -12,9 +12,6 @@ async function getUserById(id: string): Promise<User | null> {
 }
 
 async function getCommentLikes(commentId: string): Promise<CommentLike[]> {
-  if (!commentId) {
-    return []; // Early return if itemId is not provided
-  }
   const item = await prisma.commentLike.findMany({
     where: {
       commentId,
@@ -25,6 +22,8 @@ async function getCommentLikes(commentId: string): Promise<CommentLike[]> {
 }
 
 export default async function CommentItem(comment: Readonly<CommentType>) {
+  if (!comment.userId) return;
+
   const owner = await getUserById(comment.userId);
   // const likes = await getCommentLikes(comment.id);
 
@@ -53,7 +52,7 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
           <div className="w-full py-0">
             <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
               <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">
-                {owner.name}
+                {owner?.name}
               </span>
               {comment.text}
             </p>

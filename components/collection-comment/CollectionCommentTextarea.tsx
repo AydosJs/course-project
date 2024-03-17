@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 
 export default function CollectionCommentTextarea({
   collectionId,
-}: {
+}: Readonly<{
   collectionId: string;
-}) {
+}>) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -33,7 +33,6 @@ export default function CollectionCommentTextarea({
   const onSubmit: SubmitHandler<{ text: string }> = async (data) => {
     if (!collectionId || status === "unauthenticated") return;
 
-    // console.log("comment", data.text);
     try {
       setLoading(true);
       const res = await fetch("/api/collection/comment/post", {
