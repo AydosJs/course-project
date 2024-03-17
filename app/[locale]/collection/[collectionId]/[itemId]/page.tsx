@@ -3,7 +3,7 @@ import CommentItem from "@/components/comments/CommentItem";
 import ItemCommentTextarea from "@/components/comments/item-comment/ItemCommentTextarea";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
-import { Heart } from "lucide-react";
+import ItemLikeButton from "./ItemLikeButton";
 
 async function getCollectionById(
   id: string,
@@ -59,6 +59,14 @@ async function getItemTagsById(ids: string[]): Promise<Tags[]> {
   return tags;
 }
 
+async function getItemLikes(itemId: string): Promise<ItemLike[]> {
+  const likes = await prisma.itemLike.findMany({
+    where: { itemId },
+  });
+
+  return likes;
+}
+
 export default async function page({
   params,
 }: {
@@ -72,8 +80,8 @@ export default async function page({
   const collection = await getCollectionById(params.collectionId);
   const itemComments = await getItemComments(params.itemId);
   const { t } = await initTranslations(params.locale, ["default"]);
+  const likes = await getItemLikes(params.itemId);
 
-  // const likes = await getItemLikes(params.itemId);
   let owner;
   let tags: Tags[] = [];
 
@@ -99,12 +107,11 @@ export default async function page({
             ></div>
 
             <div className="flex w-full flex-row items-center justify-end space-x-2 px-4 sm:justify-start sm:px-0">
-              <div className="group flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
-                <div className="rounded-full p-1.5 group-hover:bg-sky-500/30">
-                  <Heart className="relative size-5" />
-                </div>
-                <span className="text-base font-medium">17k</span>
-              </div>
+              <ItemLikeButton
+                itemId={item.id as string}
+                likeCount={item.likeCount}
+                likes={likes}
+              />
             </div>
 
             <div>

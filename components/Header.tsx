@@ -1,10 +1,9 @@
 "use client";
-import { GoHomeFill } from "react-icons/go";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
-import { CircleUserRound, DoorOpen, Home as HomeIcon } from "lucide-react";
+import { CircleUserRound, DoorOpen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
