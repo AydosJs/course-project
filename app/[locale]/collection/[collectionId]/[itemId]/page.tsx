@@ -1,7 +1,7 @@
 import CommentItem from "@/components/CommentItem";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
-import AddCommentTextarea from "@/components/collection-comment/CollectionCommentTextarea";
+// import AddCommentTextarea from "@/components/collection-comment/CollectionCommentTextarea";
 import { Heart } from "lucide-react";
 
 async function getCollectionById(
@@ -159,7 +159,7 @@ export default async function page({
                 {itemComments.length} Comments
               </h1>
 
-              <AddCommentTextarea />
+              {/* <AddCommentTextarea /> */}
 
               {itemComments.length > 0 && (
                 <div className="mt-6 flex flex-col space-y-6">
