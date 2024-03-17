@@ -4,10 +4,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import CollectionCommentTextarea from "../../../../components/comments/collection-comment/CollectionCommentTextarea";
-import CommentItem from "../../../../components/comments/CommentItem";
+import CollectionCommentTextarea from "../../../../components/comments/collection/CollectionCommentTextarea";
 import prisma from "@/lib/prisma";
 import { ChevronsUpDown } from "lucide-react";
+import CollectionCommentItem from "@/components/comments/collection/CollectionCommentItem";
 
 type Props = {
   collectionId: string;
@@ -56,7 +56,7 @@ export default async function CollectionComments({
                 .slice(0)
                 .reverse()
                 .map((comment) => (
-                  <CommentItem key={comment.id} {...comment} />
+                  <CollectionCommentItem key={comment.id} {...comment} />
                 ))}
             </div>
           )}

@@ -1,9 +1,9 @@
 import initTranslations from "@/app/i18n";
-import CommentItem from "@/components/comments/CommentItem";
-import ItemCommentTextarea from "@/components/comments/item-comment/ItemCommentTextarea";
+import ItemCommentTextarea from "@/components/comments/item/ItemCommentTextarea";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import ItemLikeButton from "./ItemLikeButton";
+import ItemCommentItem from "@/components/comments/item/ItemCommentItem";
 
 async function getCollectionById(
   id: string,
@@ -178,7 +178,7 @@ export default async function page({
                     .slice(0)
                     .reverse()
                     .map((item) => (
-                      <CommentItem key={item.id} {...item} />
+                      <ItemCommentItem key={item.id} {...item} />
                     ))}
                 </div>
               )}
