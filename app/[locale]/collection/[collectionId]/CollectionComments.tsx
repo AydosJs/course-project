@@ -4,7 +4,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import AddCommentTextarea from "../../../../components/AddCommentTextarea";
+import CollectionCommentTextarea from "../../../../components/collection-comment/CollectionCommentTextarea";
 import CommentItem from "../../../../components/CommentItem";
 import prisma from "@/lib/prisma";
 import { ChevronsUpDown } from "lucide-react";
@@ -50,11 +50,11 @@ export default async function CollectionComments({
           <ChevronsUpDown className="size-4 dark:text-slate-300" />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <AddCommentTextarea />
+          <CollectionCommentTextarea collectionId={collectionId} />
 
           {comments.length !== 0 && (
             <div className="mt-6 flex flex-col space-y-4">
-              {comments.map((comment) => (
+              {comments.toReversed().map((comment) => (
                 <CommentItem key={comment.id} {...comment} />
               ))}
             </div>

@@ -1,7 +1,7 @@
 import CommentItem from "@/components/CommentItem";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
-import AddCommentTextarea from "@/components/AddCommentTextarea";
+import AddCommentTextarea from "@/components/collection-comment/CollectionCommentTextarea";
 import { Heart } from "lucide-react";
 
 async function getCollectionById(

@@ -79,13 +79,12 @@ model Tags {
 }
 
 model CollectionComments {
-    id        String   @id @default(cuid())
-    userId    String
-    date      DateTime @default(now())
-    text      String
-    likeCount Int
-
-    collectionId String?
+    id           String   @id @default(cuid())
+    userId       String
+    collectionId String
+    date         DateTime @default(now())
+    text         String
+    likeCount    Int
 
     collection  Collection?   @relation(fields: [collectionId], references: [id])
     user        User          @relation(fields: [userId], references: [id])

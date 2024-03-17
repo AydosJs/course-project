@@ -70,7 +70,7 @@ export default function Header() {
                           backgroundPosition: "center",
                           backgroundRepeat: "no-repeat",
                         }}
-                        className="size-7 rounded-full border-2 border-sky-500 dark:border-opacity-50"
+                        className="size-7 rounded-full"
                       ></div>
                     )}
                     {session.user && !session.user.image && (
