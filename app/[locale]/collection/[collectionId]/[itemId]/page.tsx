@@ -167,7 +167,7 @@ export default async function page({
 
               {itemComments.length > 0 && (
                 <div className="mt-4 flex flex-col space-y-6">
-                  {itemComments.toReversed().map((item) => (
+                  {itemComments.map((item) => (
                     <CommentItem key={item.id} {...item} />
                   ))}
                 </div>

@@ -39,6 +39,7 @@ export default async function CollectionComments({
   if (!collectionId) return;
 
   const comments = await getCollectionComments(collectionId);
+  console.log("comments", comments);
   return (
     <div className="!mt-8">
       <Collapsible>
@@ -51,13 +52,13 @@ export default async function CollectionComments({
         <CollapsibleContent>
           <CollectionCommentTextarea collectionId={collectionId} />
 
-          {/* {Boolean(comments.length) && (
+          {Boolean(comments.length) && (
             <div className="mt-6 flex flex-col space-y-4">
               {comments.toReversed().map((comment) => (
                 <CommentItem key={comment.id} {...comment} />
               ))}
             </div>
-          )} */}
+          )}
         </CollapsibleContent>
       </Collapsible>
     </div>
