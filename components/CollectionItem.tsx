@@ -17,7 +17,7 @@ async function getItemTagsById(ids: string[]): Promise<Tags[]> {
 export default async function CollectionItem(item: Readonly<Item>) {
   const tags = await getItemTagsById(item.tagsId);
   return (
-    <div className="group flex flex-col overflow-hidden rounded border-2 bg-slate-50 transition-all duration-300  hover:bg-slate-100 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
+    <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300 hover:bg-slate-100  dark:border-2 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
       <div
         style={{
           backgroundImage: `url(${item.cover})`,

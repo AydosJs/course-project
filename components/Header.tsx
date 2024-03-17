@@ -46,12 +46,12 @@ export default function Header() {
   return (
     <header className="supports-backdrop-blur:bg-white/95 sticky top-0 z-50 border-b  border-slate-900/10 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900/75 ">
       <div className="container flex max-w-7xl flex-row items-center justify-between py-4 sm:py-5">
-        <div className="">
+        <div className="text-slate-900 dark:text-sky-50">
           <Link href="/" className="hidden sm:block">
-            <h1 className="text-md font-normal text-sky-50">Aydos Sankibaev</h1>
+            <h1 className="text-md font-normal">Aydos Sankibaev</h1>
           </Link>
           <Link href="/" className="sm:hidden">
-            <h1 className="text-md font-normal text-sky-50">A.S</h1>
+            <h1 className="text-md font-normal ">A.S</h1>
           </Link>
         </div>
         <div className="">

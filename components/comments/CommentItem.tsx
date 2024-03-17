@@ -42,7 +42,7 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
               ></div>
             )}
             {!owner.image && owner.name && (
-              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
+              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
                 {owner.name.charAt(0)}
               </span>
             )}

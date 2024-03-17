@@ -76,7 +76,7 @@ export default function ItemCommentTextarea({ itemId }: { itemId: string }) {
               ></div>
             )}
             {!session.user.image && (
-              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2">
+              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
                 {session.user.name ? session.user.name.charAt(0) : "?"}
               </span>
             )}
