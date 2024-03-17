@@ -54,9 +54,12 @@ export default async function CollectionComments({
 
           {Boolean(comments.length) && (
             <div className="mt-6 flex flex-col space-y-4">
-              {comments.toReversed().map((comment) => (
-                <CommentItem key={comment.id} {...comment} />
-              ))}
+              {comments
+                .slice(0)
+                .reverse()
+                .map((comment) => (
+                  <CommentItem key={comment.id} {...comment} />
+                ))}
             </div>
           )}
         </CollapsibleContent>

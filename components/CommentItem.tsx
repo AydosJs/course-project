@@ -32,7 +32,7 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
     <>
       {owner && (
         <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
-          {/* <div>
+          <div>
             {owner.image && (
               <div
                 style={{
@@ -49,12 +49,12 @@ export default async function CommentItem(comment: Readonly<CommentType>) {
                 {owner.name.charAt(0)}
               </span>
             )}
-          </div> */}
+          </div>
           <div className="w-full py-0">
             <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
-              {/* <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">
+              <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">
                 {owner?.name}
-              </span> */}
+              </span>
               {comment.text}
             </p>
 
