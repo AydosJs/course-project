@@ -10,15 +10,11 @@ import { useState } from "react";
 import Loader from "../loader/Loader";
 import { useTranslation } from "react-i18next";
 
-export default function CollectionCommentTextarea({
-  collectionId,
-}: {
-  collectionId: string;
-}) {
+export default function ItemCommentTextarea({ itemId }: { itemId: string }) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
-  const { t } = useTranslation();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -31,19 +27,19 @@ export default function CollectionCommentTextarea({
   }>();
 
   const onSubmit: SubmitHandler<{ text: string }> = async (data) => {
-    if (!collectionId || status === "unauthenticated") return;
+    if (!itemId || status === "unauthenticated") return;
 
     // console.log("comment", data.text);
     try {
       setLoading(true);
-      const res = await fetch("/api/collection/comment/post", {
+      const res = await fetch("/api/collection/item/comment/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: session?.user.id,
-          collectionId,
+          itemId,
           text: data.text,
         }),
       });
@@ -65,7 +61,7 @@ export default function CollectionCommentTextarea({
   return (
     <>
       {session && status === "authenticated" && (
-        <div className="mt-4 flex flex-row space-x-3">
+        <div className="flex flex-row space-x-3">
           <Loader loading={loading} />
           <div>
             {session.user.image && (
@@ -115,7 +111,7 @@ export default function CollectionCommentTextarea({
 
       {!session && status === "unauthenticated" && (
         <Link href={"/auth/register"}>
-          <p className="relative mt-4 flex w-full cursor-pointer flex-row items-center justify-center overflow-hidden rounded-full border-2 border-sky-500/50 bg-sky-500/10 p-3 text-center text-sky-500 hover:border-sky-500 hover:text-slate-100 hover:underline">
+          <p className="relative flex w-full cursor-pointer flex-row items-center justify-center overflow-hidden rounded-full border-2 border-sky-500/50 bg-sky-500/10 p-3 text-center text-sky-500 hover:border-sky-500 hover:text-slate-100 hover:underline">
             {t("register_to_leave_comment")}
             <ArrowRight className="ml-3 size-5" />
             <span className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] opacity-15 [background-size:16px_16px]"></span>

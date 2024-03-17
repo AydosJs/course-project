@@ -1,7 +1,8 @@
+import initTranslations from "@/app/i18n";
 import CommentItem from "@/components/CommentItem";
+import ItemCommentTextarea from "@/components/item-comment/ItemCommentTextarea";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
-// import AddCommentTextarea from "@/components/collection-comment/CollectionCommentTextarea";
 import { Heart } from "lucide-react";
 
 async function getCollectionById(
@@ -64,11 +65,13 @@ export default async function page({
   params: {
     collectionId: string;
     itemId: string;
+    locale: string;
   };
 }) {
   const item = await getItemById(params.itemId);
   const collection = await getCollectionById(params.collectionId);
   const itemComments = await getItemComments(params.itemId);
+  const { t } = await initTranslations(params.locale, ["default"]);
 
   // const likes = await getItemLikes(params.itemId);
   let owner;
@@ -155,15 +158,16 @@ export default async function page({
             </div>
 
             <div className="!mt-12">
-              <h1 className="text-md font-medium text-slate-800 dark:text-slate-100">
-                {itemComments.length} Comments
+              <h1 className="text-md mb-4 font-medium text-slate-800 dark:text-slate-100">
+                {itemComments.length} {t("comments")}
               </h1>
+              <hr className="mb-4 w-full rounded-full bg-slate-700" />
 
-              {/* <AddCommentTextarea /> */}
+              {item.id && <ItemCommentTextarea itemId={item.id} />}
 
               {itemComments.length > 0 && (
-                <div className="mt-6 flex flex-col space-y-6">
-                  {itemComments.map((item) => (
+                <div className="mt-4 flex flex-col space-y-6">
+                  {itemComments.toReversed().map((item) => (
                     <CommentItem key={item.id} {...item} />
                   ))}
                 </div>

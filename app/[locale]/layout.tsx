@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 import ThemeProviders from "@/providers/ThemeProvider";
 import TranslationsProvider from "@/providers/TranslationsProvider";
 import initTranslations from "../i18n";
@@ -11,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import SessionProviderContext from "@/providers/SessionProviderContext";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/authOptions";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 

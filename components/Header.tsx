@@ -1,9 +1,10 @@
 "use client";
+import { GoHomeFill } from "react-icons/go";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
-import { CircleUserRound, DoorOpen } from "lucide-react";
+import { CircleUserRound, DoorOpen, Home as HomeIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,9 +49,10 @@ export default function Header() {
       <div className="container flex max-w-7xl flex-row items-center justify-between py-4 sm:py-5">
         <div className="">
           <Link href="/" className="hidden sm:block">
-            <h1 className="text-md font-normal text-sky-500">
-              Aydos Sankibaev
-            </h1>
+            <h1 className="text-md font-normal text-sky-50">Aydos Sankibaev</h1>
+          </Link>
+          <Link href="/" className="sm:hidden">
+            <h1 className="text-md font-normal text-sky-50">A.S</h1>
           </Link>
         </div>
         <div className="">
