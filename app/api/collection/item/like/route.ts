@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 
 async function updateLikeCount(itemId: string) {
   try {
-    const likes = await prisma.itemLike.findMany();
+    const likes = await prisma.itemLike.findMany({
+      where: {
+        itemId,
+      },
+    });
+
     await prisma.item.update({
       where: {
         id: itemId,
@@ -12,6 +17,8 @@ async function updateLikeCount(itemId: string) {
         likeCount: likes.length,
       },
     });
+
+    return likes.length;
   } catch (error) {}
 }
 
@@ -22,6 +29,7 @@ export async function POST(request: Request): Promise<Response> {
     const likeExists = await prisma.itemLike.findFirst({
       where: {
         userId,
+        itemId,
       },
     });
 
@@ -34,12 +42,13 @@ export async function POST(request: Request): Promise<Response> {
       });
 
       if (res) {
-        await updateLikeCount(itemId);
+        const updated = await updateLikeCount(itemId);
 
         return NextResponse.json(
           {
             message: "Sussed!",
-            res,
+            liked: true,
+            likeCount: updated,
           },
           {
             status: 200,
@@ -58,11 +67,12 @@ export async function POST(request: Request): Promise<Response> {
       });
 
       if (res) {
-        await updateLikeCount(itemId);
+        const updated = await updateLikeCount(itemId);
         return NextResponse.json(
           {
             message: "Sussed!",
-            res,
+            liked: false,
+            likeCount: updated,
           },
           {
             status: 200,

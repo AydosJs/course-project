@@ -41,10 +41,8 @@ export default async function CollectionItem(item: Readonly<Item>) {
 
           <div className="flex w-full items-center justify-end">
             <div className="group/like flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
-              <div className="rounded-full p-1 group-hover/like:bg-sky-500/30">
-                <Heart className="relative size-4" />
-              </div>
-              <span className="text-sm font-medium">17k</span>
+              <span className="mr-1 text-sm font-medium">{item.likeCount}</span>
+              <span className="text-sm">likes</span>
             </div>
           </div>
         </div>
