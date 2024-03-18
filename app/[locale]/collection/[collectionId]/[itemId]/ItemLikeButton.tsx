@@ -5,19 +5,21 @@ import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ItemLikeButton({
   itemId,
   likeCount,
   likes,
-}: {
+}: Readonly<{
   likeCount: number;
   itemId: string;
   likes: ItemLike[];
-}) {
+}>) {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { t } = useTranslation();
   const [like, setLike] = useState<{ liked: boolean; likeCount: number }>({
     liked: likes?.some((like) => like.userId === session?.user.id),
     likeCount: likeCount,
@@ -68,7 +70,7 @@ export default function ItemLikeButton({
         },
         body: JSON.stringify({
           itemId: itemId,
-          userId: session?.user.id || null,
+          userId: session?.user.id ?? null,
         }),
       });
       if (res.ok) {
@@ -96,21 +98,23 @@ export default function ItemLikeButton({
     <div
       className={` group flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400`}
     >
-      <div
+      <button
         onClick={() => {
           if (status === "unauthenticated") {
-            return toast.error("Register or Login to hit the `LIKE` button", {
+            return toast.error(t("register_to_hit"), {
               id: "registerOrLogin",
             });
           }
           if (loading) return;
           handleLike();
         }}
+        disabled={loading}
         className={`${loading && "cursor-not-allowed"} group/like select-none rounded-full p-1.5 group-hover:bg-sky-500/30`}
       >
         {like.liked ? (
           <Heart
             fill="#0ea5e9"
+            color="#0ea5e9"
             className={`relative size-5 ${loading && "animate-pulse"} ${!loading && "transform transition-transform active:scale-75 group-active/like:scale-75 "}`}
           />
         ) : (
@@ -118,7 +122,7 @@ export default function ItemLikeButton({
             className={`relative size-5 ${loading && "animate-pulse"} ${!loading && "transform transition-transform active:scale-75 group-active/like:scale-75 "}`}
           />
         )}
-      </div>
+      </button>
       <span className={`select-none text-base font-medium`}>
         {like.likeCount}
       </span>

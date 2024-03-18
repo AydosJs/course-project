@@ -38,6 +38,7 @@ export default async function CollectionComments({
 }: Readonly<Props>) {
   if (!collectionId) return;
   const comments = await getCollectionComments(collectionId);
+  console.log("comment", comments);
   return (
     <div className="!mt-8">
       <Collapsible>
