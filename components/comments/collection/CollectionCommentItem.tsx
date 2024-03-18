@@ -14,32 +14,11 @@ async function getUserById(id: string): Promise<User | null> {
   return user;
 }
 
-async function checkIfLiked({
-  commentId,
-  userId,
-}: {
-  commentId: string;
-  userId?: string;
-}): Promise<{ likes: CommentLike[]; liked: boolean }> {
-  const likes = await prisma.commentLike.findMany({
-    where: {
-      commentId,
-    },
+async function getCommentLikes(commentId: string) {
+  const res = await prisma.commentLike.findMany({
+    where: { commentId },
   });
-
-  if (userId) {
-    const liked = likes.some((like) => like.userId === userId);
-
-    return {
-      likes,
-      liked,
-    };
-  }
-
-  return {
-    likes,
-    liked: false,
-  };
+  return res;
 }
 
 export default async function CollectionCommentItem(
@@ -47,11 +26,7 @@ export default async function CollectionCommentItem(
 ) {
   const owner = await getUserById(comment.userId);
   const session = await getServerSession(authOptions);
-
-  const { likes } = await checkIfLiked({
-    commentId: comment.id,
-    userId: session?.user.id,
-  });
+  const likes = await getCommentLikes(comment.id);
 
   if (!comment.userId) return;
   return (
@@ -86,7 +61,12 @@ export default async function CollectionCommentItem(
 
             <div className="mt-1 flex flex-row items-center space-x-4">
               <CollectionCommentLikeButton
-                likes={likes}
+                liked={
+                  (session &&
+                    likes.some((like) => like.userId === session?.user?.id)) ||
+                  false
+                }
+                count={comment.likeCount}
                 commentId={comment.id}
               />
               <span className="text-sm font-normal text-slate-500 dark:text-slate-500">

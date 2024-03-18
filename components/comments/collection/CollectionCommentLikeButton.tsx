@@ -7,23 +7,19 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 export default function CollectionCommentLikeButton({
-  likes,
+  liked,
+  count,
   commentId,
 }: Readonly<{
-  likes: CommentLike[];
   commentId: string;
+  liked: boolean;
+  count: number;
 }>) {
   const [loading, setLoading] = useState<boolean>(false);
   const { data: session, status } = useSession();
 
   const router = useRouter();
   const { t } = useTranslation();
-  const [like, setLike] = useState<{ liked: boolean; count: number }>({
-    liked:
-      status === "authenticated" &&
-      likes.some((like) => like.userId === session?.user.id),
-    count: likes.length,
-  });
 
   const handleLike = async () => {
     if (!commentId || status === "unauthenticated") return;
@@ -42,10 +38,6 @@ export default function CollectionCommentLikeButton({
       });
       if (res.ok) {
         const data = await res.json();
-        setLike({
-          liked: data.liked,
-          count: data.likeCount,
-        });
         router.refresh();
       } else {
         return toast.error("Something went wrong");
@@ -107,7 +99,7 @@ export default function CollectionCommentLikeButton({
         disabled={loading}
         className={`${loading && "cursor-not-allowed"} rounded-full p-1  group-hover/like:bg-sky-500/30`}
       >
-        {like.liked ? (
+        {liked ? (
           <Heart
             color="#0ea5e9"
             fill="#0ea5e9"
@@ -119,9 +111,7 @@ export default function CollectionCommentLikeButton({
           />
         )}
       </button>
-      <span className="text-sm font-medium">
-        {like.count == 0 ? "" : like.count}
-      </span>
+      <span className="text-sm font-medium">{count == 0 ? "" : count}</span>
     </div>
   );
 }

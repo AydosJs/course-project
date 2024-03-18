@@ -23,6 +23,10 @@ async function getCollectionComments(
       }, // Filter by matching collectionId
     });
 
+    comments.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
     return comments;
   } catch (error) {
     console.error(
@@ -38,7 +42,6 @@ export default async function CollectionComments({
 }: Readonly<Props>) {
   if (!collectionId) return;
   const comments = await getCollectionComments(collectionId);
-  console.log("comment", comments);
   return (
     <div className="!mt-8">
       <Collapsible>
@@ -53,12 +56,9 @@ export default async function CollectionComments({
 
           {Boolean(comments.length) && (
             <div className="mt-6 flex flex-col space-y-4">
-              {comments
-                .slice(0)
-                .reverse()
-                .map((comment) => (
-                  <CollectionCommentItem key={comment.id} {...comment} />
-                ))}
+              {comments.map((comment) => (
+                <CollectionCommentItem key={comment.id} {...comment} />
+              ))}
             </div>
           )}
         </CollapsibleContent>
