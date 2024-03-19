@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
 interface CollectionCardProps {
-  ownerUser: User | null;
+  ownerUser: Pick<User, "id" | "name"> | null;
   collection: Collection;
 }
 

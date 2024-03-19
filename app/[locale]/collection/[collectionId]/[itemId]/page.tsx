@@ -52,9 +52,9 @@ export default async function page({
   };
 }) {
   const item = await getItemById(params.itemId);
-  const itemComments = item?.ItemComments?.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  // const itemComments = item?.ItemComments?.sort((a, b) => {
+  //   return new Date(b.date).getTime() - new Date(a.date).getTime();
+  // });
 
   const { t } = await initTranslations(params.locale, ["default"]);
   const customFields = JSON.parse(item?.customFields as string);
@@ -130,18 +130,18 @@ export default async function page({
               />
             </div>
 
-            {itemComments && (
+            {item?.ItemComments && (
               <div className="!mt-12">
                 <h1 className="text-md mb-4 font-medium text-slate-800 dark:text-slate-100">
-                  {itemComments.length} {t("comments")}
+                  {item?.ItemComments.length} {t("comments")}
                 </h1>
                 <hr className="mb-4 w-full rounded-full bg-slate-700" />
 
                 {item.id && <ItemCommentTextarea itemId={item.id} />}
 
-                {itemComments.length > 0 && (
+                {item?.ItemComments.length > 0 && (
                   <div className="mt-4 flex flex-col space-y-6">
-                    {itemComments.map((item) => (
+                    {item?.ItemComments.map((item) => (
                       <ItemCommentItem key={item.id} {...item} />
                     ))}
                   </div>

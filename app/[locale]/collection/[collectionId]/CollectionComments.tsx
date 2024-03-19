@@ -23,9 +23,9 @@ async function getCollectionComments(
       }, // Filter by matching collectionId
     });
 
-    comments.sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
+    // comments.sort((a, b) => {
+    //   return new Date(b.date).getTime() - new Date(a.date).getTime();
+    // });
 
     return comments;
   } catch (error) {

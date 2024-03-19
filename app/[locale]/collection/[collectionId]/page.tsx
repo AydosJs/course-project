@@ -7,6 +7,19 @@ import prisma from "@/lib/prisma";
 async function getCollectionById(id: string): Promise<Collection | null> {
   const collection = await prisma.collection.findFirst({
     where: { id },
+    include: {
+      Item: {
+        include: {
+          Tags: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
   return collection;
 }
@@ -35,35 +48,6 @@ async function getItemsByCollectionId(collectionId: string): Promise<Item[]> {
   }
 }
 
-async function getCollectionDetails(collectionId: string): Promise<{
-  collection: Collection | null;
-  ownerUser: User | null;
-  items: Item[] | [];
-}> {
-  try {
-    const collection = await getCollectionById(collectionId);
-
-    if (collection) {
-      try {
-        const items = await getItemsByCollectionId(collection.id);
-        const owner = await getUserById(collection.ownerId);
-        return { collection, ownerUser: owner, items };
-      } catch (error) {
-        console.error(
-          `Error fetching user for collection ${collection.id}:`,
-          error,
-        );
-        return { collection, ownerUser: null, items: [] }; // Indicate missing user data
-      }
-    }
-
-    return { collection: null, ownerUser: null, items: [] }; // Indicate missing collection
-  } catch (error) {
-    console.error(`Error fetching collection ${collectionId}:`, error);
-    return { collection: null, ownerUser: null, items: [] }; // Indicate error
-  }
-}
-
 export default async function page({
   params,
 }: {
@@ -71,24 +55,25 @@ export default async function page({
     collectionId: string;
   };
 }) {
-  const { collection, ownerUser, items } = await getCollectionDetails(
-    params.collectionId,
-  );
+  const collection = await getCollectionById(params.collectionId);
 
   return (
     <div className="container my-10 max-w-7xl">
       <div className="flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
         <div className="flex w-full flex-col space-y-4 rounded lg:max-w-sm">
-          {ownerUser && collection && (
+          {collection && collection && (
             <>
-              <CollectionCard ownerUser={ownerUser} collection={collection} />
+              <CollectionCard
+                ownerUser={collection?.user ? collection?.user : null}
+                collection={collection}
+              />
               <CollectionComments collectionId={collection?.id} />
             </>
           )}
         </div>
-        {items.length !== 0 && (
+        {collection?.Item && collection?.Item.length !== 0 && (
           <div className="mt-20 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-3">
-            {items.map((item) => (
+            {collection?.Item.map((item) => (
               <Link
                 key={item.id}
                 href={`/collection/${collection?.id}/${item.id}`}

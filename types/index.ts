@@ -38,6 +38,9 @@ type Collection = {
   publishedAt?: Date;
   cover?: string;
   customFields: JSONValue;
+
+  Item?: Item[];
+  user?: Pick<User, "id" | "name">;
 };
 
 type Item = {
