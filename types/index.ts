@@ -48,6 +48,7 @@ type Item = {
   likeCount: number;
   publishedAt?: Date;
   customFields: JSONValue;
+  Tags?: Tags[];
 
   tagsId: string[];
   collectionId: string;

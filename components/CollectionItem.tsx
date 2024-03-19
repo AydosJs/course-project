@@ -1,20 +1,8 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import prisma from "@/lib/prisma";
 dayjs.extend(relativeTime);
 
-async function getItemTagsById(ids: string[]): Promise<Tags[]> {
-  const tags = await prisma.tags.findMany({
-    where: {
-      OR: ids.map((id) => ({ id })),
-    },
-  });
-
-  return tags;
-}
-
-export default async function CollectionItem(item: Readonly<Item>) {
-  const tags = await getItemTagsById(item.tagsId);
+export default function CollectionItem(item: Readonly<Item>) {
   return (
     <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300 hover:bg-slate-100  dark:border-2 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
       <div
@@ -27,8 +15,9 @@ export default async function CollectionItem(item: Readonly<Item>) {
       <div className="space-y-2 p-5 py-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
           <div className="flex items-center gap-2">
-            {tags.length !== 0 &&
-              tags.slice(0, 2).map((item: Tags) => (
+            {item.Tags &&
+              item?.Tags.length !== 0 &&
+              item?.Tags.slice(0, 2).map((item: Tags) => (
                 <span
                   key={item.id}
                   className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300"
@@ -39,10 +28,14 @@ export default async function CollectionItem(item: Readonly<Item>) {
           </div>
 
           <div className="flex w-full items-center justify-end">
-            <div className="group/like flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
-              <span className="mr-1 text-sm font-medium">{item.likeCount}</span>
-              <span className="text-sm">likes</span>
-            </div>
+            {item.likeCount !== 0 && (
+              <div className="group/like flex w-fit cursor-pointer flex-row items-center text-sky-500 transition-all duration-300  dark:hover:text-sky-400">
+                <span className="mr-1 text-sm font-medium">
+                  {item.likeCount}
+                </span>
+                <span className="text-sm">likes</span>
+              </div>
+            )}
           </div>
         </div>
 

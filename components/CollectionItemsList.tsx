@@ -3,7 +3,11 @@ import Link from "next/link";
 import CollectionItem from "./CollectionItem";
 
 async function getItems(): Promise<Item[]> {
-  const items = await prisma.item.findMany();
+  const items = await prisma.item.findMany({
+    include: {
+      Tags: true,
+    },
+  });
   return items;
 }
 export default async function CollectionItemsList() {
