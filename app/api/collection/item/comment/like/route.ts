@@ -55,7 +55,6 @@ export async function POST(request: Request): Promise<Response> {
       }
       return NextResponse.json({ error: "Failed to like" }, { status: 500 });
     } else {
-      console.log("userId", userId, "commentId", commentId);
       const createdLike = await prisma.commentLike.create({
         data: {
           userId,

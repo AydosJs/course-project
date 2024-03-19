@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Heart } from "lucide-react";
 import prisma from "@/lib/prisma";
 dayjs.extend(relativeTime);
 
