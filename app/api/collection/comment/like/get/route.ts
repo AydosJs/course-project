@@ -7,7 +7,7 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const likes = await prisma.commentLike.findMany({
       where: {
-        commentId,
+        collectionCommentId: commentId,
       },
     });
 
