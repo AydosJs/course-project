@@ -23,7 +23,9 @@ export async function DELETE(request: Request): Promise<Response> {
       where: { collectionId },
     });
     for (const comment of comments) {
-      await prisma.commentLike.deleteMany({ where: { commentId: comment.id } });
+      await prisma.commentLike.deleteMany({
+        where: { collectionCommentId: comment.id },
+      });
       await prisma.collectionComments.delete({ where: { id: comment.id } });
     }
 
