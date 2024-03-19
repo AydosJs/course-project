@@ -16,7 +16,7 @@ async function getUserById(id: string): Promise<User | null> {
 
 async function getCommentLikes(commentId: string) {
   const res = await prisma.commentLike.findMany({
-    where: { commentId },
+    where: { collectionCommentId: commentId },
   });
   return res;
 }

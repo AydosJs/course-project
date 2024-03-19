@@ -76,7 +76,8 @@ type CommentLike = {
   id: string;
   likedAt: Date;
   userId: string;
-  commentId: string | null;
+  itemCommentsId: string | null;
+  collectionCommentId: string | null;
 };
 
 type Tags = {

@@ -5,7 +5,7 @@ export async function DELETE(request: Request): Promise<Response> {
   const { id } = await request.json();
 
   try {
-    await prisma.commentLike.deleteMany({ where: { commentId: id } });
+    await prisma.commentLike.deleteMany({ where: { collectionCommentId: id } });
 
     const res = await prisma.collectionComments.delete({
       where: {

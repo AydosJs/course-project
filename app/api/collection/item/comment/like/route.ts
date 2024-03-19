@@ -1,15 +1,15 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-async function updateCollectionCommentLikeCount(commentId: string) {
+async function updateItemCommentLikeCount(commentId: string) {
   try {
     const commentLikes = await prisma.commentLike.findMany({
       where: {
-        collectionCommentId: commentId,
+        itemCommentsId: commentId,
       },
     });
 
-    await prisma.collectionComments.update({
+    await prisma.itemComments.update({
       where: {
         id: commentId,
       },
@@ -24,12 +24,11 @@ async function updateCollectionCommentLikeCount(commentId: string) {
 
 export async function POST(request: Request): Promise<Response> {
   const { userId, commentId } = await request.json();
-
   try {
     const likeExists = await prisma.commentLike.findFirst({
       where: {
         userId,
-        collectionCommentId: commentId,
+        itemCommentsId: commentId,
       },
     });
 
@@ -41,7 +40,7 @@ export async function POST(request: Request): Promise<Response> {
       });
 
       if (deletedLike) {
-        const updated = await updateCollectionCommentLikeCount(commentId);
+        const updated = await updateItemCommentLikeCount(commentId);
 
         return NextResponse.json(
           {
@@ -56,15 +55,16 @@ export async function POST(request: Request): Promise<Response> {
       }
       return NextResponse.json({ error: "Failed to like" }, { status: 500 });
     } else {
+      console.log("userId", userId, "commentId", commentId);
       const createdLike = await prisma.commentLike.create({
         data: {
           userId,
-          collectionCommentId: commentId,
+          itemCommentsId: commentId,
         },
       });
 
       if (createdLike) {
-        const updated = await updateCollectionCommentLikeCount(commentId);
+        const updated = await updateItemCommentLikeCount(commentId);
 
         return NextResponse.json(
           {
@@ -77,7 +77,7 @@ export async function POST(request: Request): Promise<Response> {
           },
         );
       }
-      return NextResponse.json({ error: "Failed to like" }, { status: 500 });
+      return NextResponse.json({ error: `Failed to like` }, { status: 500 });
     }
   } catch (error) {
     console.error("Error fetching tags:", error);

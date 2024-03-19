@@ -98,25 +98,11 @@ model ItemComments {
     text      String
     likeCount Int
 
-    itemId String?
-    item   Item?   @relation(fields: [itemId], references: [id])
-    user   User    @relation(fields: [userId], references: [id])
+    itemId      String?
+    item        Item?         @relation(fields: [itemId], references: [id])
+    user        User          @relation(fields: [userId], references: [id])
+    CommentLike CommentLike[]
 }
-
-// model Like {
-//     id             String   @id @default(cuid())
-//     likedAt        DateTime @default(now())
-//     userId         String
-//     commentId      String?
-//     itemId         String?
-//     collectionId   String?
-//     itemCommentsId String?
-
-//     comment      CollectionComments? @relation(fields: [commentId], references: [id])
-//     item         Item?               @relation(fields: [itemId], references: [id])
-//     user         User                @relation(fields: [userId], references: [id])
-//     ItemComments ItemComments?       @relation(fields: [itemCommentsId], references: [id])
-// }
 
 model ItemLike {
     id      String   @id @default(cuid())
@@ -129,13 +115,15 @@ model ItemLike {
 }
 
 model CommentLike {
-    id        String   @id @default(cuid())
-    likedAt   DateTime @default(now())
-    userId    String
-    commentId String?
+    id                  String   @id @default(cuid())
+    userId              String
+    likedAt             DateTime @default(now())
+    itemCommentsId      String?
+    collectionCommentId String?
 
-    comment CollectionComments? @relation(fields: [commentId], references: [id])
-    user    User                @relation(fields: [userId], references: [id])
+    CollectionCommentS CollectionComments? @relation(fields: [collectionCommentId], references: [id])
+    user               User                @relation(fields: [userId], references: [id])
+    ItemComments       ItemComments?       @relation(fields: [itemCommentsId], references: [id])
 }
 
 // --------------------

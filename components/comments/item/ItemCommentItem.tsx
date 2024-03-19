@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 import prisma from "@/lib/prisma";
 import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import ItemCommentAction from "./ItemCommentAction";
+import ItemCommentLikeButton from "./ItemCommentLikeButton";
+dayjs.extend(relativeTime);
 
 async function getUserById(id: string): Promise<User | null> {
   const user = await prisma.user.findFirst({
@@ -14,9 +15,17 @@ async function getUserById(id: string): Promise<User | null> {
   return user;
 }
 
+async function getCommentLikes(commentId: string) {
+  const res = await prisma.commentLike.findMany({
+    where: { itemCommentsId: commentId },
+  });
+  return res;
+}
+
 export default async function ItemCommentItem(comment: Readonly<CommentType>) {
   const owner = await getUserById(comment.userId);
   const session = await getServerSession(authOptions);
+  const likes = await getCommentLikes(comment.id);
 
   if (!comment.userId) return;
   return (
@@ -50,12 +59,16 @@ export default async function ItemCommentItem(comment: Readonly<CommentType>) {
             </p>
 
             <div className="mt-1 flex flex-row items-center space-x-4">
-              <div className="group/like flex w-fit cursor-pointer flex-row items-center justify-center text-slate-500 hover:text-sky-500">
-                <div className="rounded-full p-1  group-hover/like:bg-sky-500/30">
-                  <Heart className="relative size-4" />
-                </div>
-                <span className="text-sm font-medium">{comment.likeCount}</span>
-              </div>
+              <ItemCommentLikeButton
+                liked={
+                  (session &&
+                    likes.some((like) => like.userId === session?.user?.id)) ||
+                  false
+                }
+                count={comment.likeCount}
+                commentId={comment.id}
+              />
+
               <span className="text-sm font-normal text-slate-500 dark:text-slate-500">
                 {dayjs(comment.date).fromNow(true)}
               </span>
