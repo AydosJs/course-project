@@ -5,66 +5,41 @@ import dayjs from "dayjs";
 import ItemLikeButton from "./ItemLikeButton";
 import ItemCommentItem from "@/components/comments/item/ItemCommentItem";
 
-async function getCollectionById(
-  id: string,
-): Promise<Omit<Collection, "customFields"> | null> {
-  const collection = await prisma.collection.findFirst({
-    where: { id },
-  });
-
-  return collection;
-}
-
-async function getItemById(id: string): Promise<Item | null> {
+async function getItemById(id: string): Promise<
+  | (Partial<Item> & {
+      collection?: Pick<Collection, "id" | "name" | "topic"> | null;
+      ItemComments?: CommentType[] | null;
+      Tags?: Tags[] | null;
+      user?: Pick<User, "id" | "name"> | null;
+      ItemLike?: ItemLike[] | null;
+    })
+  | null
+> {
   const item = await prisma.item.findFirst({
     where: { id },
-  });
-  return item;
-}
-
-async function getUserById(id: string): Promise<User | null> {
-  const user = await prisma.user.findFirst({
-    where: { id },
-  });
-
-  return user;
-}
-
-async function getItemComments(itemId: string): Promise<CommentType[]> {
-  if (!itemId) {
-    return []; // Early return if itemId is not provided
-  }
-  try {
-    const comments = await prisma.itemComments.findMany({
-      where: { itemId }, // Filter by matching itemId
-    });
-
-    return comments;
-  } catch (error) {
-    console.error(
-      `Error fetching comments for collection ID ${itemId}:`,
-      error,
-    );
-    return []; // Indicate error by returning an empty array
-  }
-}
-
-async function getItemTagsById(ids: string[]): Promise<Tags[]> {
-  const tags = await prisma.tags.findMany({
-    where: {
-      OR: ids.map((id) => ({ id })),
+    include: {
+      ItemComments: true,
+      collection: {
+        select: {
+          id: true,
+          name: true,
+          topic: true,
+        },
+      },
+      Tags: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      ItemLike: true,
     },
   });
 
-  return tags;
-}
+  if (!item) return null;
 
-async function getItemLikes(itemId: string): Promise<ItemLike[]> {
-  const likes = await prisma.itemLike.findMany({
-    where: { itemId },
-  });
-
-  return likes;
+  return item;
 }
 
 export default async function page({
@@ -77,21 +52,11 @@ export default async function page({
   };
 }) {
   const item = await getItemById(params.itemId);
-  const collection = await getCollectionById(params.collectionId);
-  const itemComments = await getItemComments(params.itemId);
+  const itemComments = item?.ItemComments?.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   const { t } = await initTranslations(params.locale, ["default"]);
-  const likes = await getItemLikes(params.itemId);
-
-  let owner;
-  let tags: Tags[] = [];
-
-  if (item) {
-    const user = await getUserById(item.ownerId);
-    const fetchTags = await getItemTagsById(item.tagsId);
-    tags = fetchTags;
-    owner = user;
-  }
-
   const customFields = JSON.parse(item?.customFields as string);
 
   return (
@@ -109,8 +74,8 @@ export default async function page({
             <div className="flex w-full flex-row items-center justify-end space-x-2 px-4 sm:justify-start sm:px-0">
               <ItemLikeButton
                 itemId={item.id as string}
-                likeCount={item.likeCount}
-                likes={likes}
+                likeCount={item.likeCount as number}
+                likes={item.ItemLike as ItemLike[]}
               />
             </div>
 
@@ -126,18 +91,19 @@ export default async function page({
             <div className="flex flex-col divide-y rounded font-normal">
               <ListItem
                 label="Collection name"
-                value={collection?.name as string}
+                value={item.collection?.name as string}
               />
               <ListItem
                 label="Collection topic"
-                value={collection?.topic as string}
+                value={item.collection?.topic as string}
               />
-              <ListItem label="Author" value={owner?.name as string} />
+              <ListItem label="Author" value={item.user?.name as string} />
               <div className="flex flex-row items-center text-sm">
-                <p className="w-1/2 py-2.5 md:w-1/3">Tags</p>
-                <div className="flex w-1/2 flex-row flex-wrap gap-2 py-2.5 md:w-2/3 ">
-                  {tags.length !== 0 &&
-                    tags.map((item) => (
+                <p className="w-1/2 py-3 md:w-1/3">Tags</p>
+                <div className="flex w-1/2 flex-row flex-wrap gap-2 py-3 md:w-2/3 ">
+                  {item.Tags &&
+                    item.Tags.length !== 0 &&
+                    item.Tags.map((item) => (
                       <span
                         className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
                         key={item.id}
@@ -164,25 +130,24 @@ export default async function page({
               />
             </div>
 
-            <div className="!mt-12">
-              <h1 className="text-md mb-4 font-medium text-slate-800 dark:text-slate-100">
-                {itemComments.length} {t("comments")}
-              </h1>
-              <hr className="mb-4 w-full rounded-full bg-slate-700" />
+            {itemComments && (
+              <div className="!mt-12">
+                <h1 className="text-md mb-4 font-medium text-slate-800 dark:text-slate-100">
+                  {itemComments.length} {t("comments")}
+                </h1>
+                <hr className="mb-4 w-full rounded-full bg-slate-700" />
 
-              {item.id && <ItemCommentTextarea itemId={item.id} />}
+                {item.id && <ItemCommentTextarea itemId={item.id} />}
 
-              {itemComments.length > 0 && (
-                <div className="mt-4 flex flex-col space-y-6">
-                  {itemComments
-                    .slice(0)
-                    .reverse()
-                    .map((item) => (
+                {itemComments.length > 0 && (
+                  <div className="mt-4 flex flex-col space-y-6">
+                    {itemComments.map((item) => (
                       <ItemCommentItem key={item.id} {...item} />
                     ))}
-                </div>
-              )}
-            </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -193,8 +158,8 @@ export default async function page({
 const ListItem = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="flex flex-row items-center text-sm">
-      <p className="w-1/2 py-2.5 md:w-1/3">{label}</p>
-      <p className="w-1/2 py-2.5 text-slate-400 md:w-2/3">{value}</p>
+      <p className="w-1/2 py-3 md:w-1/3">{label}</p>
+      <p className="w-1/2 py-3 text-slate-400 md:w-2/3">{value}</p>
     </div>
   );
 };

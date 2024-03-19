@@ -31,13 +31,27 @@ type JSONValue =
 
 type Collection = {
   id: string;
-  publishedAt?: Date;
-  ownerId: string;
-  description: string;
   name: string;
   topic: string;
+  description: string;
+  ownerId: string;
+  publishedAt?: Date;
   cover?: string;
   customFields: JSONValue;
+};
+
+type Item = {
+  id?: string;
+  name: string;
+  description: string;
+  cover: string;
+  likeCount: number;
+  publishedAt?: Date;
+  customFields: JSONValue;
+
+  tagsId: string[];
+  collectionId: string;
+  ownerId: string;
 };
 
 type CommentType = {
@@ -63,20 +77,6 @@ type CommentLike = {
   likedAt: Date;
   userId: string;
   commentId: string | null;
-};
-
-type Item = {
-  id?: string;
-  name: string;
-  description: string;
-  cover: string;
-  likeCount: number;
-  publishedAt?: Date;
-  customFields: JSONValue;
-
-  tagsId: string[];
-  collectionId: string;
-  ownerId: string;
 };
 
 type Tags = {

@@ -5,18 +5,6 @@ import prisma from "@/lib/prisma";
 import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import ItemCommentAction from "./ItemCommentAction";
 
 async function getUserById(id: string): Promise<User | null> {
@@ -24,14 +12,6 @@ async function getUserById(id: string): Promise<User | null> {
     where: { id },
   });
   return user;
-}
-
-async function deleteCommentById(id: string) {
-  const res = await prisma.collectionComments.delete({
-    where: { id },
-  });
-
-  return res;
 }
 
 export default async function ItemCommentItem(comment: Readonly<CommentType>) {

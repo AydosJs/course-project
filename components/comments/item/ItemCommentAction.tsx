@@ -57,7 +57,9 @@ export default function ItemCommentAction({
 
   return (
     <>
-      <Loader loading={loading} />
+      <div>
+        <Loader loading={loading} />
+      </div>
       {status === "authenticated" && session.user.id === userId && (
         <AlertDialog>
           <div className="ml-2 flex flex-row items-center space-x-2 opacity-0 group-hover:opacity-100">
