@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Badge from "./Badge";
 import { Search as SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,7 +25,7 @@ const fetchTags = async (url: string) => {
 export default function Search() {
   const search = useSearchParams();
   const searchQueryOld = search ? search.get("q") : "";
-  const [searchQuery, setSearchQuery] = React.useState(searchQueryOld || "");
+  const [searchQuery, setSearchQuery] = React.useState(searchQueryOld ?? "");
   const router = useRouter();
 
   const onSearch = (event: React.FormEvent) => {
@@ -35,6 +35,12 @@ export default function Search() {
     const encodedSearchquery = encodeURI(searchQuery);
     router.push(`/search?q=${encodedSearchquery}`);
   };
+
+  useEffect(() => {
+    if (searchQueryOld !== searchQuery) {
+      setSearchQuery(searchQueryOld ?? "");
+    }
+  }, [searchQueryOld]);
 
   const { data, isLoading } = useSWR(`/api/tag/all`, fetchTags);
   return (

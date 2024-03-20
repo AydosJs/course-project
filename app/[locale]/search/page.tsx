@@ -1,6 +1,6 @@
 "use client";
 import CollectionCard from "@/components/CollectionCard";
-import CollectionItem from "@/components/CollectionItem";
+import CollectionItem from "@/components/Item/CollectionItem";
 import Loader from "@/components/loader/Loader";
 import Search from "@/components/Search";
 import Link from "next/link";

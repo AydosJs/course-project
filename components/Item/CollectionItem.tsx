@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import ItemDescription from "./ItemDescription";
+import Link from "next/link";
 dayjs.extend(relativeTime);
 
 export default function CollectionItem(item: Readonly<Item>) {
@@ -18,12 +20,14 @@ export default function CollectionItem(item: Readonly<Item>) {
             {item.Tags &&
               item?.Tags.length !== 0 &&
               item?.Tags.slice(0, 2).map((item: Tags) => (
-                <span
+                <Link
+                  href={`/search?q=${encodeURI(item.text as string)}`}
                   key={item.id}
-                  className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300"
                 >
-                  #{item.text}
-                </span>
+                  <span className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300">
+                    #{item.text}
+                  </span>
+                </Link>
               ))}
           </div>
 
@@ -44,9 +48,7 @@ export default function CollectionItem(item: Readonly<Item>) {
             {item.name}
           </h1>
 
-          <p className="mt-1.5 line-clamp-2 text-sm text-slate-800 transition-all duration-300 dark:text-slate-500 group-hover:dark:text-slate-400">
-            {item.description}
-          </p>
+          <ItemDescription description={item.description} />
         </div>
       </div>
     </div>

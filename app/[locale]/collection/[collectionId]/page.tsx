@@ -1,6 +1,6 @@
 import Link from "next/link";
 import CollectionCard from "./CollectionCard";
-import CollectionItem from "../../../../components/CollectionItem";
+import CollectionItem from "../../../../components/Item/CollectionItem";
 import CollectionComments from "@/app/[locale]/collection/[collectionId]/CollectionComments";
 import prisma from "@/lib/prisma";
 

@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import ItemLikeButton from "./ItemLikeButton";
 import ItemCommentItem from "@/components/comments/item/ItemCommentItem";
+import Description from "./Description";
+import Link from "next/link";
 
 async function getItemById(id: string): Promise<
   | (Partial<Item> & {
@@ -52,10 +54,6 @@ export default async function page({
   };
 }) {
   const item = await getItemById(params.itemId);
-  // const itemComments = item?.ItemComments?.sort((a, b) => {
-  //   return new Date(b.date).getTime() - new Date(a.date).getTime();
-  // });
-
   const { t } = await initTranslations(params.locale, ["default"]);
   const customFields = JSON.parse(item?.customFields as string);
 
@@ -83,9 +81,7 @@ export default async function page({
               <h1 className="text-xl text-slate-800 dark:text-slate-100">
                 {item.name}
               </h1>
-              <p className="text-md mt-4 text-slate-400 transition-all duration-300 dark:text-slate-400">
-                {item.description}
-              </p>
+              <Description description={item?.description} />
             </div>
 
             <div className="flex flex-col divide-y rounded font-normal">
@@ -104,12 +100,17 @@ export default async function page({
                   {item.Tags &&
                     item.Tags.length !== 0 &&
                     item.Tags.map((item) => (
-                      <span
-                        className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
+                      <Link
+                        href={`/search?q=${encodeURI(item.text as string)}`}
                         key={item.id}
                       >
-                        #{item.text}
-                      </span>
+                        <span
+                          className="py-.5 cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
+                          key={item.id}
+                        >
+                          #{item.text}
+                        </span>
+                      </Link>
                     ))}
                 </div>
               </div>

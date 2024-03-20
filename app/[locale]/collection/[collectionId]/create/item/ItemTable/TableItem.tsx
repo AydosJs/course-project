@@ -26,6 +26,7 @@ import {
 import toast from "react-hot-toast";
 import { useState } from "react";
 import Loader from "@/components/loader/Loader";
+import DOMPurify from "dompurify";
 
 export default function TableItem({
   item,
@@ -88,6 +89,8 @@ export default function TableItem({
     }
   };
 
+  const sanitizedDescription = DOMPurify.sanitize(JSON.parse(item.description));
+
   return (
     <>
       <Loader loading={loading} />
@@ -114,9 +117,12 @@ export default function TableItem({
               <span className="text-sky-100 group-hover:text-slate-900 dark:font-medium dark:group-hover:text-slate-200">
                 {item.name}
               </span>
-              <span className="block max-w-xs truncate">
-                {item.description}
-              </span>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizedDescription,
+                }}
+                className="block max-h-[1.3rem] max-w-xs overflow-hidden"
+              ></div>
             </div>
           </div>
         </td>

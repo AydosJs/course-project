@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import CollectionItem from "./CollectionItem";
+import CollectionItem from "./Item/CollectionItem";
 
 async function getItems(): Promise<Item[]> {
   const items = await prisma.item.findMany({
