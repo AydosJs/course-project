@@ -111,7 +111,7 @@ export default function TableItem({
               ></span>
             </div>
             <div>
-              <span className="text-slate-400 group-hover:text-slate-900 dark:font-medium dark:group-hover:text-slate-200">
+              <span className="text-sky-100 group-hover:text-slate-900 dark:font-medium dark:group-hover:text-slate-200">
                 {item.name}
               </span>
               <span className="block max-w-xs truncate">

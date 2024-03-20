@@ -235,18 +235,6 @@ export default function CollectionForm({
             <Tiptap description={value} onChange={onChange} />
           )}
         />
-        {/* <textarea
-          disabled={loading}
-          {...register("description")}
-          className="peer w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
-          rows={3}
-          placeholder="Add a comment..."
-        />
-        {errors.description && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.description?.message}
-          </p>
-        )} */}
       </div>
 
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>

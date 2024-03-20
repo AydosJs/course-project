@@ -18,6 +18,7 @@ import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput"
 import Button from "@/components/form-elements/Button";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
+import Tiptap from "@/components/TipTap";
 
 interface itemInputs {
   name: string;
@@ -73,7 +74,7 @@ export default function ItemForm({
 
     const formData = {
       name: data.name,
-      description: data.description,
+      description: JSON.stringify(data.description),
       cover: cover ?? "",
       ownerId: session?.user.id,
       customFields: JSON.stringify(data.customFields) ?? "",
@@ -208,18 +209,13 @@ export default function ItemForm({
         >
           {t("description")}
         </label>
-        <textarea
-          disabled={loading}
-          {...register("description")}
-          className="peer w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
-          rows={3}
-          placeholder="Add a comment..."
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, value } }) => (
+            <Tiptap description={value} onChange={onChange} />
+          )}
         />
-        {errors.description && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.description?.message}
-          </p>
-        )}
       </div>
 
       <div>

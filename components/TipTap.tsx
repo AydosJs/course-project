@@ -55,7 +55,7 @@ const Tiptap = ({
       <EditorProvider
         editorProps={{
           attributes: {
-            class: "p-3 outline-none",
+            class: "p-3 outline-none min-h-32",
           },
         }}
         content={description}
