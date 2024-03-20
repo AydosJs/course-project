@@ -80,14 +80,6 @@ export default function Page() {
                   <CollectionItem {...item} />
                 </Link>
               ))}
-              {items?.map((item: Item) => (
-                <Link
-                  key={item.id}
-                  href={`/collection/${item.collectionId}/${item.id}`}
-                >
-                  <CollectionItem {...item} />
-                </Link>
-              ))}
             </div>
           )}
 
