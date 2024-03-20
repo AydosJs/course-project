@@ -24,30 +24,6 @@ async function getCollectionById(id: string): Promise<Collection | null> {
   return collection;
 }
 
-async function getUserById(id: string): Promise<User | null> {
-  const user = await prisma.user.findFirst({
-    where: { id },
-  });
-
-  return user;
-}
-
-async function getItemsByCollectionId(collectionId: string): Promise<Item[]> {
-  try {
-    const items = await prisma.item.findMany({
-      where: { collectionId }, // Filter by matching collectionId
-    });
-
-    return items;
-  } catch (error) {
-    console.error(
-      `Error fetching items for collection ID ${collectionId}:`,
-      error,
-    );
-    return []; // Indicate error by returning an empty array
-  }
-}
-
 export default async function page({
   params,
 }: {
@@ -61,7 +37,7 @@ export default async function page({
     <div className="container my-10 max-w-7xl">
       <div className="flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
         <div className="flex w-full flex-col space-y-4 rounded lg:max-w-sm">
-          {collection && collection && (
+          {collection && (
             <>
               <CollectionCard
                 ownerUser={collection?.user ? collection?.user : null}

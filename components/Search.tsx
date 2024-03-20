@@ -41,13 +41,13 @@ export default function Search() {
     <div className="relative flex h-full w-full items-center justify-center">
       <form
         onSubmit={onSearch}
-        className="w-full p-[1rem] transition-all duration-300 md:mb-16 lg:max-w-3xl lg:focus-within:max-w-4xl"
+        className="w-full p-[1rem] transition-all duration-300  lg:max-w-3xl "
       >
         <div className="peer relative">
           <input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`peer w-full rounded-full border-2 border-sky-200 bg-white !p-4  py-3 text-sm font-normal text-sky-500/90 outline-none backdrop-blur-sm backdrop-filter placeholder:text-sky-300 focus:border-sky-300 dark:border-sky-500/30  dark:bg-sky-500/10  dark:placeholder:text-sky-500/50  dark:focus:border-sky-500/50 lg:text-[1rem] `}
+            className={`peer w-full rounded-full border-2 border-sky-200 bg-white !p-4 py-3 text-sm  font-normal text-sky-500/90 outline-none backdrop-blur-sm backdrop-filter transition-all duration-300 placeholder:text-sky-300 focus:border-sky-300 dark:border-sky-500/30  dark:bg-sky-500/10  dark:placeholder:text-sky-500/50  dark:focus:border-sky-500/50 lg:text-[1rem] `}
             placeholder="Full-text search..."
           />
 
@@ -70,7 +70,7 @@ export default function Search() {
                   href={`/search?q=${encodeURI(item.text as string)}`}
                 >
                   <Badge
-                    className="border-sky-200 bg-white font-normal text-sky-500 opacity-80 backdrop-blur-sm backdrop-filter transition-all duration-300 hover:border-sky-200 hover:bg-white hover:text-sky-600 hover:opacity-100"
+                    className="border-sky-200 bg-white font-normal text-sky-500 opacity-80 backdrop-blur-sm backdrop-filter transition-all duration-300 hover:border-sky-200 hover:bg-white hover:text-sky-600 hover:opacity-100 dark:hover:text-sky-100"
                     title={`#${item.text}`}
                   />
                 </Link>
