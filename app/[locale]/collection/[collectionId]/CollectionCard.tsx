@@ -1,6 +1,7 @@
 "use client";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import DOMPurify from "dompurify";
 
 interface CollectionCardProps {
   ownerUser: Pick<User, "id" | "name"> | null;
@@ -13,6 +14,10 @@ export default function CollectionCard({
 }: Readonly<CollectionCardProps>) {
   const { t } = useTranslation();
   const customFields = JSON.parse(collection.customFields as any);
+  const sanitizedDescription = DOMPurify.sanitize(
+    JSON.parse(collection.description),
+  );
+
   return (
     <>
       <div
@@ -26,9 +31,12 @@ export default function CollectionCard({
         <h1 className="mb-2 text-2xl text-slate-800 dark:text-slate-100">
           {collection.name}
         </h1>
-        <p className="text-md text-slate-800 dark:text-slate-500">
-          {collection.description}
-        </p>
+        <div
+          className="text-md text-slate-800 dark:text-slate-500"
+          dangerouslySetInnerHTML={{
+            __html: sanitizedDescription,
+          }}
+        ></div>
       </div>
 
       <div className="flex flex-col divide-y rounded font-normal">
@@ -58,8 +66,8 @@ export default function CollectionCard({
 const ListItem = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="flex flex-row items-center text-sm">
-      <p className="w-1/3 py-2.5">{label}</p>
-      <p className="w-2/3 py-2.5 text-slate-400">{value}</p>
+      <p className="w-1/3 py-3">{label}</p>
+      <p className="w-2/3 py-3 text-slate-400">{value}</p>
     </div>
   );
 };

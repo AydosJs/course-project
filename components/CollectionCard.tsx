@@ -1,6 +1,8 @@
-import Button from "./form-elements/Button";
+"use client";
+import DOMPurify from "dompurify";
 
 export default function CollectionCard(item: Collection, colSpan: string) {
+  const sanitizedDescription = DOMPurify.sanitize(JSON.parse(item.description));
   return (
     <div
       style={{
@@ -18,9 +20,12 @@ export default function CollectionCard(item: Collection, colSpan: string) {
       <div className="absolute bottom-0 left-0 flex h-full w-full items-end bg-gradient-to-t from-slate-900 to-slate-900/0 p-5 transition-all duration-300">
         <div className="flex flex-col space-y-1 transition-all duration-300">
           <h1 className="text-lg text-slate-50">{item.name}</h1>
-          <p className="line-clamp-2 text-sm text-slate-300 transition-all duration-300">
-            {item.description}
-          </p>
+          <div
+            className="line-clamp-2 text-sm text-slate-300 transition-all duration-300"
+            dangerouslySetInnerHTML={{
+              __html: sanitizedDescription,
+            }}
+          ></div>
         </div>
       </div>
     </div>

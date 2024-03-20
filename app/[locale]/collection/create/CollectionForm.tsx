@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
+import Tiptap from "@/components/TipTap";
 
 interface collectionInputs {
   ownerId?: string;
@@ -51,13 +52,12 @@ export default function CollectionForm({ t }: any) {
   const onSubmit: SubmitHandler<collectionInputs> = async (data) => {
     const formData = {
       name: data.name,
-      description: data.description,
+      description: JSON.stringify(data.description),
       topic: data.topic,
       cover: cover ?? "",
       ownerId: session?.user.id,
       customFields: JSON.stringify(data.customFields),
     };
-
     try {
       setLoading(true);
       const res = await fetch("/api/collection/create", {
@@ -205,18 +205,13 @@ export default function CollectionForm({ t }: any) {
         >
           {t("description")}
         </label>
-        <textarea
-          disabled={loading}
-          {...register("description")}
-          className="peer w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 "
-          rows={3}
-          placeholder="Add a comment..."
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+            <Tiptap description={value} onChange={onChange} />
+          )}
         />
-        {errors.description && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.description?.message}
-          </p>
-        )}
       </div>
 
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>

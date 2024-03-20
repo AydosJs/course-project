@@ -26,6 +26,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Loader from "@/components/loader/Loader";
+import DOMPurify from "dompurify";
 
 type Props = {
   userCollections: Collection[];
@@ -84,6 +85,11 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
     } finally {
       setLoading(false);
     }
+  };
+  const sanitizedDescription = (str: string) => {
+    const newStr = DOMPurify.sanitize(JSON.parse(str));
+
+    return newStr;
   };
 
   return (
@@ -145,9 +151,14 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                           <span className="line-clamp-2">
                             {collection.name}
                           </span>
-                          <span className="line-clamp-1">
-                            {collection.description}
-                          </span>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizedDescription(
+                                collection.description,
+                              ),
+                            }}
+                            className="line-clamp-1 max-h-[1.2rem] overflow-hidden"
+                          ></div>
                         </div>
                       </td>
                       <td className="px-2 py-3 text-sm">{collection.topic}</td>
