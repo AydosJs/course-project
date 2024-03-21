@@ -22,9 +22,11 @@ import Loader from "@/components/loader/Loader";
 export default function ItemCommentAction({
   commentId,
   userId,
+  mutate,
 }: {
   commentId: string;
   userId: string;
+  mutate: () => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -44,6 +46,7 @@ export default function ItemCommentAction({
         }),
       });
       if (res.ok) {
+        mutate();
         router.refresh();
         return toast.success("Comment deleted");
       } else {

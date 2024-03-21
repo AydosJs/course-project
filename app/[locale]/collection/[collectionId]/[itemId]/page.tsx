@@ -6,6 +6,7 @@ import ItemLikeButton from "./ItemLikeButton";
 import ItemCommentItem from "@/components/comments/item/ItemCommentItem";
 import Description from "./Description";
 import Link from "next/link";
+import ItemComments from "./ItemComments";
 
 async function getItemById(id: string): Promise<
   | (Partial<Item> & {
@@ -131,24 +132,7 @@ export default async function page({
               />
             </div>
 
-            {item?.ItemComments && (
-              <div className="!mt-12">
-                <h1 className="text-md mb-4 font-medium text-slate-800 dark:text-slate-100">
-                  {item?.ItemComments.length} {t("comments")}
-                </h1>
-                <hr className="mb-4 w-full rounded-full bg-slate-700" />
-
-                {item.id && <ItemCommentTextarea itemId={item.id} />}
-
-                {item?.ItemComments.length > 0 && (
-                  <div className="mt-4 flex flex-col space-y-6">
-                    {item?.ItemComments.map((item) => (
-                      <ItemCommentItem key={item.id} {...item} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+            <ItemComments itemId={item.id as string} />
           </div>
         </div>
       )}

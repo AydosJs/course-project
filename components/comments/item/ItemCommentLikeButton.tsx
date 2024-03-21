@@ -10,10 +10,12 @@ export default function ItemCommentLikeButton({
   liked,
   count,
   commentId,
+  mutate,
 }: Readonly<{
   commentId: string;
   liked: boolean;
   count: number;
+  mutate: () => void;
 }>) {
   const [loading, setLoading] = useState<boolean>(false);
   const { data: session, status } = useSession();
@@ -37,6 +39,7 @@ export default function ItemCommentLikeButton({
         }),
       });
       if (res.ok) {
+        mutate();
         const data = await res.json();
         router.refresh();
       } else {

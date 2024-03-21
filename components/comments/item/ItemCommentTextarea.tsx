@@ -10,7 +10,13 @@ import { useState } from "react";
 import Loader from "../../loader/Loader";
 import { useTranslation } from "react-i18next";
 
-export default function ItemCommentTextarea({ itemId }: { itemId: string }) {
+export default function ItemCommentTextarea({
+  itemId,
+  mutate,
+}: {
+  itemId: string;
+  mutate: () => void;
+}) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -45,6 +51,7 @@ export default function ItemCommentTextarea({ itemId }: { itemId: string }) {
       });
 
       if (res.ok) {
+        mutate();
         toast.success("Comment posted!", {
           id: "commentPosted",
         });
@@ -91,7 +98,7 @@ export default function ItemCommentTextarea({ itemId }: { itemId: string }) {
               placeholder={t("leave_a_comment")}
               {...register("text", { required: true })}
             />
-            <div className="opacity-50 peer-focus:opacity-100">
+            <div className={`${!watch("text") ? "opacity-50" : "opacity-100"}`}>
               <Button
                 loading={loading}
                 disabled={Boolean(

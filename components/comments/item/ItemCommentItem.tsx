@@ -1,42 +1,27 @@
+"use client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import prisma from "@/lib/prisma";
-import { Heart } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/authOptions";
 import ItemCommentAction from "./ItemCommentAction";
 import ItemCommentLikeButton from "./ItemCommentLikeButton";
+import { useSession } from "next-auth/react";
 dayjs.extend(relativeTime);
 
-async function getUserById(id: string): Promise<User | null> {
-  const user = await prisma.user.findFirst({
-    where: { id },
-  });
-  return user;
-}
-
-async function getCommentLikes(commentId: string) {
-  const res = await prisma.commentLike.findMany({
-    where: { itemCommentsId: commentId },
-  });
-  return res;
-}
-
-export default async function ItemCommentItem(comment: Readonly<CommentType>) {
-  const owner = await getUserById(comment.userId);
-  const session = await getServerSession(authOptions);
-  const likes = await getCommentLikes(comment.id);
+export default function ItemCommentItem({
+  comment,
+  mutate,
+}: Readonly<{ comment: CommentType; mutate: () => void }>) {
+  const { data: session } = useSession();
 
   if (!comment.userId) return;
   return (
     <>
-      {owner && (
+      {comment.user && (
         <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
           <div>
-            {owner.image && (
+            {comment.user.image && (
               <div
                 style={{
-                  backgroundImage: `url(${owner.image ?? ""})`,
+                  backgroundImage: `url(${comment.user.image ?? ""})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
@@ -44,16 +29,16 @@ export default async function ItemCommentItem(comment: Readonly<CommentType>) {
                 className="size-8 rounded-full"
               ></div>
             )}
-            {!owner.image && owner.name && (
+            {!comment.user.image && comment.user.name && (
               <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
-                {owner.name.charAt(0)}
+                {comment.user.name.charAt(0)}
               </span>
             )}
           </div>
           <div className="w-full py-0">
             <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
               <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">
-                {owner?.name}
+                {comment.user?.name}
               </span>
               {comment.text}
             </p>
@@ -62,9 +47,13 @@ export default async function ItemCommentItem(comment: Readonly<CommentType>) {
               <ItemCommentLikeButton
                 liked={
                   (session &&
-                    likes.some((like) => like.userId === session?.user?.id)) ||
+                    comment.CommentLike &&
+                    comment.CommentLike.some(
+                      (like) => like.userId === session?.user?.id,
+                    )) ||
                   false
                 }
+                mutate={mutate}
                 count={comment.likeCount}
                 commentId={comment.id}
               />
@@ -74,6 +63,7 @@ export default async function ItemCommentItem(comment: Readonly<CommentType>) {
               </span>
 
               <ItemCommentAction
+                mutate={mutate}
                 commentId={comment.id}
                 userId={comment.userId}
               />
