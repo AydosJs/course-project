@@ -1,7 +1,7 @@
 "use client";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 interface CollectionCardProps {
   ownerUser: Pick<User, "id" | "name"> | null;
@@ -15,7 +15,7 @@ export default function CollectionCard({
   const { t } = useTranslation();
   const customFields = JSON.parse(collection.customFields as any);
   const sanitizedDescription = DOMPurify.sanitize(
-    JSON.parse(collection.description),
+    JSON.parse(collection.description ?? '""'),
   );
 
   return (

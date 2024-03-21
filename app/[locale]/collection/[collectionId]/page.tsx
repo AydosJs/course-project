@@ -1,8 +1,8 @@
 import Link from "next/link";
 import CollectionCard from "./CollectionCard";
 import CollectionItem from "../../../../components/Item/CollectionItem";
-import CollectionComments from "@/app/[locale]/collection/[collectionId]/CollectionComments";
 import prisma from "@/lib/prisma";
+import CollectionComments from "./CollectionComments";
 
 async function getCollectionById(id: string): Promise<Collection | null> {
   const collection = await prisma.collection.findFirst({

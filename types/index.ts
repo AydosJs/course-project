@@ -67,6 +67,8 @@ type CommentType = {
 
   collectionId?: string | null;
   itemId?: string | null;
+  user?: Pick<User, "id" | "name" | "image">;
+  CommentLike?: CommentLike[];
 };
 
 type ItemLike = {

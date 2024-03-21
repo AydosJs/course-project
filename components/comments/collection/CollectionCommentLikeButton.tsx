@@ -10,10 +10,12 @@ export default function CollectionCommentLikeButton({
   liked,
   count,
   commentId,
+  mutate,
 }: Readonly<{
   commentId: string;
   liked: boolean;
   count: number;
+  mutate: () => void;
 }>) {
   const [loading, setLoading] = useState<boolean>(false);
   const { data: session, status } = useSession();
@@ -37,6 +39,7 @@ export default function CollectionCommentLikeButton({
         }),
       });
       if (res.ok) {
+        mutate();
         const data = await res.json();
         router.refresh();
       } else {
@@ -48,41 +51,6 @@ export default function CollectionCommentLikeButton({
       setLoading(false);
     }
   };
-
-  //   const fetchLike = async () => {
-  //     if (!commentId) return;
-  //     try {
-  //       setLoading(true);
-  //       const res = await fetch("/api/collection/comment/like/get", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           commentId: commentId,
-  //           userId: session?.user.id ?? null,
-  //         }),
-  //       });
-  //       if (res.ok) {
-  //         const data = await res.json();
-  //         setLike({
-  //           liked: data.liked,
-  //           likeCount: data.likes.length,
-  //         });
-  //         return data;
-  //       } else {
-  //         return toast.error("Something went wrong");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     fetchLike();
-  //   }, []);
 
   return (
     <div className="group/like flex w-fit cursor-pointer flex-row items-center justify-center text-slate-500 hover:text-sky-500">

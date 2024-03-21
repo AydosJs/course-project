@@ -2,9 +2,7 @@
 import DOMPurify from "dompurify";
 
 const ItemDescription = ({ description }: { description: string }) => {
-  const sanitizedDescription = DOMPurify.sanitize(
-    JSON.parse(description ?? '""'),
-  );
+  const sanitizedDescription = DOMPurify?.sanitize(JSON.parse(description));
 
   return (
     <div

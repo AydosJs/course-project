@@ -12,8 +12,10 @@ import { useTranslation } from "react-i18next";
 
 export default function CollectionCommentTextarea({
   collectionId,
+  mutate,
 }: Readonly<{
   collectionId: string;
+  mutate: () => void;
 }>) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,6 +50,7 @@ export default function CollectionCommentTextarea({
       });
 
       if (res.ok) {
+        mutate();
         toast.success("Comment posted!", {
           id: "commentPosted",
         });
@@ -94,7 +97,7 @@ export default function CollectionCommentTextarea({
               placeholder={t("leave_a_comment")}
               {...register("text", { required: true })}
             />
-            <div className="opacity-50 peer-focus:opacity-100">
+            <div className={`${!watch("text") ? "opacity-50" : "opacity-100"}`}>
               <Button
                 loading={loading}
                 disabled={Boolean(
