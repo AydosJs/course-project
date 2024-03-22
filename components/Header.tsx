@@ -46,13 +46,24 @@ export default function Header() {
   return (
     <header className="supports-backdrop-blur:bg-white/95 sticky top-0 z-50 border-b  border-[#0ea5e9] border-opacity-10 backdrop-blur dark:border-opacity-10 dark:bg-slate-900/75 ">
       <div className="container flex max-w-7xl flex-row items-center justify-between py-4 sm:py-5">
-        <div className="text-slate-900 dark:text-sky-50">
-          <Link href="/" className="hidden sm:block">
-            <h1 className="text-md font-normal">Aydos Sankibaev</h1>
-          </Link>
-          <Link href="/" className="sm:hidden">
-            <h1 className="text-md font-normal ">A.S</h1>
-          </Link>
+        <div className="flex flex-row items-center">
+          <div className="text-slate-900 dark:text-sky-50">
+            <Link href="/" className="hidden sm:block">
+              <h1 className="text-md font-normal">Aydos Sankibaev</h1>
+            </Link>
+            <Link href="/" className="sm:hidden">
+              <h1 className="text-md font-normal ">A.S</h1>
+            </Link>
+          </div>
+
+          {session && session?.user.isAdmin && (
+            <Link
+              className={`hover:opacity-100 ${pathname === "/admin/panel" ? "text-sky-500 opacity-100 " : "text-sky-100 opacity-50"} ml-4 text-sm`}
+              href={"/admin/panel"}
+            >
+              Admin panel
+            </Link>
+          )}
         </div>
         <div className="">
           <div className="flex flex-row items-center space-x-4">
