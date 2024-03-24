@@ -62,7 +62,7 @@ type Item = {
   Tags?: Tags[];
   ItemLike?: ItemLike[];
   ItemComments?: CommentType[];
-  collection?: Pick<Collection, "id" | "name"> | null;
+  collection?: Pick<Collection, "id" | "name" | "topic"> | null;
 };
 
 type CommentType = {

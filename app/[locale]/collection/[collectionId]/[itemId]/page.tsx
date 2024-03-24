@@ -1,23 +1,12 @@
 import initTranslations from "@/app/i18n";
-import ItemCommentTextarea from "@/components/comments/item/ItemCommentTextarea";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import ItemLikeButton from "./ItemLikeButton";
-import ItemCommentItem from "@/components/comments/item/ItemCommentItem";
 import Description from "./Description";
 import Link from "next/link";
 import ItemComments from "./ItemComments";
 
-async function getItemById(id: string): Promise<
-  | (Partial<Item> & {
-      collection?: Pick<Collection, "id" | "name" | "topic"> | null;
-      ItemComments?: CommentType[] | null;
-      Tags?: Tags[] | null;
-      user?: Pick<User, "id" | "name"> | null;
-      ItemLike?: ItemLike[] | null;
-    })
-  | null
-> {
+async function getItemById(id: string): Promise<Item | null> {
   const item = await prisma.item.findFirst({
     where: { id },
     include: {
@@ -34,13 +23,12 @@ async function getItemById(id: string): Promise<
         select: {
           id: true,
           name: true,
+          email: true,
         },
       },
       ItemLike: true,
     },
   });
-
-  if (!item) return null;
 
   return item;
 }

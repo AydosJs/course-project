@@ -19,6 +19,7 @@ async function getItems(): Promise<Item[]> {
         select: {
           name: true,
           id: true,
+          topic: true,
         },
       },
     },

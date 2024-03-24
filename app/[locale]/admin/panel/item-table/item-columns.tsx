@@ -6,7 +6,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -14,7 +13,6 @@ import {
   MessageCircle,
   MoreHorizontal,
   Pencil,
-  Plus,
   Trash2,
 } from "lucide-react";
 import dayjs from "dayjs";
