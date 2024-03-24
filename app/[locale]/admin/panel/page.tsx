@@ -9,7 +9,7 @@ export default async function page() {
 
   return (
     <div className="container mt-10 max-w-7xl">
-      <div className="mb-10 flex flex-col space-y-8">
+      <div className="mb-20 flex flex-col space-y-8">
         <UserTable />
         <CollectionTable />
       </div>

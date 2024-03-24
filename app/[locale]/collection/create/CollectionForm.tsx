@@ -75,12 +75,12 @@ export default function CollectionForm({ t }: any) {
       });
       if (res.status === 200) {
         reset();
-        toast.success("Successfully created!", {
-          id: "successfullyCreated",
-        });
         setCover(null);
         router.back();
         router.refresh();
+        toast.success("Successfully created!", {
+          id: "successfullyCreated",
+        });
       }
     } catch (error) {
     } finally {

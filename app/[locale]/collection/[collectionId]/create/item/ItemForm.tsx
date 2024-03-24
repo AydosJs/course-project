@@ -34,11 +34,14 @@ interface TagsType {
 }
 
 export default function ItemForm({
-  collectionId,
-}: Readonly<{ collectionId: string }>) {
+  collection,
+}: Readonly<{ collection: Collection }>) {
   const { t } = useTranslation();
   const { data: session, status } = useSession();
-  if (status === "unauthenticated") {
+  if (
+    status === "unauthenticated" ||
+    (collection.ownerId !== session?.user.id && !session?.user.isAdmin)
+  ) {
     redirect("/");
   }
   const [cover, setCover] = useState<string | null>(null);
@@ -76,9 +79,9 @@ export default function ItemForm({
       name: data.name,
       description: JSON.stringify(data.description),
       cover: cover ?? "",
-      ownerId: session?.user.id,
+      ownerId: collection.ownerId,
       customFields: JSON.stringify(data.customFields) ?? "",
-      collectionId: collectionId,
+      collectionId: collection.id,
       likeCount: 0,
       tagsId,
     } as Item;
@@ -93,7 +96,7 @@ export default function ItemForm({
         body: JSON.stringify({ formData, newTags }),
       });
       if (res.status === 200) {
-        const data = await res.json();
+        // const data = await res.json();
         reset();
         toast.success("Successfully created!", {
           id: "successfullyCreated",

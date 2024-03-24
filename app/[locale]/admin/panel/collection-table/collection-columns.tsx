@@ -9,21 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  LockKeyhole,
-  LockKeyholeOpen,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  ShieldBan,
-  ShieldCheck,
-  Trash2,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import {
   AlertDialog,
@@ -34,11 +23,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTranslation } from "react-i18next";
 import DOMPurify from "dompurify";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export const CollectionColumns: ColumnDef<Collection>[] = [
   {
@@ -182,29 +171,28 @@ function Actions({
 
   const handleDelete = async () => {
     if (selectedCollectionsId.length === 0 && loading) return;
-    console.log("selected", selectedCollectionsId);
-    // try {
-    //   setLoading(true);
-    //   const res = await fetch("/api/user/delete", {
-    //     method: "PATCH",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ ids: selectedCollectionsId }),
-    //   });
+    try {
+      setLoading(true);
+      const res = await fetch("/api/collection/delete/many", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: selectedCollectionsId }),
+      });
 
-    //   if (res.ok && res.status === 200) {
-    //     table.toggleAllRowsSelected(false);
-    //     router.refresh();
-    //     toast.success("Collection deleted!");
-    //   } else {
-    //     toast.error("Something went wrong");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (res.ok && res.status === 200) {
+        table.toggleAllRowsSelected(false);
+        router.refresh();
+        toast.success("Collection deleted!");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const { t } = useTranslation();
@@ -240,6 +228,17 @@ function Actions({
           align="end"
           className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400"
         >
+          {table.getSelectedRowModel().rows.length <= 1 && (
+            <>
+              <Link href={`/collection/${row.original.id}/create/item`}>
+                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2">
+                  <Plus className="mr-3 size-4" />
+                  {t("create_item")}
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuSeparator />
+            </>
+          )}
           {table.getSelectedRowModel().rows.length <= 1 && (
             <Link href={`/collection/${row.original.id}/edit`}>
               <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2">

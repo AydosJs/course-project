@@ -10,21 +10,31 @@ interface Props {
   };
 }
 
-async function getCollectionItems(collectionId: string): Promise<Item[]> {
-  const items = await prisma.item.findMany({
+async function getCollection(collectionId: string): Promise<Collection | null> {
+  const collection = await prisma.collection.findFirst({
     where: {
-      collectionId,
+      id: collectionId,
+    },
+    include: {
+      Item: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
     },
   });
 
-  return items;
+  return collection;
 }
 
 export default async function CreateCollectionItem({
   params: { locale, collectionId },
 }: Readonly<Props>) {
   const { t } = await initTranslations(locale, ["default"]);
-  const collectionItems = await getCollectionItems(collectionId);
+  const collection = await getCollection(collectionId);
 
   return (
     <div className="container my-10 max-w-7xl">
@@ -34,7 +44,7 @@ export default async function CreateCollectionItem({
             {t("create_item")}
           </h1>
 
-          <ItemForm collectionId={collectionId} />
+          {collection && <ItemForm collection={collection} />}
         </div>
 
         <div className="flex h-fit w-full flex-col rounded border-slate-900/10  dark:border-slate-50/[0.06] sm:border sm:bg-slate-50 sm:p-4 sm:px-5 sm:dark:bg-slate-800/50 md:w-2/3">
@@ -42,10 +52,10 @@ export default async function CreateCollectionItem({
             {t("collection_items")}
           </h1>
 
-          {collectionItems.length !== 0 && (
-            <ItemTableList collectionItems={collectionItems} />
+          {collection?.Item && collection?.Item.length !== 0 && (
+            <ItemTableList collectionItems={collection.Item} />
           )}
-          {collectionItems.length === 0 && (
+          {collection?.Item && collection?.Item.length === 0 && (
             <p className="text-sm text-slate-500 dark:text-slate-400">
               No items yet!
             </p>
