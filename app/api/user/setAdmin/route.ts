@@ -2,25 +2,25 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function PATCH(request: Request): Promise<Response> {
-  const { ids, status } = await request.json();
+  const { ids, isAdmin } = await request.json();
 
   try {
     if (ids.length > 0) {
-      const updatedUser = await prisma.user.updateMany({
+      const res = await prisma.user.updateMany({
         where: {
           id: {
             in: ids,
           },
         },
         data: {
-          status,
+          isAdmin,
         },
       });
 
       return NextResponse.json(
         {
-          message: "Sussed!",
-          updatedUser,
+          message: "Sussessfully deleted!",
+          res,
         },
         {
           status: 200,

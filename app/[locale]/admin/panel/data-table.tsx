@@ -15,8 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Trash2, LockKeyhole, LockKeyholeOpen } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Trash2, LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface DataTableProps<TData, TValue> {
@@ -40,7 +40,7 @@ export function DataTable<TData, TValue>({
       <h1 className="mb-4 text-lg font-medium text-slate-900 dark:text-slate-200">
         {t("usersList")}
       </h1>
-      <div className="mb-4 flex flex-row space-x-2">
+      {/* <div className="mb-4 flex flex-row space-x-2">
         <Button className="h-9 border-2 border-amber-500/50 bg-amber-500/10 px-3 text-amber-500 hover:bg-amber-500/20 hover:text-amber-500 dark:hover:text-amber-100 ">
           <LockKeyhole className="mr-2 h-4 w-4" />
           {t("block")}
@@ -53,7 +53,7 @@ export function DataTable<TData, TValue>({
           <Trash2 className="mr-2 h-4 w-4" />
           {t("delete")}
         </Button>
-      </div>
+      </div> */}
       <div className="rounded border-2 backdrop-blur backdrop-filter">
         <Table>
           <TableHeader className="bg-muted/50 dark:bg-slate-800/60">

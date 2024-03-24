@@ -1,26 +1,44 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { UTApi } from "uploadthing/server";
 
 export async function PATCH(request: Request): Promise<Response> {
-  const { ids, status } = await request.json();
+  const { ids } = await request.json();
 
   try {
     if (ids.length > 0) {
-      const updatedUser = await prisma.user.updateMany({
+      const users = await prisma.user.findMany({
         where: {
           id: {
             in: ids,
           },
         },
-        data: {
-          status,
+      });
+
+      if (users.length > 0) {
+        users.map(async (user) => {
+          if (user.image) {
+            const newUrl = user.image.substring(
+              user.image.lastIndexOf("/") + 1,
+            );
+            const utapi = new UTApi();
+            await utapi.deleteFiles(newUrl);
+          }
+        });
+      }
+
+      const res = await prisma.user.deleteMany({
+        where: {
+          id: {
+            in: ids,
+          },
         },
       });
 
       return NextResponse.json(
         {
-          message: "Sussed!",
-          updatedUser,
+          message: "Sussessfully deleted!",
+          res,
         },
         {
           status: 200,

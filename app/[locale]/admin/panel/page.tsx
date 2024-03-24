@@ -4,13 +4,17 @@ import { columns } from "./columns";
 import prisma from "@/lib/prisma";
 
 async function getUsers(): Promise<User[]> {
-  const collection = await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     include: {
       Item: true,
     },
   });
 
-  return collection;
+  users.sort((a: any, b: any) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+
+  return users;
 }
 
 export default async function page() {
