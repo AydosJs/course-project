@@ -25,6 +25,19 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -32,7 +45,7 @@ export const columns: ColumnDef<User>[] = [
     header: ({ table }) => (
       <div className="flex h-full items-center">
         <Checkbox
-          className="dark:border-slate-500"
+          className="border-2 border-slate-500 dark:border-slate-500"
           checked={
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
@@ -47,29 +60,28 @@ export const columns: ColumnDef<User>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="dark:border-slate-500 group-hover:dark:border-slate-100"
+        className="rounded border-2 border-slate-500 dark:border-slate-500 group-hover:dark:border-slate-100"
       />
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "avatar",
-    header: "Avatar",
-    cell: ({ row }) => {
-      return (
-        <Avatar className="size-8">
-          <AvatarImage className="" src={row.original.image as string} />
-          <AvatarFallback className="bg-sky-500 text-sky-50">
-            {row.original.name ? row.original.name.charAt(0) : "?"}
-          </AvatarFallback>
-        </Avatar>
-      );
-    },
-  },
-  {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-row items-center">
+          <Avatar className="mr-3 size-8">
+            <AvatarImage className="" src={row.original.image as string} />
+            <AvatarFallback className="bg-sky-500/30 font-semibold text-sky-500">
+              {row.original.name ? row.original.name.charAt(0) : "?"}
+            </AvatarFallback>
+          </Avatar>
+          <span>{row.original.name}</span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -89,7 +101,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       return (
         <span className={`${row.original.isAdmin && "text-sky-500"}`}>
-          {row.original.isAdmin ? "* true" : "false"}
+          {row.original.isAdmin ? "Admin" : "User"}
         </span>
       );
     },
@@ -220,6 +232,12 @@ function UserActions({
     }
   };
 
+  const { t } = useTranslation();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false);
+  const [isUnblockDialogOpen, setIsUnblockDialogOpen] = useState(false);
+  const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
+
   return (
     <>
       {loading && (
@@ -254,56 +272,110 @@ function UserActions({
             <>
               <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
                 <Plus className="mr-3 size-4" />
-                Create Collection
+                {t("create_collection")}
               </DropdownMenuItem>
-              {/* <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
-                <Plus className="mr-3 size-4" />
-                Add Item
-              </DropdownMenuItem> */}
               <DropdownMenuSeparator />
             </>
           )}
           <DropdownMenuItem
-            onClick={() => handleRoleUpdate(true)}
+            onClick={() => setIsAdminDialogOpen(true)}
             className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20"
           >
             <ShieldCheck className="mr-3 size-4" />
-            Set as Admin
+            {t("set_Admin")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handleRoleUpdate(false)}
             className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20"
           >
             <ShieldBan className="mr-3 size-4" />
-            Remove from Admin
+            {t("remove_Admin")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => handleStatusUpdate("blocked")}
+            onClick={() => {
+              setIsBlockDialogOpen(true);
+            }}
             className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20 hover:dark:text-amber-500"
           >
             <LockKeyhole className="mr-3 size-4" />
-            Block
+            {t("block")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handleStatusUpdate("active")}
             className="flex cursor-pointer flex-row items-center rounded-none p-2  dark:hover:bg-slate-500/20 hover:dark:text-teal-500"
           >
             <LockKeyholeOpen className="mr-3 size-4" />
-            Activate
+            {t("activate")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              confirm("Are you sure you want to delete this user?") &&
-                handleDelete();
+              setIsDeleteDialogOpen(true);
             }}
             className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20 hover:dark:text-rose-500"
           >
             <Trash2 className="mr-3 size-4" />
-            Delete
+            {t("delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <ReusableAlertDialog
+        open={isDeleteDialogOpen}
+        setIsOpen={setIsDeleteDialogOpen}
+        actionHandler={handleDelete}
+      />
+
+      <ReusableAlertDialog
+        open={isBlockDialogOpen}
+        setIsOpen={setIsBlockDialogOpen}
+        actionHandler={() => handleStatusUpdate("blocked")}
+      />
+
+      <ReusableAlertDialog
+        open={isAdminDialogOpen}
+        setIsOpen={setIsAdminDialogOpen}
+        actionHandler={() => handleRoleUpdate(true)}
+      />
     </>
   );
 }
+
+const ReusableAlertDialog = ({
+  open,
+  setIsOpen,
+  actionHandler,
+}: {
+  open: boolean;
+  setIsOpen: (open: boolean) => void;
+  actionHandler: () => void;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <AlertDialog open={open}>
+      <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("confirmation_required")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("cannot_undone")}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="mt-4">
+          <AlertDialogCancel
+            onClick={() => setIsOpen(false)}
+            className="border-2 dark:bg-transparent dark:hover:bg-slate-700"
+          >
+            {t("cancel")}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              setIsOpen(false);
+              actionHandler();
+            }}
+          >
+            {t("continue")}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
