@@ -19,6 +19,7 @@ model User {
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @updatedAt
     emailVerified DateTime? @map("email_verified")
+    status        Status    @default(active)
 
     accounts     Account[]
     sessions     Session[]
@@ -33,6 +34,11 @@ model User {
     @@map("users")
 }
 
+enum Status {
+    active
+    blocked
+}
+
 model Collection {
     id           String   @id @default(cuid())
     name         String
@@ -43,7 +49,7 @@ model Collection {
     cover        String
     customFields String
 
-    user    User                 @relation(fields: [ownerId], references: [id])
+    user    User                 @relation(fields: [ownerId], references: [id], onDelete: Cascade)
     Comment CollectionComments[]
     Item    Item[]
 }
@@ -61,8 +67,8 @@ model Item {
     ownerId      String
     collectionId String
 
-    user         User           @relation(fields: [ownerId], references: [id])
-    collection   Collection?    @relation(fields: [collectionId], references: [id])
+    user         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+    collection   Collection?    @relation(fields: [collectionId], references: [id], onDelete: Cascade)
     ItemLike     ItemLike[]
     ItemComments ItemComments[]
     Tags         Tags[]
@@ -75,7 +81,7 @@ model Tags {
     text      String   @unique
     createdAt DateTime @default(now())
 
-    Item Item @relation(fields: [itemId], references: [id])
+    Item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
     User User @relation(fields: [userId], references: [id])
 }
 
@@ -87,8 +93,8 @@ model CollectionComments {
     text         String
     likeCount    Int
 
-    collection  Collection?   @relation(fields: [collectionId], references: [id])
-    user        User          @relation(fields: [userId], references: [id])
+    collection  Collection?   @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+    user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
     CommentLike CommentLike[]
 }
 
@@ -100,8 +106,8 @@ model ItemComments {
     likeCount Int
 
     itemId      String?
-    item        Item?         @relation(fields: [itemId], references: [id])
-    user        User          @relation(fields: [userId], references: [id])
+    item        Item?         @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
     CommentLike CommentLike[]
 }
 
@@ -111,8 +117,8 @@ model ItemLike {
     userId  String
     itemId  String?
 
-    item Item? @relation(fields: [itemId], references: [id])
-    user User  @relation(fields: [userId], references: [id])
+    item Item? @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CommentLike {
@@ -123,8 +129,8 @@ model CommentLike {
     collectionCommentId String?
 
     CollectionCommentS CollectionComments? @relation(fields: [collectionCommentId], references: [id])
-    user               User                @relation(fields: [userId], references: [id])
-    ItemComments       ItemComments?       @relation(fields: [itemCommentsId], references: [id])
+    user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+    ItemComments       ItemComments?       @relation(fields: [itemCommentsId], references: [id], onDelete: Cascade)
 }
 
 // --------------------

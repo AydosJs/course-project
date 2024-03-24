@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ThemeToggler from "./ThemeToggler";
 import Link from "next/link";
 import LanguageToggler from "./LanguageToggler";
-import { CircleUserRound, DoorOpen } from "lucide-react";
+import { CircleUserRound, DoorOpen, Shield } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,20 +55,23 @@ export default function Header() {
               <h1 className="text-md font-normal ">A.S</h1>
             </Link>
           </div>
-
-          {session && session?.user.isAdmin && (
-            <Link
-              className={`hover:opacity-100 ${pathname === "/admin/panel" ? "text-sky-500 opacity-100 " : "text-sky-100 opacity-50"} ml-4 text-sm`}
-              href={"/admin/panel"}
-            >
-              Admin panel
-            </Link>
-          )}
         </div>
         <div className="">
           <div className="flex flex-row items-center space-x-4">
             <LanguageToggler />
             <ThemeToggler />
+
+            {session && session?.user.isAdmin && (
+              <Link
+                className={`relative flex items-center justify-center`}
+                href={"/admin/panel"}
+              >
+                <Shield
+                  fill={`${pathname === "/admin/panel" ? "rgb(14 165 233 / 0.35)" : "rgb(14 165 233 / 0.1)"}`}
+                  className="size-6 text-sky-500"
+                />
+              </Link>
+            )}
 
             {status === "authenticated" && (
               <AlertDialog>

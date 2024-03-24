@@ -12,6 +12,7 @@ type CollectionCustomField = {
 
 type User = {
   id: string;
+  status?: "active" | "blocked";
   name: string | null;
   image: string | null;
   email: string;
@@ -20,6 +21,8 @@ type User = {
   isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;
+
+  Item?: Item[];
 };
 
 type JSONValue =

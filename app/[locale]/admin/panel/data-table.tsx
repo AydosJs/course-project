@@ -78,9 +78,11 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="group
+                  className={`
+                  group
                   cursor-pointer dark:text-slate-400
-                  dark:even:bg-slate-800/20 dark:hover:bg-slate-800/50 dark:hover:text-slate-100 data-[state=selected]:dark:bg-slate-800/50 data-[state=selected]:dark:text-slate-100"
+                  dark:even:bg-slate-800/20 dark:hover:bg-slate-800/50 dark:hover:text-slate-100 data-[state=selected]:dark:bg-slate-800/50 data-[state=selected]:dark:text-slate-100
+                  `}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
