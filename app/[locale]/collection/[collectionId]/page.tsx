@@ -17,6 +17,7 @@ async function getCollectionById(id: string): Promise<Collection | null> {
         select: {
           id: true,
           name: true,
+          email: true,
         },
       },
     },

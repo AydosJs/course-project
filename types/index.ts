@@ -43,7 +43,7 @@ type Collection = {
   customFields: JSONValue;
 
   Item?: Item[];
-  user?: Pick<User, "id" | "name">;
+  user?: Pick<User, "id" | "name" | "email">;
 };
 
 type Item = {

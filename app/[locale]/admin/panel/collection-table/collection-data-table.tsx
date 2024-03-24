@@ -16,14 +16,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useTranslation } from "react-i18next";
-import { useSession } from "next-auth/react";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<User, TValue>[];
-  data: User[];
+  columns: ColumnDef<Collection, TValue>[];
+  data: Collection[];
 }
 
-export function DataTable<TData, TValue>({
+export function CollectionDataTable<TData, TValue>({
   columns,
   data,
 }: Readonly<DataTableProps<TData, TValue>>) {
@@ -33,12 +32,11 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  const { data: session } = useSession();
 
   return (
     <>
       <h1 className="mb-4 text-lg font-medium text-slate-900 dark:text-slate-200">
-        {t("usersList")}
+        {t("collection_list")}
       </h1>
       <div className="rounded border backdrop-blur backdrop-filter dark:border-2">
         <Table>
@@ -68,9 +66,8 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   className={`
-                  group cursor-pointer text-slate-600 hover:text-slate-800 data-[state=selected]:text-slate-800
-                  dark:text-slate-400 dark:even:bg-slate-800/20 dark:hover:bg-slate-800/50 dark:hover:text-slate-100 data-[state=selected]:dark:bg-slate-800/50 data-[state=selected]:dark:text-slate-100
-                  ${session?.user.id === row.original.id && "bg-sky-500/10"}
+                  data-[state=selected]:dark:text-slate-100} group cursor-pointer text-slate-600 hover:text-slate-800
+                  data-[state=selected]:text-slate-800 dark:text-slate-400 dark:even:bg-slate-800/20 dark:hover:bg-slate-800/50 dark:hover:text-slate-100 data-[state=selected]:dark:bg-slate-800/50
                   `}
                   key={row.id}
                   onClick={row.getToggleSelectedHandler()}

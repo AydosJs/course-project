@@ -33,10 +33,13 @@ export default function CollectionForm({
 }: Readonly<{
   collection: Collection | null;
 }>) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const { t } = useTranslation();
 
-  if (status === "unauthenticated") {
+  if (
+    status === "unauthenticated" ||
+    (session?.user.id !== collection?.ownerId && !session?.user.isAdmin)
+  ) {
     redirect("/");
   }
   const router = useRouter();
@@ -62,17 +65,6 @@ export default function CollectionForm({
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<collectionInputs> = async (data) => {
-    // if (
-    //   collection?.cover === data.cover &&
-    //   collection?.name === data.name &&
-    //   collection?.description === data.description &&
-    //   collection?.topic === data.topic
-    // ) {
-    //   return toast.error("Nothing to update!", {
-    //     id: "nothingToUpdate",
-    //   });
-    // }
-
     const formData = {
       id: collection?.id,
       name: data.name,
@@ -96,7 +88,7 @@ export default function CollectionForm({
           id: "successfullyCreated",
         });
         setCover(null);
-        router.push("/profile");
+        router.back();
         router.refresh();
       }
     } catch (error) {

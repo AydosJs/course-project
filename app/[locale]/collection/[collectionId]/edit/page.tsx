@@ -1,5 +1,8 @@
+import { getServerSession } from "next-auth";
 import CollectionForm from "./CollectionForm";
 import prisma from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/authOptions";
+import { redirect } from "next/navigation";
 
 async function getCollectionById(
   collectionId: string,
@@ -18,6 +21,15 @@ export default async function page({
   };
 }>) {
   const collection = await getCollectionById(params.collectionId);
+  const session = await getServerSession(authOptions);
+
+  if (
+    collection &&
+    collection.ownerId !== session?.user.id &&
+    !session?.user.isAdmin
+  ) {
+    redirect("/");
+  }
 
   return (
     <div className="container my-10 max-w-7xl">

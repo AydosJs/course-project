@@ -38,8 +38,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
+import Link from "next/link";
 
-export const columns: ColumnDef<User>[] = [
+export const userColumns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -267,12 +268,14 @@ function UserActions({
           align="end"
           className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400"
         >
-          {table.getSelectedRowModel().rows.length === 0 && (
+          {table.getSelectedRowModel().rows.length <= 1 && (
             <>
-              <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
-                <Plus className="mr-3 size-4" />
-                {t("create_collection")}
-              </DropdownMenuItem>
+              <Link href={`/collection/create?ownerId=${row.original.id}`}>
+                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2 dark:hover:bg-slate-500/20">
+                  <Plus className="mr-3 size-4" />
+                  {t("create_collection")}
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSeparator />
             </>
           )}

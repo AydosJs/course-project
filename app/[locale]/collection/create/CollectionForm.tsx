@@ -14,7 +14,7 @@ import { BadgeMinus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
 import Tiptap from "@/components/TipTap";
@@ -33,6 +33,9 @@ export default function CollectionForm({ t }: any) {
   if (status === "unauthenticated") {
     redirect("/");
   }
+
+  const searchParam = useSearchParams();
+  const ownerIdParam = searchParam ? searchParam.get("ownerId") : "";
 
   const router = useRouter();
   const {
@@ -55,7 +58,10 @@ export default function CollectionForm({ t }: any) {
       description: JSON.stringify(data.description),
       topic: data.topic,
       cover: cover ?? "",
-      ownerId: session?.user.id,
+      ownerId:
+        session?.user.isAdmin && ownerIdParam && ownerIdParam !== ""
+          ? ownerIdParam
+          : session?.user.id,
       customFields: JSON.stringify(data.customFields),
     };
     try {
@@ -73,7 +79,7 @@ export default function CollectionForm({ t }: any) {
           id: "successfullyCreated",
         });
         setCover(null);
-        router.push("/profile");
+        router.back();
         router.refresh();
       }
     } catch (error) {
