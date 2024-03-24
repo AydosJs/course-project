@@ -2,6 +2,9 @@ import ItemTableList from "./ItemTable/ItemTableList";
 import initTranslations from "@/app/i18n";
 import prisma from "@/lib/prisma";
 import ItemForm from "./ItemForm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: {
@@ -35,6 +38,18 @@ export default async function CreateCollectionItem({
 }: Readonly<Props>) {
   const { t } = await initTranslations(locale, ["default"]);
   const collection = await getCollection(collectionId);
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) return;
+
+  if (
+    collection &&
+    collection?.ownerId !== session?.user.id &&
+    !session?.user.isAdmin
+  ) {
+    redirect("/");
+  }
 
   return (
     <div className="container my-10 max-w-7xl">

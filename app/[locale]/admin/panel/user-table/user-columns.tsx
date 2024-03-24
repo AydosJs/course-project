@@ -34,10 +34,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 import Link from "next/link";
 
 export const userColumns: ColumnDef<User>[] = [
@@ -89,8 +87,8 @@ export const userColumns: ColumnDef<User>[] = [
     header: "Email",
   },
   {
-    accessorKey: "itemCount",
-    header: "Item Count",
+    accessorKey: "item",
+    header: "Items",
 
     cell: ({ row }) => {
       return <>{row.original.Item && `${row.original.Item.length}`}</>;

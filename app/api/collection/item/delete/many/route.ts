@@ -6,38 +6,24 @@ export async function DELETE(request: Request): Promise<Response> {
   const { ids } = await request.json();
   try {
     if (ids.length === 0) {
-      throw new Error("Collection id is required");
+      throw new Error("Item id is required");
     }
 
-    const collections = await prisma.collection.findMany({
+    const items = await prisma.item.findMany({
       where: { id: { in: ids } },
-      include: {
-        Item: true,
-      },
     });
 
-    collections.length !== 0 &&
-      collections.map(async (collection) => {
-        const cover = collection.cover;
+    items.length !== 0 &&
+      items.map(async (item) => {
+        const cover = item.cover;
         if (cover && cover !== "") {
           const newUrl = cover.substring(cover.lastIndexOf("/") + 1);
           const utapi = new UTApi();
           await utapi.deleteFiles(newUrl);
         }
-
-        collection.Item.length !== 0 &&
-          collection.Item.map(async (item) => {
-            const cover = item.cover;
-            if (cover && cover !== "") {
-              console.log("item.cover", cover);
-              const newUrl = cover.substring(cover.lastIndexOf("/") + 1);
-              const utapi = new UTApi();
-              await utapi.deleteFiles(newUrl);
-            }
-          });
       });
 
-    const res = await prisma.collection.deleteMany({
+    const res = await prisma.item.deleteMany({
       where: { id: { in: ids } },
     });
 

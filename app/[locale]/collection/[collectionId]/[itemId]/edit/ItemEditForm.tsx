@@ -38,10 +38,15 @@ export default function ItemEditForm({
 }: Readonly<{ item: Item; tags: Tags[] }>) {
   const { t } = useTranslation();
 
-  const { status } = useSession();
-  if (status === "unauthenticated") {
+  const { data: session, status } = useSession();
+
+  if (
+    status === "unauthenticated" ||
+    (session?.user.id !== item?.ownerId && !session?.user.isAdmin)
+  ) {
     redirect("/");
   }
+
   const [cover, setCover] = useState<string | null>(item.cover);
   const [loading, setLoading] = useState<boolean>(false);
   const defaultTags = tags.map((tag) => ({ value: tag.id, label: tag.text }));
@@ -110,7 +115,7 @@ export default function ItemEditForm({
         });
         setCover(null);
         reset();
-        route.push(`/collection/${item.collectionId}/create/item`);
+        route.back();
         route.refresh();
         setSelectedTags([]);
         remove();

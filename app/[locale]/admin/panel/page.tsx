@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import UserTable from "./user-table/UserTable";
 import CollectionTable from "./collection-table/CollectionTable";
+import ItemTable from "./item-table/ItemTable";
 
 export default async function page() {
   const session = await getServerSession();
@@ -11,6 +12,7 @@ export default async function page() {
     <div className="container mt-10 max-w-7xl">
       <div className="mb-20 flex flex-col space-y-8">
         <UserTable />
+        <ItemTable />
         <CollectionTable />
       </div>
     </div>

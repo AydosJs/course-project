@@ -54,11 +54,15 @@ type Item = {
   likeCount: number;
   publishedAt?: Date;
   customFields: JSONValue;
-  Tags?: Tags[];
-
   tagsId: string[];
   collectionId: string;
   ownerId: string;
+
+  user?: Pick<User, "id" | "name" | "email">;
+  Tags?: Tags[];
+  ItemLike?: ItemLike[];
+  ItemComments?: CommentType[];
+  collection?: Pick<Collection, "id" | "name"> | null;
 };
 
 type CommentType = {

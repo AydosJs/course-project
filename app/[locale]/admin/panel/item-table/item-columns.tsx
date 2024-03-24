@@ -9,7 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import dayjs from "dayjs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
@@ -29,7 +36,7 @@ import DOMPurify from "dompurify";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-export const CollectionColumns: ColumnDef<Collection>[] = [
+export const ItemColumns: ColumnDef<Item>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -99,33 +106,54 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
     },
   },
   {
-    accessorKey: "owner",
-    header: "Owner",
+    accessorKey: "collectionName",
+    header: () => {
+      return <span className="truncate">Collection Name</span>;
+    },
+
+    cell: ({ row }) => {
+      return <span>{row.original.collection?.name}</span>;
+    },
+  },
+  {
+    accessorKey: "tags",
+    header: "Tags",
+
     cell: ({ row }) => {
       return (
-        <div className="flex flex-col space-y-1">
-          {row.original.user && (
-            <>
-              <span>{row.original.user.name}</span>
-              <span>{row.original.user.email}</span>
-            </>
-          )}
+        <div className="flex flex-row space-x-2">
+          {row.original.Tags?.length !== 0 &&
+            row.original.Tags?.map((tag) => (
+              <span className="truncate" key={tag.id}>
+                #{tag.text}
+              </span>
+            ))}
         </div>
       );
     },
   },
   {
-    accessorKey: "topic",
-    header: "Topic",
-  },
-  {
-    accessorKey: "items",
+    accessorKey: "likeCount",
     header: () => {
-      return <div className="truncate">Items</div>;
+      return (
+        <div className="flex flex-row flex-nowrap items-center">
+          <span>
+            <Heart className="size-4" />
+          </span>
+          &nbsp;/&nbsp;
+          <span>
+            <MessageCircle className="size-4" />
+          </span>
+        </div>
+      );
     },
 
     cell: ({ row }) => {
-      return <>{row.original.Item && `${row.original.Item.length}`}</>;
+      return (
+        <p>
+          {row.original.likeCount} / {row.original.ItemComments?.length}
+        </p>
+      );
     },
   },
   {
@@ -140,15 +168,14 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
     },
   },
   {
+    accessorKey: "actions",
     id: "actions",
-    cell: ({
-      row,
-      table,
-    }: {
-      row: Row<Collection>;
-      table: Table<Collection>;
-    }) => {
-      return <Actions row={row} table={table} />;
+    cell: ({ row, table }: { row: Row<Item>; table: Table<Item> }) => {
+      return (
+        <div onClick={(e) => e.stopPropagation()}>
+          <Actions row={row} table={table} />
+        </div>
+      );
     },
   },
 ];
@@ -156,31 +183,31 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
 function Actions({
   row,
   table,
-}: Readonly<{ row: Row<Collection>; table: Table<Collection> }>) {
+}: Readonly<{ row: Row<Item>; table: Table<Item> }>) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const selectedCollectionsId: string[] = [];
-
+  const selectedItemsId: string[] = [];
   if (table.getSelectedRowModel().rows.length > 0) {
-    table
-      .getSelectedRowModel()
-      .rows.map((row) => selectedCollectionsId.push(row.original.id));
-  } else {
-    selectedCollectionsId.push(row.original.id);
+    table.getSelectedRowModel().rows.map((row) => {
+      if (row.original.id) {
+        selectedItemsId.push(row.original.id);
+      }
+    });
+  } else if (row.original.id) {
+    selectedItemsId.push(row.original.id);
   }
 
   const handleDelete = async () => {
-    if (selectedCollectionsId.length === 0 && loading) return;
+    if (selectedItemsId.length === 0 && loading) return;
     try {
       setLoading(true);
-      const res = await fetch("/api/collection/delete/many", {
+      const res = await fetch("/api/collection/item/delete/many", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ids: selectedCollectionsId }),
+        body: JSON.stringify({ ids: selectedItemsId }),
       });
-
       if (res.ok && res.status === 200) {
         table.toggleAllRowsSelected(false);
         router.refresh();
@@ -229,18 +256,9 @@ function Actions({
           className="rounded border-2 border-slate-900/10 bg-slate-50 p-0 text-slate-600 backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-800/30  dark:text-slate-400"
         >
           {table.getSelectedRowModel().rows.length <= 1 && (
-            <>
-              <Link href={`/collection/${row.original.id}/create/item`}>
-                <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2">
-                  <Plus className="mr-3 size-4" />
-                  {t("create_item")}
-                </DropdownMenuItem>
-              </Link>
-              <DropdownMenuSeparator />
-            </>
-          )}
-          {table.getSelectedRowModel().rows.length <= 1 && (
-            <Link href={`/collection/${row.original.id}/edit`}>
+            <Link
+              href={`/collection/${row.original.collectionId}/${row.original.id}/edit`}
+            >
               <DropdownMenuItem className="flex cursor-pointer flex-row items-center rounded-none p-2">
                 <Pencil className="mr-3 size-4" />
                 {t("edit")}
