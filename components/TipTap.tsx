@@ -81,7 +81,7 @@ const MenuBar = () => {
   }
 
   return (
-    <div className="divide-x-2 divide-slate-700 border-b-2 bg-slate-800/50 dark:border-slate-700">
+    <div className="divide-x-2 border-b-2 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800/50">
       <Toggle
         className="rounded-none"
         size={"sm"}
