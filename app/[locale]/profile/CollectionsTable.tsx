@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2 } from "lucide-react";
+import { ImageOff, Pencil, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -142,8 +142,12 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                               backgroundPosition: "center",
                               backgroundRepeat: "no-repeat",
                             }}
-                            className="h-10 w-14 rounded bg-slate-200 dark:bg-slate-700"
-                          ></span>
+                            className="flex h-10 w-14 items-center justify-center rounded bg-slate-200 text-slate-400 dark:bg-slate-700"
+                          >
+                            {collection.cover === "" && (
+                              <ImageOff className="size-4 dark:text-sky-500" />
+                            )}
+                          </span>
                         </div>
                       </td>
                       <td className="px-2 py-3 text-sm">
