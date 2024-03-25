@@ -135,21 +135,26 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                       className="group cursor-pointer text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                     >
                       <td className="px-2 py-3  text-sm ">
-                        <div className="mr-1 flex h-full items-center">
-                          <span
-                            style={{
-                              backgroundImage: `url(${collection.cover})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                            className="flex h-10 w-14 items-center justify-center rounded bg-slate-200 text-slate-400 dark:bg-slate-700"
-                          >
-                            {collection.cover === "" && (
-                              <ImageOff className="size-4 dark:text-sky-500" />
-                            )}
-                          </span>
-                        </div>
+                        <Link
+                          onClick={(e) => e.stopPropagation()}
+                          href={`/collection/${collection.id}`}
+                        >
+                          <div className="mr-1 flex h-full items-center">
+                            <span
+                              style={{
+                                backgroundImage: `url(${collection.cover})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                              }}
+                              className="flex h-10 w-14 items-center justify-center rounded bg-slate-200 text-slate-400 dark:bg-slate-700"
+                            >
+                              {collection.cover === "" && (
+                                <ImageOff className="size-4 dark:text-sky-500" />
+                              )}
+                            </span>
+                          </div>
+                        </Link>
                       </td>
                       <td className="px-2 py-3 text-sm">
                         <div className="flex flex-col">
@@ -203,13 +208,10 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                           <AlertDialogContent>
                             <AlertDialogHeader>
                               <AlertDialogTitle>
-                                Are you sure you want to permanently delete this
-                                collection?
+                                {t("confirmation_required")}
                               </AlertDialogTitle>
                               <AlertDialogDescription>
-                                Deleting this collection is permanent. All
-                                associated data, including items, tags, and
-                                comments, will be lost.
+                                {t("cannot_undone")}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

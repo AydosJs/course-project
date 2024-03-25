@@ -71,7 +71,7 @@ export const userColumns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-row items-center">
-          <Avatar className="mr-3 size-8">
+          <Avatar className="mr-3 size-8 border-2">
             <AvatarImage className="" src={row.original.image as string} />
             <AvatarFallback className="bg-sky-500/30 font-semibold text-sky-500">
               {row.original.name ? row.original.name.charAt(0) : "?"}

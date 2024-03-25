@@ -32,7 +32,6 @@ export default function TableItem({
   item,
   tags,
   comments,
-  likes,
 }: Readonly<{
   item: Item;
   tags: Tags[];
@@ -102,17 +101,22 @@ export default function TableItem({
       >
         <td className="truncate px-2  py-3 text-sm ">
           <div className="flex flex-row items-center space-x-2">
-            <div className="mr-1 flex h-full items-center">
-              <span
-                style={{
-                  backgroundImage: `url(${item.cover})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-                className="h-10 w-12 rounded bg-slate-200 dark:bg-slate-700"
-              ></span>
-            </div>
+            <Link
+              onClick={(e) => e.stopPropagation()}
+              href={`/collection/${item.collectionId}/${item.id}`}
+            >
+              <div className="mr-1 flex h-full items-center">
+                <span
+                  style={{
+                    backgroundImage: `url(${item.cover})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  className="h-10 w-12 rounded bg-slate-200 dark:bg-slate-700"
+                ></span>
+              </div>
+            </Link>
             <div>
               <span className="text-sky-100 group-hover:text-slate-900 dark:font-medium dark:group-hover:text-slate-200">
                 {item.name}
@@ -173,11 +177,10 @@ export default function TableItem({
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Are you sure you want to permanently delete this item?
+                  {t("confirmation_required")}
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  Deleting this item is permanent. All associated data will be
-                  lost.
+                  {t("cannot_undone")}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter className="mt-4">

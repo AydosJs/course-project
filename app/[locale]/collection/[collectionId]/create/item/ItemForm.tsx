@@ -56,6 +56,7 @@ export default function ItemForm({
   ) {
     redirect("/");
   }
+  console.log("collection", collection);
   const [cover, setCover] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagsType[]>([]);

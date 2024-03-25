@@ -166,7 +166,6 @@ export const ItemColumns: ColumnDef<Item>[] = [
     },
   },
   {
-    accessorKey: "actions",
     id: "actions",
     cell: ({ row, table }: { row: Row<Item>; table: Table<Item> }) => {
       return (
