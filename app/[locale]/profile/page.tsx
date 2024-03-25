@@ -1,4 +1,4 @@
-import UserProfileForms from "@/components/UserProfileForms";
+import UserProfileForms from "@/app/[locale]/profile/UserProfileForms";
 import Button from "@/components/form-elements/Button";
 import Link from "next/link";
 import { BadgePlus, CirclePlus } from "lucide-react";

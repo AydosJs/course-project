@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
 import Button from "./form-elements/Button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   AlertDialog,
@@ -78,20 +79,14 @@ export default function Header() {
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="outline-none">
                     {session.user.image && (
-                      <div
-                        style={{
-                          backgroundImage: `url(${session.user.image ?? ""})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                        }}
-                        className="size-7 rounded-full"
-                      ></div>
-                    )}
-                    {session.user && !session.user.image && (
-                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
-                        {session.user.name ? session.user.name.charAt(0) : "?"}
-                      </span>
+                      <Avatar className="size-7 border-2">
+                        <AvatarImage src={session.user.image as string} />
+                        <AvatarFallback className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
+                          {session.user.name
+                            ? session.user.name.charAt(0)
+                            : "?"}
+                        </AvatarFallback>
+                      </Avatar>
                     )}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="mt-5 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">

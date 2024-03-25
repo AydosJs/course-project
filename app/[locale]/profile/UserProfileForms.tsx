@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import Button from "./form-elements/Button";
+import Button from "../../../components/form-elements/Button";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,8 +10,20 @@ import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import UploadDropzoneInput from "./form-elements/UploadDropzoneInput";
-import Loader from "./loader/Loader";
+import UploadDropzoneInput from "../../../components/form-elements/UploadDropzoneInput";
+import Loader from "../../../components/loader/Loader";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface userInput {
   name?: string;
@@ -100,17 +112,14 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
   };
 
   const handleDelete = () => {
-    const isConfirmed = confirm("Are you sure?");
-    if (isConfirmed) {
-      setImage(null);
-      setValue("image", null);
-      deleteImage(watch("image") ?? user.image ?? "");
-      onSubmit({
-        name: watch("name"),
-        email: watch("email"),
-        image: null,
-      });
-    }
+    setImage(null);
+    setValue("image", null);
+    deleteImage(watch("image") ?? user.image ?? "");
+    onSubmit({
+      name: watch("name"),
+      email: watch("email"),
+      image: null,
+    });
   };
 
   return (
@@ -154,13 +163,37 @@ export default function UserProfileForms({ user }: Readonly<Props>) {
                 }}
                 className="group relative h-44 w-44 cursor-pointer rounded-full border-2 border-sky-500  border-opacity-50 bg-slate-800 transition-all duration-300 hover:border-red-500 dark:border-opacity-50"
               >
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
-                >
-                  <Trash2 className="size-5  text-slate-50 " />
-                </button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
+                    >
+                      <Trash2 className="size-5  text-slate-50 " />
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {t("confirmation_required")}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t("cannot_undone")}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
+                        {t("cancel")}
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDelete}
+                        className="bg-rose-500 text-rose-50 hover:bg-rose-400"
+                      >
+                        {t("continue")}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           )}

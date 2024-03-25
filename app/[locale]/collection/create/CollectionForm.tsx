@@ -19,6 +19,18 @@ import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
 import Tiptap from "@/components/TipTap";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 interface collectionInputs {
   ownerId?: string;
   description?: string;
@@ -33,7 +45,6 @@ export default function CollectionForm({ t }: any) {
   if (status === "unauthenticated") {
     redirect("/");
   }
-
   const searchParam = useSearchParams();
   const ownerIdParam = searchParam ? searchParam.get("ownerId") : "";
 
@@ -110,8 +121,7 @@ export default function CollectionForm({ t }: any) {
   };
 
   const handleDelete = () => {
-    const isConfirmed = confirm("Are you sure?");
-    if (isConfirmed && watch("cover") && cover) {
+    if (watch("cover") && cover) {
       setCover(null);
       setValue("cover", null);
       deleteImage(cover);
@@ -154,13 +164,38 @@ export default function CollectionForm({ t }: any) {
               }}
               className="group relative h-64 w-full cursor-pointer rounded border-2 border-sky-500  border-opacity-50 bg-slate-800 transition-all duration-300 hover:border-red-500 dark:border-opacity-50"
             >
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
-              >
-                <Trash2 className="size-5  text-slate-50 " />
-              </button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button
+                    type="button"
+                    className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
+                  >
+                    <Trash2 className="size-5  text-slate-50 " />
+                  </button>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {t("confirmation_required")}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t("cannot_undone")}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
+                      {t("cancel")}
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-rose-500 text-rose-50 hover:bg-rose-400"
+                    >
+                      {t("continue")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         )}
