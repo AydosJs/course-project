@@ -96,7 +96,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "isAdmin",
-    header: "Is Admin",
+    header: "Role",
     cell: ({ row }) => {
       return (
         <span className={`${row.original.isAdmin && "text-sky-500"}`}>

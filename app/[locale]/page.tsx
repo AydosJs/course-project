@@ -37,7 +37,7 @@ export default async function Home({
 
             <div>
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-                {t("top_5__most_collections")}
+                {t("most_collections")}
               </h1>
               <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-4 md:gap-4 xl:grid-cols-6">
                 <CollectionList />
