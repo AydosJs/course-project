@@ -297,7 +297,7 @@ const ReusableAlertDialog = ({
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("confirmation_required")}</AlertDialogTitle>
           <AlertDialogDescription>{t("cannot_undone")}</AlertDialogDescription>

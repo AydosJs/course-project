@@ -75,7 +75,7 @@ export default function ItemCommentAction({
               </span>
             </AlertDialogTrigger>
           </div>
-          <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
+          <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
                 {t("permanently_delete_this_comment")}
@@ -93,7 +93,7 @@ export default function ItemCommentAction({
                   if (!session) return;
                   handleDelete();
                 }}
-                className="bg-red-500 text-red-100 hover:bg-red-400"
+                className="bg-rose-500 text-rose-100 hover:bg-rose-400"
               >
                 {t("delete")}
               </AlertDialogAction>

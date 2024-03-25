@@ -195,7 +195,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                               </AlertDialogTrigger>
                             </DropdownMenuContent>
                           </DropdownMenu>
-                          <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
+                          <AlertDialogContent>
                             <AlertDialogHeader>
                               <AlertDialogTitle>
                                 Are you sure you want to permanently delete this
@@ -218,7 +218,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                                     cover: collection.cover,
                                   })
                                 }
-                                className="bg-red-500 text-red-100 hover:bg-red-400"
+                                className="bg-rose-500 text-rose-50 hover:bg-rose-400"
                               >
                                 {t("delete")}
                               </AlertDialogAction>

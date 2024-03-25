@@ -109,7 +109,7 @@ export default function Header() {
                     </AlertDialogTrigger>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <AlertDialogContent className="backdrop-blur-lg backdrop-filter dark:bg-slate-800/50">
+                <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>{t("you_sure_logout")}</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -126,7 +126,7 @@ export default function Header() {
                           router.refresh();
                         });
                       }}
-                      className="bg-red-500 text-red-100 hover:bg-red-400"
+                      className="bg-rose-500 text-rose-50 hover:bg-rose-400"
                     >
                       {t("logout")}
                     </AlertDialogAction>
