@@ -95,9 +95,9 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
   return (
     <>
       <Loader loading={loading} />
-      <div className="h-fit overflow-x-auto">
-        <div className="inline-block h-fit min-w-full table-fixed align-middle">
-          <div className="h-fit min-w-[700px] overflow-hidden">
+      <div className="overflow-x-auto">
+        <div className="inline-block min-w-full table-fixed align-middle">
+          <div className=" min-w-[400px] overflow-hidden">
             <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700/30">
               <thead>
                 <tr className="uppercase text-slate-900 *:font-semibold dark:text-slate-100">

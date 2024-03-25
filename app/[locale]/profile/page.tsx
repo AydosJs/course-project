@@ -46,11 +46,11 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
   const userCollections = await getUserCollections(session?.user.id);
 
   return (
-    <div className="container my-10 flex max-w-7xl flex-col space-y-12 md:flex-row md:space-x-6 md:space-y-0">
+    <div className="container my-10 flex max-w-7xl flex-col space-y-12 lg:flex-row lg:space-x-6 lg:space-y-0">
       <div className="flex h-fit  w-full flex-col space-y-6 rounded-lg border-slate-900/10 sm:border sm:bg-slate-50 sm:p-6 sm:dark:border-slate-50/[0.06] sm:dark:bg-slate-800/50 lg:max-w-sm">
         {user && <UserProfileForms user={user} />}
       </div>
-      <div className="flex w-full flex-col rounded-lg border-slate-900/10  dark:border-slate-50/[0.06]  sm:border sm:bg-slate-50 sm:p-6 sm:dark:bg-slate-800/50">
+      <div className="flex h-auto w-full flex-col rounded-lg border-slate-900/10  dark:border-slate-50/[0.06]  sm:border sm:bg-slate-50 sm:p-6 sm:dark:bg-slate-800/50 lg:w-2/3">
         <div className="mb-4  flex flex-row  items-center justify-between">
           <h1 className="text-lg font-medium text-slate-900 dark:text-slate-200">
             {t("collection_list")}
@@ -65,9 +65,7 @@ export default async function Profile({ params: { locale } }: Readonly<Props>) {
             </Link>
           </div>
         </div>
-        <div className="h-fit w-full overflow-hidden overflow-x-auto">
-          <CollectionsTable userCollections={userCollections} />
-        </div>
+        <CollectionsTable userCollections={userCollections} />
       </div>
     </div>
   );
