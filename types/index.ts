@@ -8,6 +8,7 @@ interface ThemeContext {
 type CollectionCustomField = {
   label: string;
   value: string;
+  type: string;
 };
 
 type User = {

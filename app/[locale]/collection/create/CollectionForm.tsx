@@ -10,7 +10,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
-import { BadgeMinus, Trash2 } from "lucide-react";
+import { BadgeMinus, Minus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -30,6 +30,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface collectionInputs {
   ownerId?: string;
@@ -59,6 +67,20 @@ export default function CollectionForm({ t }: any) {
     formState: { errors },
   } = useForm<collectionInputs>({
     resolver: yupResolver(collectionValidationSchema),
+    defaultValues: {
+      customFields: [
+        {
+          label: "",
+          value: "",
+          type: "string",
+        },
+        {
+          label: "",
+          value: "",
+          type: "date",
+        },
+      ],
+    },
   });
   const [cover, setCover] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -299,7 +321,7 @@ export default function CollectionForm({ t }: any) {
                 <Controller
                   control={control}
                   name={
-                    `customFields[${index}].value` as `customFields.${number}.value`
+                    `customFields[${index}].type` as `customFields.${number}.type`
                   }
                   render={({ field }) => (
                     <div className="w-1/2">
@@ -307,13 +329,39 @@ export default function CollectionForm({ t }: any) {
                         htmlFor="description"
                         className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
                       >
-                        {t("value")}
+                        {t("type")}
                       </label>
-                      <input
-                        disabled={loading}
-                        {...field}
-                        className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
-                      />
+                      <Select
+                        onValueChange={(val) =>
+                          setValue(`customFields.${index}.type`, val)
+                        }
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 ">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="string">String</SelectItem>
+                          <SelectItem
+                            onClick={() => {
+                              setValue(`customFields.${index}.value`, "0");
+                            }}
+                            value="number"
+                          >
+                            Number
+                          </SelectItem>
+                          <SelectItem
+                            onClick={() => {
+                              setValue(`customFields.${index}.value`, "true");
+                            }}
+                            value="boolean"
+                          >
+                            Boolean
+                          </SelectItem>
+                          <SelectItem value="date">Date</SelectItem>
+                        </SelectContent>
+                      </Select>
+
                       {errors.customFields &&
                         errors.customFields[index]?.value && (
                           <p className="mt-1 text-xs text-red-500">
@@ -327,11 +375,11 @@ export default function CollectionForm({ t }: any) {
 
               <div className="w-fit">
                 <Button
-                  className="border-2 border-red-500 bg-red-500/50 p-2 hover:border-red-600 hover:bg-red-500/60 dark:border-red-500 dark:bg-red-500/50 dark:hover:border-red-600 dark:hover:bg-red-500/60 "
+                  className="h-full border-2 border-slate-400/50 bg-slate-300/50 p-2 hover:bg-slate-300  dark:border-slate-700 dark:bg-slate-700/70 dark:hover:border-slate-700 dark:hover:bg-slate-700/50"
                   type="button"
                   onClick={() => remove(index)}
                 >
-                  <BadgeMinus className="size-5 text-red-500 dark:text-red-300" />
+                  <Minus className="size-5 text-slate-600 dark:text-slate-400" />
                 </Button>
               </div>
             </div>
@@ -342,7 +390,7 @@ export default function CollectionForm({ t }: any) {
         <Button
           className="border-none bg-sky-500 py-3 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
           type="button"
-          onClick={() => append({ label: "", value: "" })}
+          onClick={() => append({ label: "", value: "", type: "string" })}
         >
           {t("add_field")}
         </Button>

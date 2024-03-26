@@ -105,11 +105,22 @@ export default async function page({
               </div>
 
               {customFields?.map(
-                (field: { label: string; value: string }, index: number) => (
+                (
+                  field: {
+                    label: string;
+                    value: string;
+                    type: "string" | "number" | "boolean" | "date";
+                  },
+                  index: number,
+                ) => (
                   <ListItem
                     key={index + field.label}
                     label={field.label}
-                    value={field.value}
+                    value={
+                      field.type === "date"
+                        ? dayjs(field.value).format("MMM D, YYYY")
+                        : field.value
+                    }
                   />
                 ),
               )}
@@ -131,7 +142,7 @@ export default async function page({
 const ListItem = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="flex flex-row items-center text-sm">
-      <p className="w-1/2 py-3 md:w-1/3">{label}</p>
+      <p className="w-1/2 py-3 capitalize md:w-1/3">{label}</p>
       <p className="w-1/2 py-3 text-slate-400 md:w-2/3">{value}</p>
     </div>
   );

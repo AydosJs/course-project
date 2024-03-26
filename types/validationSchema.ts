@@ -16,6 +16,7 @@ export const collectionValidationSchema = Yup.object<{
   customFields: Yup.array().of(
     Yup.object<CollectionCustomField>().shape({
       label: Yup.string().required("Label is required"),
+      type: Yup.string().required("Value is required"),
       value: Yup.string().required("Value is required"),
     }),
   ),
@@ -33,6 +34,7 @@ export const itemValidationSchema = Yup.object<{
   customFields: Yup.array().of(
     Yup.object<CollectionCustomField>().shape({
       label: Yup.string().required("Label is required"),
+      type: Yup.string().required("Type is required"),
       value: Yup.string().required("Value is required"),
     }),
   ),
