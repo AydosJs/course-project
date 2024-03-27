@@ -42,11 +42,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
+export interface ItemCustomField {
+  label: string;
+  value: string;
+  type?: string;
+}
+
 interface itemInputs {
   name: string;
   description?: string;
   cover?: string | null;
-  customFields?: CollectionCustomField[];
+  customFields?: ItemCustomField[];
 }
 
 interface TagsType {
@@ -88,7 +94,7 @@ export default function ItemForm({
     },
   });
 
-  const { fields, remove, replace, update } = useFieldArray<itemInputs>({
+  const { fields } = useFieldArray<itemInputs>({
     control,
     name: "customFields",
   });
@@ -112,7 +118,6 @@ export default function ItemForm({
       likeCount: 0,
       tagsId,
     } as Item;
-    // console.log("formData", formData);
 
     try {
       setLoading(true);
@@ -282,156 +287,108 @@ export default function ItemForm({
         <TagsInput onChange={(e: TagsType[]) => setSelectedTags(e)} />
       </div>
 
-      <div className={`${fields.length > 0 ? "block" : "hidden"}`}>
-        <label
-          htmlFor="description"
-          className="mb-1 block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-        >
-          {t("custom_fields")}
-        </label>
-        <div
-          className={`flex flex-col space-y-4 rounded border-2 bg-slate-100 p-4 dark:border-slate-700 dark:bg-slate-800/50`}
-        >
-          {fields.map((fieldt, index) => (
-            <div key={fieldt.id} className="flex flex-row items-end space-x-2">
-              <div className="flex w-full flex-row items-center space-x-2">
-                <Controller
-                  control={control}
-                  name={
-                    `customFields[${index}].label` as `customFields.${number}.label`
-                  }
-                  render={({ field }) => (
-                    <div className="w-full">
-                      <label
-                        htmlFor="description"
-                        className="mb-1 block text-sm font-medium capitalize leading-6 text-slate-600 dark:text-slate-500"
-                      >
-                        {field.value}
-                      </label>
-                      {fieldt.type === "string" && (
-                        <input
-                          disabled={loading}
-                          // {...field}
-                          onChange={(e) =>
-                            setValue(
-                              `customFields.${index}.value`,
-                              e.target.value,
-                            )
-                          }
-                          className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
-                        />
-                      )}
-
-                      {fieldt.type === "number" && (
-                        <input
-                          disabled={loading}
-                          type="number"
-                          onChange={(e) =>
-                            setValue(
-                              `customFields.${index}.value`,
-                              e.target.value,
-                            )
-                          }
-                          className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
-                        />
-                      )}
-
-                      {fieldt.type === "boolean" && (
-                        <RadioGroup
-                          className="flex flex-row items-center space-x-2"
-                          defaultValue={
-                            fieldt.value !== "" ? fieldt.value : "true"
-                          }
-                          onValueChange={(value: "false" | "true") =>
-                            setValue(`customFields.${index}.value`, value)
-                          }
-                        >
-                          <div className="flex w-1/2 items-center space-x-2 rounded border-2 p-2 dark:border-slate-700 dark:bg-slate-800">
-                            <RadioGroupItem value="true" id="r1" />
-                            <label
-                              htmlFor="r1"
-                              className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-                            >
-                              True
-                            </label>
-                          </div>
-                          <div className="flex w-1/2 items-center space-x-2 rounded border-2 p-2 dark:border-slate-700 dark:bg-slate-800">
-                            <RadioGroupItem value="false" id="r2" />
-                            <label
-                              htmlFor="r2"
-                              className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
-                            >
-                              False
-                            </label>
-                          </div>
-                        </RadioGroup>
-                      )}
-
-                      {fieldt.type === "date" && (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <ButtonShadCn
-                              variant={"outline"}
-                              className={`w-full justify-start border-2 bg-slate-100 text-slate-900 outline-none placeholder:text-slate-400   focus:border-slate-400  dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 ${!date && " text-muted-foreground"}`}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {date ? (
-                                format(date, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                            </ButtonShadCn>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0">
-                            <Calendar
-                              mode="single"
-                              selected={date}
-                              onSelect={(e) => {
-                                setValue(
-                                  `customFields.${index}.value`,
-                                  e as any,
-                                );
-                                setDate(e);
-                              }}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      )}
-
-                      {errors.customFields &&
-                        errors.customFields[index]?.value && (
-                          <p className="mt-1 text-xs text-red-500">
-                            {errors.customFields[index]?.value?.message}
-                          </p>
-                        )}
-                    </div>
-                  )}
-                />
-              </div>
-
-              {/* <div className="w-fit">
-                <Button
-                  className="border-2 border-red-500 bg-red-500/50 p-2 hover:border-red-600 hover:bg-red-500/60 dark:border-red-500 dark:bg-red-500/50 dark:hover:border-red-600 dark:hover:bg-red-500/60 "
-                  type="button"
-                  onClick={() => remove(index)}
+      <div
+        className={`${fields.length > 0 ? "block" : "hidden"} flex flex-col space-y-4`}
+      >
+        {fields.map((fieldt, index) => (
+          <Controller
+            key={fieldt.id}
+            control={control}
+            name={
+              `customFields[${index}].value` as `customFields.${number}.value`
+            }
+            render={({ field }) => (
+              <div className="w-full">
+                <label
+                  htmlFor="description"
+                  className="mb-1 block text-sm font-medium capitalize leading-6 text-slate-600 dark:text-slate-500"
                 >
-                  <BadgeMinus className="size-5 text-red-500 dark:text-red-300" />
-                </Button>
-              </div> */}
-            </div>
-          ))}
-        </div>
+                  {fieldt.label}
+                </label>
+                {fieldt.type === "string" && (
+                  <input
+                    disabled={loading}
+                    {...field}
+                    className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
+                  />
+                )}
+
+                {fieldt.type === "number" && (
+                  <input
+                    disabled={loading}
+                    type="number"
+                    {...field}
+                    className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
+                  />
+                )}
+
+                {fieldt.type === "boolean" && (
+                  <RadioGroup
+                    className="flex flex-row items-center space-x-2"
+                    defaultValue={fieldt.value !== "" ? fieldt.value : "true"}
+                    onValueChange={(value: "false" | "true") =>
+                      field.onChange(value)
+                    }
+                  >
+                    <div className="flex w-1/2 items-center space-x-2 rounded border-2 p-2 py-3 dark:border-slate-700 dark:bg-slate-800">
+                      <RadioGroupItem value="true" id="r1" />
+                      <label
+                        htmlFor="r1"
+                        className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
+                      >
+                        True
+                      </label>
+                    </div>
+                    <div className="flex w-1/2 items-center space-x-2 rounded border-2 p-2 py-3 dark:border-slate-700 dark:bg-slate-800">
+                      <RadioGroupItem value="false" id="r2" />
+                      <label
+                        htmlFor="r2"
+                        className="block text-sm font-medium leading-6 text-slate-600 dark:text-slate-500"
+                      >
+                        False
+                      </label>
+                    </div>
+                  </RadioGroup>
+                )}
+                {fieldt.type === "date" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <ButtonShadCn
+                        variant={"outline"}
+                        className={`h-12 w-full justify-start border-2 bg-slate-100 text-slate-900 outline-none placeholder:text-slate-400   focus:border-slate-400  dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 ${!date && " text-muted-foreground"}`}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </ButtonShadCn>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={new Date(field.value)}
+                        onSelect={(e) => {
+                          field.onChange(e);
+                          setDate(e);
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+
+                {errors.customFields && errors.customFields[index]?.value && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.customFields[index]?.value?.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+        ))}
       </div>
-      {/* <div>
-        <Button
-          className="mt-2 border-none bg-sky-500 py-2 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
-          type="button"
-          onClick={() => append({ label: "", value: "" })}
-        >
-          {t("add_field")}
-        </Button>
-      </div> */}
 
       <CancelAndCreateButtons
         fallBackFn={() => route.back()}

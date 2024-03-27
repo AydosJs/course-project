@@ -30,6 +30,12 @@ async function getCollection(collectionId: string): Promise<Collection | null> {
     },
   });
 
+  collection?.Item.sort((a, b) => {
+    return (
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+  });
+
   return collection;
 }
 

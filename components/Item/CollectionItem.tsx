@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ItemDescription from "./ItemDescription";
 import Link from "next/link";
+import { ImageOff } from "lucide-react";
 dayjs.extend(relativeTime);
 
 export default function CollectionItem(item: Readonly<Item>) {
@@ -11,12 +12,19 @@ export default function CollectionItem(item: Readonly<Item>) {
         style={{
           backgroundImage: `url(${item.cover})`,
         }}
-        className="h-44 w-full bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800/50"
-      ></div>
+        className="relative h-44 w-full bg-slate-100 bg-cover bg-center bg-no-repeat dark:bg-slate-800/50"
+      >
+        {item.cover === "" && (
+          <>
+            <ImageOff className=" absolute left-1/2 top-1/2 size-8 -translate-x-1/2   -translate-y-1/2 opacity-60 dark:text-sky-500" />
+            <div className="absolute inset-0 -z-10 h-full w-full border-2 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] opacity-10 [background-size:20px_20px]"></div>
+          </>
+        )}
+      </div>
 
       <div className="space-y-2 p-5 py-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex min-h-6 items-center gap-2">
             {item.Tags &&
               item?.Tags.length !== 0 &&
               item?.Tags.slice(0, 2).map((item: Tags) => (

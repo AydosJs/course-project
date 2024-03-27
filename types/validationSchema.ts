@@ -1,3 +1,4 @@
+import { ItemCustomField } from "@/app/[locale]/collection/[collectionId]/create/item/ItemForm";
 import * as Yup from "yup";
 
 export const collectionValidationSchema = Yup.object<{
@@ -25,16 +26,15 @@ export const itemValidationSchema = Yup.object<{
   name: string;
   description: string;
   cover: string;
-  customFields: CollectionCustomField[];
+  customFields: ItemCustomField[];
 }>().shape({
   name: Yup.string().required('"Name" is required'),
   description: Yup.string(),
   cover: Yup.string().nullable(),
   customFields: Yup.array().of(
-    Yup.object<CollectionCustomField>().shape({
+    Yup.object<ItemCustomField>().shape({
       label: Yup.string().required("Label is required"),
-      type: Yup.string().required("Type is required"),
-      value: Yup.string().required("Value is required"),
+      value: Yup.string().required("Required"),
     }),
   ),
 });

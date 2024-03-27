@@ -48,6 +48,13 @@ export default async function page({
             </>
           )}
         </div>
+        {collection?.Item?.length === 0 && (
+          <div className="mt-20 grid h-fit w-full">
+            <div className="mt-10 flex w-full items-center justify-center">
+              NO ITEMS YET!
+            </div>
+          </div>
+        )}
         {collection?.Item && collection?.Item.length !== 0 && (
           <div className="mt-20 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-3">
             {collection?.Item.map((item) => (
