@@ -54,8 +54,7 @@ export default function ItemViewActions({ item }: { item: Item }) {
         toast.success("Item deleted successfully", {
           id: "successDeleting",
         });
-        router.refresh();
-        router.push("/");
+        router.back();
       } else {
         toast.error("Error deleting Item", {
           id: "errorDeleting",
