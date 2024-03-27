@@ -14,20 +14,10 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { itemValidationSchema } from "@/types/validationSchema";
 import { Trash2 } from "lucide-react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
 import Tiptap from "@/components/TipTap";
-
-import { Button as ButtonShadCn } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import {
   AlertDialog,
@@ -40,6 +30,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export interface ItemCustomField {
@@ -72,12 +63,10 @@ export default function ItemForm({
   ) {
     redirect("/");
   }
-  // console.log("collection", collection);
   const [cover, setCover] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagsType[]>([]);
   const route = useRouter();
-  const [date, setDate] = useState<Date>();
 
   const {
     register,
@@ -129,7 +118,6 @@ export default function ItemForm({
         body: JSON.stringify({ formData, newTags }),
       });
       if (res.status === 200) {
-        // const data = await res.json();
         reset();
         toast.success("Successfully created!", {
           id: "successfullyCreated",
@@ -357,32 +345,6 @@ export default function ItemForm({
                     {...field}
                     className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                   />
-                  // <Popover>
-                  //   <PopoverTrigger asChild>
-                  //     <ButtonShadCn
-                  //       variant={"outline"}
-                  //       className={`h-12 w-full justify-start border-2 bg-slate-100 text-slate-900 outline-none placeholder:text-slate-400   focus:border-slate-400  dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 ${!date && " text-muted-foreground"}`}
-                  //     >
-                  //       <CalendarIcon className="mr-2 h-4 w-4" />
-                  //       {field.value ? (
-                  //         format(field.value, "PPP")
-                  //       ) : (
-                  //         <span>Pick a date</span>
-                  //       )}
-                  //     </ButtonShadCn>
-                  //   </PopoverTrigger>
-                  //   <PopoverContent className="w-auto p-0">
-                  //     <Calendar
-                  //       mode="single"
-                  //       selected={new Date(field.value)}
-                  //       onSelect={(e) => {
-                  //         field.onChange(e);
-                  //         setDate(e);
-                  //       }}
-                  //       initialFocus
-                  //     />
-                  //   </PopoverContent>
-                  // </Popover>
                 )}
 
                 {errors.customFields && errors.customFields[index]?.value && (

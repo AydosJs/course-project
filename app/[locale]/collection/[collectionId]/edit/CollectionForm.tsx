@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
-import { BadgeMinus, Minus, Trash2 } from "lucide-react";
+import { Minus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -18,6 +18,17 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import Loader from "@/components/loader/Loader";
 import Tiptap from "@/components/TipTap";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import {
   Select,
@@ -175,13 +186,37 @@ export default function CollectionForm({
               }}
               className="group relative h-64 w-full cursor-pointer rounded border-2 border-sky-500  border-opacity-50 bg-slate-800 transition-all duration-300 hover:border-red-500 dark:border-opacity-50"
             >
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
-              >
-                <Trash2 className="size-5  text-slate-50 " />
-              </button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button
+                    type="button"
+                    className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full  bg-red-500 bg-opacity-50 p-2  opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-opacity-50"
+                  >
+                    <Trash2 className="size-5  text-slate-50 " />
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {t("confirmation_required")}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t("cannot_undone")}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="mt-4">
+                    <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
+                      {t("cancel")}
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-rose-500 text-rose-50 hover:bg-rose-400"
+                    >
+                      {t("continue")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         )}
@@ -272,12 +307,11 @@ export default function CollectionForm({
                         {...field}
                         className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
-                      {errors.customFields &&
-                        errors.customFields[index]?.label && (
-                          <p className="mt-1 text-xs text-red-500">
-                            {errors.customFields[index]?.label?.message}
-                          </p>
-                        )}
+                      {errors?.customFields?.[index]?.label && (
+                        <p className="mt-1 text-xs text-red-500">
+                          {errors?.customFields[index]?.label?.message}
+                        </p>
+                      )}
                     </div>
                   )}
                 />
