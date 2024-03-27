@@ -44,7 +44,7 @@ export interface customField {
 
 interface collectionInputs {
   ownerId?: string;
-  description?: string;
+  description: string;
   name: string;
   topic?: string;
   cover?: string | null;
