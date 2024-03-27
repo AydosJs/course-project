@@ -120,7 +120,9 @@ export default async function page({
               </h1>
               {tags?.length !== 0 && (
                 <div className="flex flex-row items-center text-sm">
-                  <p className="w-1/2 py-3 md:w-1/3">Tags</p>
+                  <p className="w-1/2 py-3 text-slate-600 dark:text-slate-400 md:w-1/3">
+                    {t("tags")}
+                  </p>
                   <div className="flex w-1/2 flex-row flex-wrap gap-x-2 gap-y-4 py-3 md:w-2/3 ">
                     {tags &&
                       tags.length !== 0 &&
