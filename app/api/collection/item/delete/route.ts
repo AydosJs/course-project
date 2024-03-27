@@ -8,19 +8,6 @@ export async function DELETE(request: Request): Promise<Response> {
       throw new Error("Collection id is required");
     }
 
-    await prisma.tags.deleteMany({ where: { itemId: id } });
-    await prisma.itemLike.deleteMany({ where: { itemId: id } }); // Delete likes on items
-
-    const comments = await prisma.itemComments.findMany({
-      where: { itemId: id },
-    });
-    for (const comment of comments) {
-      await prisma.commentLike.deleteMany({
-        where: { itemCommentsId: comment.id },
-      });
-      await prisma.itemComments.delete({ where: { id: comment.id } });
-    }
-
     const res = await prisma.item.delete({ where: { id: id } });
 
     return NextResponse.json(

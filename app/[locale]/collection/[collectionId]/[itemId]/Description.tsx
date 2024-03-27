@@ -14,7 +14,7 @@ export default function Description(description: {
       dangerouslySetInnerHTML={{
         __html: sanitizedDescription,
       }}
-      className="mt-4 text-slate-400 transition-all duration-300 dark:text-slate-400"
+      className="mt-4 text-slate-600 transition-all duration-300 dark:text-slate-400"
     ></div>
   );
 }

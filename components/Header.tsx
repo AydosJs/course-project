@@ -80,7 +80,7 @@ export default function Header() {
                   <DropdownMenuTrigger className="outline-none">
                     <Avatar className="size-7 border-2">
                       <AvatarImage src={session?.user?.image as string} />
-                      <AvatarFallback className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
+                      <AvatarFallback className="flex items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
                         {session.user.name ? session.user.name.charAt(0) : "?"}
                       </AvatarFallback>
                     </Avatar>

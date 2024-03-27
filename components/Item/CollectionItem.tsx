@@ -4,8 +4,23 @@ import ItemDescription from "./ItemDescription";
 import Link from "next/link";
 import { ImageOff } from "lucide-react";
 dayjs.extend(relativeTime);
+import prisma from "@/lib/prisma";
 
-export default function CollectionItem(item: Readonly<Item>) {
+async function getTagsById(id: string[]): Promise<Tags[] | null> {
+  const tags = await prisma.tags.findMany({
+    where: {
+      id: {
+        in: id,
+      },
+    },
+  });
+
+  return tags;
+}
+
+export default async function CollectionItem(item: Readonly<Item>) {
+  const tags = await getTagsById(item?.tagsId ? item?.tagsId : []);
+
   return (
     <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300 hover:bg-slate-100  dark:border-2 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
       <div
@@ -25,9 +40,9 @@ export default function CollectionItem(item: Readonly<Item>) {
       <div className="space-y-2 p-5 py-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
           <div className="flex min-h-6 items-center gap-2">
-            {item.Tags &&
-              item?.Tags.length !== 0 &&
-              item?.Tags.slice(0, 2).map((item: Tags) => (
+            {tags &&
+              tags?.length !== 0 &&
+              tags.slice(0, 2).map((item: Tags) => (
                 <Link
                   href={`/search?q=${encodeURI(item.text as string)}`}
                   key={item.id}

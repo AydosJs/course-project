@@ -2,10 +2,26 @@
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import DOMPurify from "isomorphic-dompurify";
-import { ImageOff, Pencil, Plus } from "lucide-react";
-import Button from "@/components/form-elements/Button";
+import { ImageOff, Pencil, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/loader/Loader";
 
 interface CollectionCardProps {
   ownerUser: Pick<User, "id" | "name"> | null;
@@ -17,14 +33,41 @@ export default function CollectionCard({
   collection,
 }: Readonly<CollectionCardProps>) {
   const { t } = useTranslation();
-  const customFields = JSON.parse(collection.customFields as any);
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   const sanitizedDescription = DOMPurify.sanitize(
     JSON.parse(collection.description ?? '""'),
   );
   const { data: session } = useSession();
 
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/collection/delete/many", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: [collection.id] }),
+      });
+
+      if (res.ok && res.status === 200) {
+        router.refresh();
+        router.back();
+        toast.success("Collection deleted!");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
+      <Loader loading={loading} />
       <div
         style={{
           backgroundImage: `url(${collection.cover})`,
@@ -40,22 +83,55 @@ export default function CollectionCard({
       </div>
 
       {(session?.user.id === ownerUser?.id || session?.user.isAdmin) && (
-        <div className="flex flex-row items-center space-x-2 opacity-50 hover:opacity-100">
-          <Link className="w-1/2" href={`/collection/${collection.id}/edit`}>
-            <Button className="text-sm dark:border-0 dark:bg-opacity-50">
+        <div className="flex flex-row items-center space-x-2 ">
+          <Link
+            className="w-1/2 opacity-50 hover:opacity-100"
+            href={`/collection/${collection.id}/edit`}
+          >
+            <Button className="w-full">
               <Pencil className="mr-2 size-4" />
               {t("edit")}
             </Button>
           </Link>
           <Link
-            className="w-1/2"
+            className="w-1/2 opacity-50 hover:opacity-100"
             href={`/collection/${collection.id}/create/item`}
           >
-            <Button className="text-sm dark:border-0 dark:bg-opacity-50">
+            <Button className="w-full">
               <Plus className="mr-2 size-4" />
               {t("add_item")}
             </Button>
           </Link>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="w-1/2 opacity-50 hover:opacity-100">
+                <Trash2 className="mr-2 size-4" />
+                {t("delete")}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  {t("confirmation_required")}
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  {t("cannot_undone")}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel className="border-2 dark:bg-transparent dark:hover:bg-slate-700">
+                  {t("cancel")}
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => handleDelete()}
+                  className="bg-rose-500 text-rose-50 hover:bg-rose-400"
+                >
+                  {t("delete")}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       )}
 

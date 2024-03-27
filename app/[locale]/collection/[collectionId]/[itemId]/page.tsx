@@ -5,10 +5,10 @@ import ItemLikeButton from "./ItemLikeButton";
 import Description from "./Description";
 import Link from "next/link";
 import ItemComments from "./ItemComments";
-import { ImageOff, Pencil, Plus } from "lucide-react";
-import Button from "@/components/form-elements/Button";
+import { ImageOff } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
+import ItemViewActions from "./ItemViewActions";
 
 async function getItemById(id: string): Promise<Item | null> {
   const item = await prisma.item.findFirst({
@@ -37,6 +37,18 @@ async function getItemById(id: string): Promise<Item | null> {
   return item;
 }
 
+async function getTagsById(id: string[]): Promise<Tags[] | null> {
+  const tags = await prisma.tags.findMany({
+    where: {
+      id: {
+        in: id,
+      },
+    },
+  });
+
+  return tags;
+}
+
 export default async function page({
   params,
 }: {
@@ -47,6 +59,8 @@ export default async function page({
   };
 }) {
   const item = await getItemById(params.itemId);
+  const tags = await getTagsById(item?.tagsId ? item?.tagsId : []);
+
   const { t } = await initTranslations(params.locale, ["default"]);
   const customFields = JSON.parse(item?.customFields as string);
   const session = await getServerSession(authOptions);
@@ -70,26 +84,15 @@ export default async function page({
               )}
             </div>
 
-            {(session?.user.id === item?.ownerId || session?.user.isAdmin) && (
-              <div className="flex flex-row items-center space-x-2 opacity-50 hover:opacity-100">
-                <Link
-                  className="w-full"
-                  href={`/collection/${item.collectionId}/${item.id}/edit`}
-                >
-                  <Button className="text-sm dark:border-0 dark:bg-opacity-50">
-                    <Pencil className="mr-2 size-4" />
-                    {t("edit")}
-                  </Button>
-                </Link>
-              </div>
-            )}
-
-            <div className="flex w-full flex-row items-center justify-end space-x-2 px-4 sm:justify-start sm:px-0">
+            <div className="flex w-full flex-row-reverse items-center justify-between pr-4 lg:flex-row lg:pl-4 lg:pr-0">
               <ItemLikeButton
                 itemId={item.id as string}
                 likeCount={item.likeCount as number}
                 likes={item.ItemLike as ItemLike[]}
               />
+
+              {(session?.user.id === item?.ownerId ||
+                session?.user.isAdmin) && <ItemViewActions item={item} />}
             </div>
 
             <div>
@@ -112,16 +115,16 @@ export default async function page({
             </div>
 
             <div className="flex flex-col divide-y rounded font-normal">
-              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
+              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-400">
                 {t("item_info")}
               </h1>
-              {item.Tags?.length !== 0 && (
+              {tags?.length !== 0 && (
                 <div className="flex flex-row items-center text-sm">
                   <p className="w-1/2 py-3 md:w-1/3">Tags</p>
-                  <div className="flex w-1/2 flex-row flex-wrap gap-2 py-3 md:w-2/3 ">
-                    {item.Tags &&
-                      item.Tags.length !== 0 &&
-                      item.Tags.map((item) => (
+                  <div className="flex w-1/2 flex-row flex-wrap gap-x-2 gap-y-4 py-3 md:w-2/3 ">
+                    {tags &&
+                      tags.length !== 0 &&
+                      tags.map((item) => (
                         <Link
                           href={`/search?q=${encodeURI(item.text)}`}
                           key={item.id}
