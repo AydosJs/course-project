@@ -5,7 +5,20 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 async function getCollection(): Promise<Collection[]> {
-  const collections = await prisma.collection.findMany();
+  const collections = await prisma.collection.findMany({
+    // orderBy: {
+    //   publishedAt: "asc",
+    // },
+    include: {
+      Item: true,
+    },
+  });
+
+  collections.sort((a, b) => {
+    return (
+      new Date(b.Item.length).getTime() - new Date(a.Item.length).getTime()
+    );
+  });
 
   return collections;
 }

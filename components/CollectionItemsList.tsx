@@ -7,7 +7,11 @@ async function getItems(): Promise<Item[]> {
     include: {
       Tags: true,
     },
+    orderBy: {
+      likeCount: "desc",
+    },
   });
+
   return items;
 }
 export default async function CollectionItemsList() {
