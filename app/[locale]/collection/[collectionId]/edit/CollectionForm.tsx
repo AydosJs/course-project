@@ -142,8 +142,7 @@ export default function CollectionForm({
   };
 
   const handleDelete = () => {
-    const isConfirmed = confirm("Are you sure?");
-    if (isConfirmed && cover) {
+    if (cover) {
       setCover(null);
       setValue("cover", null);
       deleteImage(cover);
