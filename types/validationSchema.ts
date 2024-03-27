@@ -11,7 +11,7 @@ export const collectionValidationSchema = Yup.object<{
 }>().shape({
   name: Yup.string().required('"Name" is required'),
   ownerId: Yup.string(),
-  description: Yup.string(),
+  description: Yup.string().required('"Description" is required'),
   topic: Yup.string(),
   cover: Yup.string().nullable(),
   customFields: Yup.array().of(

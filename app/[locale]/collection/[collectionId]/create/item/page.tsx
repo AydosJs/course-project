@@ -39,11 +39,17 @@ async function getCollection(collectionId: string): Promise<Collection | null> {
   return collection;
 }
 
+async function getAllTags(): Promise<Tags[]> {
+  const tags = await prisma.tags.findMany();
+  return tags || [];
+}
+
 export default async function CreateCollectionItem({
   params: { locale, collectionId },
 }: Readonly<Props>) {
   const { t } = await initTranslations(locale, ["default"]);
   const collection = await getCollection(collectionId);
+  const allTags = await getAllTags();
 
   const session = await getServerSession(authOptions);
 
@@ -65,7 +71,7 @@ export default async function CreateCollectionItem({
             {t("create_item")}
           </h1>
 
-          {collection && <ItemForm collection={collection} />}
+          {collection && <ItemForm allTags={allTags} collection={collection} />}
         </div>
 
         <div className="flex h-fit w-full flex-col rounded border-slate-900/10  dark:border-slate-50/[0.06] sm:border sm:bg-slate-50 sm:p-4 sm:px-5 sm:dark:bg-slate-800/50 md:w-2/3">

@@ -1,6 +1,4 @@
-"use client";
 import { cn } from "@/lib/utils/utils";
-import { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 
 const multiValueStyles =
@@ -40,37 +38,8 @@ export type ReactSelectTypes = {
 export type OnChangeFunction = (value: ReactSelectTypes) => void;
 
 const TagsInput = (props: any) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [tags, setTags] = useState<Tags[]>([]);
-
-  const fetchTags = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/tag/all");
-      if (res.status === 200) {
-        const data = await res.json();
-        setTags(data.tags);
-      }
-    } catch (error) {
-      console.log("fetching tags failed", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const options = tags.map((tag) => ({
-    value: tag.id, // Assuming ID is the unique identifier for the tag
-    label: tag.text,
-  }));
-
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
   return (
     <CreatableSelect
-      isLoading={loading}
-      isDisabled={loading}
       instanceId={"tags-input"}
       isClearable={true}
       placeholder="Add or create tags"
@@ -79,7 +48,6 @@ const TagsInput = (props: any) => {
         DropdownIndicator: () => null,
       }}
       isMulti
-      options={options}
       unstyled
       styles={{
         input: (base) => ({

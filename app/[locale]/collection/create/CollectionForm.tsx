@@ -10,7 +10,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collectionValidationSchema } from "@/types/validationSchema";
 import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
-import { BadgeMinus, Minus, Trash2 } from "lucide-react";
+import { Minus, Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -46,7 +46,7 @@ interface customField {
 
 interface collectionInputs {
   ownerId?: string;
-  description?: string;
+  description: string;
   name: string;
   topic?: string;
   cover?: string | null;
@@ -274,10 +274,15 @@ export default function CollectionForm({ t }: any) {
         <Controller
           control={control}
           name="description"
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field: { onChange, value } }) => (
             <Tiptap description={value} onChange={onChange} />
           )}
         />
+        {errors?.description && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.description.message}
+          </p>
+        )}
       </div>
 
       <div className={`${fields.length > 0 ? "block" : "hidden"}`}>
@@ -311,12 +316,11 @@ export default function CollectionForm({ t }: any) {
                         {...field}
                         className={`w-full rounded border-2 bg-slate-100 p-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                       />
-                      {errors.customFields &&
-                        errors.customFields[index]?.label && (
-                          <p className="mt-1 text-xs text-red-500">
-                            {errors.customFields[index]?.label?.message}
-                          </p>
-                        )}
+                      {errors?.customFields?.[index]?.label && (
+                        <p className="mt-1 text-xs text-red-500">
+                          {errors.customFields[index]?.label?.message}
+                        </p>
+                      )}
                     </div>
                   )}
                 />

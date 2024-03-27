@@ -33,6 +33,11 @@ async function getItemById(id: string): Promise<ItemWithTags | null> {
   return { item, tags };
 }
 
+async function getAllTags(): Promise<Tags[]> {
+  const tags = await prisma.tags.findMany();
+  return tags || [];
+}
+
 export default async function CreateCollectionItem({
   params: { locale, itemId },
 }: Readonly<Props>) {
@@ -42,6 +47,8 @@ export default async function CreateCollectionItem({
   const item = data?.item ?? null;
   const tags = data?.tags ?? [];
 
+  const allTags = await getAllTags();
+
   return (
     <div className="container my-10 max-w-7xl">
       <div className="flex flex-col justify-center space-y-4 md:flex-row md:space-x-6 md:space-y-0">
@@ -50,7 +57,7 @@ export default async function CreateCollectionItem({
             {t("create_item")}
           </h1>
 
-          {item && <ItemEditForm item={item} tags={tags} />}
+          {item && <ItemEditForm allTags={allTags} item={item} tags={tags} />}
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { itemValidationSchema } from "@/types/validationSchema";
-import { BadgeMinus, CalendarIcon, Minus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput";
 import Button from "@/components/form-elements/Button";
 import toast from "react-hot-toast";
@@ -31,15 +31,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { ItemCustomField } from "../../create/item/ItemForm";
-import { format } from "date-fns";
-
-import { Button as ButtonShadCn } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -59,7 +50,8 @@ interface TagsType {
 export default function ItemEditForm({
   item,
   tags,
-}: Readonly<{ item: Item; tags: Tags[] }>) {
+  allTags,
+}: Readonly<{ item: Item; tags: Tags[]; allTags: Tags[] }>) {
   const { t } = useTranslation();
 
   const { data: session, status } = useSession();
@@ -77,7 +69,6 @@ export default function ItemEditForm({
 
   const [selectedTags, setSelectedTags] = useState<TagsType[]>(defaultTags);
   const route = useRouter();
-  const [date, setDate] = useState<Date>();
 
   const {
     register,
@@ -91,7 +82,7 @@ export default function ItemEditForm({
     resolver: yupResolver(itemValidationSchema),
     defaultValues: {
       name: item.name,
-      description: JSON.parse(item?.description as string) ?? "",
+      description: JSON.parse(item?.description) ?? "",
       cover: item.cover,
       customFields: JSON.parse(item.customFields as string) ?? [],
     },
@@ -133,7 +124,7 @@ export default function ItemEditForm({
         body: JSON.stringify({ formData, newTags }),
       });
       if (res.status === 200) {
-        const data = await res.json();
+        await res.json();
         reset();
         toast.success("Successfully updated!", {
           id: "successfullyCreated",
@@ -289,6 +280,10 @@ export default function ItemEditForm({
         </label>
 
         <TagsInput
+          options={allTags.map((tag) => ({
+            value: tag.id, // Assuming ID is the unique identifier for the tag
+            label: tag.text,
+          }))}
           defaultValue={defaultTags}
           onChange={(e: TagsType[]) => setSelectedTags(e)}
         />
@@ -364,35 +359,9 @@ export default function ItemEditForm({
                     {...field}
                     className={`w-full rounded border-2 bg-slate-100 p-2 py-3 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400  focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600`}
                   />
-                  // <Popover>
-                  //   <PopoverTrigger asChild>
-                  //     <ButtonShadCn
-                  //       variant={"outline"}
-                  //       className={`h-12 w-full justify-start border-2 bg-slate-100 text-slate-900 outline-none placeholder:text-slate-400   focus:border-slate-400  dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:placeholder:text-slate-500 dark:focus:border-slate-600 ${!date && " text-muted-foreground"}`}
-                  //     >
-                  //       <CalendarIcon className="mr-2 h-4 w-4" />
-                  //       {field.value ? (
-                  //         format(field.value, "PPP")
-                  //       ) : (
-                  //         <span>Pick a date</span>
-                  //       )}
-                  //     </ButtonShadCn>
-                  //   </PopoverTrigger>
-                  //   <PopoverContent className="w-auto p-0">
-                  //     <Calendar
-                  //       mode="single"
-                  //       selected={new Date(field.value)}
-                  //       onSelect={(e) => {
-                  //         field.onChange(e);
-                  //         setDate(e);
-                  //       }}
-                  //       initialFocus
-                  //     />
-                  //   </PopoverContent>
-                  // </Popover>
                 )}
 
-                {errors.customFields && errors.customFields[index]?.value && (
+                {errors?.customFields?.[index]?.value && (
                   <p className="mt-1 text-xs text-red-500">
                     {errors.customFields[index]?.value?.message}
                   </p>

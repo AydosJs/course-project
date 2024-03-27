@@ -54,7 +54,8 @@ interface TagsType {
 
 export default function ItemForm({
   collection,
-}: Readonly<{ collection: Collection }>) {
+  allTags,
+}: Readonly<{ collection: Collection; allTags: Tags[] }>) {
   const { t } = useTranslation();
   const { data: session, status } = useSession();
   if (
@@ -272,7 +273,13 @@ export default function ItemForm({
           Tags
         </label>
 
-        <TagsInput onChange={(e: TagsType[]) => setSelectedTags(e)} />
+        <TagsInput
+          options={allTags.map((tag) => ({
+            value: tag.id, // Assuming ID is the unique identifier for the tag
+            label: tag.text,
+          }))}
+          onChange={(e: TagsType[]) => setSelectedTags(e)}
+        />
       </div>
 
       <div
