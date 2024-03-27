@@ -26,6 +26,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+export interface customField {
+  label: string;
+  type: string;
+}
 
 interface collectionInputs {
   ownerId?: string;
@@ -33,7 +37,7 @@ interface collectionInputs {
   name: string;
   topic?: string;
   cover?: string | null;
-  customFields?: CollectionCustomField[];
+  customFields?: customField[];
 }
 
 export default function CollectionForm({
@@ -109,8 +113,6 @@ export default function CollectionForm({
     control,
     name: "customFields",
   });
-
-  console.log("fields", fields);
 
   const deleteImage = async function (url: string) {
     try {
@@ -306,7 +308,7 @@ export default function CollectionForm({
                           <SelectItem value="string">String</SelectItem>
                           <SelectItem
                             onClick={() => {
-                              setValue(`customFields.${index}.value`, "0");
+                              setValue(`customFields.${index}.type`, "0");
                             }}
                             value="number"
                           >
@@ -314,7 +316,7 @@ export default function CollectionForm({
                           </SelectItem>
                           <SelectItem
                             onClick={() => {
-                              setValue(`customFields.${index}.value`, "true");
+                              setValue(`customFields.${index}.type`, "true");
                             }}
                             value="boolean"
                           >
@@ -323,13 +325,6 @@ export default function CollectionForm({
                           <SelectItem value="date">Date</SelectItem>
                         </SelectContent>
                       </Select>
-
-                      {errors.customFields &&
-                        errors.customFields[index]?.value && (
-                          <p className="mt-1 text-xs text-red-500">
-                            {errors.customFields[index]?.value?.message}
-                          </p>
-                        )}
                     </div>
                   )}
                 />
@@ -352,7 +347,7 @@ export default function CollectionForm({
         <Button
           className="border-none bg-sky-500 py-3 opacity-60 !outline-none transition-all duration-300 hover:bg-sky-600 hover:opacity-100 focus:ring-0"
           type="button"
-          onClick={() => append({ label: "", value: "", type: "string" })}
+          onClick={() => append({ label: "", type: "string" })}
         >
           {t("add_field")}
         </Button>
