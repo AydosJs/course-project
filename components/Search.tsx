@@ -27,6 +27,7 @@ export default function Search() {
   const searchQueryOld = search ? search.get("q") : "";
   const [searchQuery, setSearchQuery] = React.useState(searchQueryOld ?? "");
   const router = useRouter();
+  const { data, isLoading } = useSWR(`/api/tag/all`, fetchTags);
 
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
@@ -42,7 +43,6 @@ export default function Search() {
     }
   }, [searchQueryOld]);
 
-  const { data, isLoading } = useSWR(`/api/tag/all`, fetchTags);
   return (
     <div className="relative flex h-full w-full items-center justify-center">
       <form
@@ -68,12 +68,11 @@ export default function Search() {
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="mt-3 flex flex-row flex-nowrap gap-2 pb-4">
             {!isLoading &&
-              data.tags &&
-              data.tags.map((item: Tags) => (
+              data?.tags.map((item: Tags) => (
                 <Link
                   onClick={() => setSearchQuery(item.text)}
                   key={item.id}
-                  href={`/search?q=${encodeURI(item.text as string)}`}
+                  href={`/search?q=${encodeURI(item.text)}`}
                 >
                   <Badge
                     className="border-sky-200 bg-white font-normal text-sky-500 opacity-80 backdrop-blur-sm backdrop-filter transition-all duration-300 hover:border-sky-200 hover:bg-white hover:text-sky-600 hover:opacity-100 dark:hover:text-sky-100"

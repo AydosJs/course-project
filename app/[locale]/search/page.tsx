@@ -53,9 +53,6 @@ export default function Page() {
     }
   }, [data]);
 
-  if (!isLoading) {
-    console.log("data items", data.res);
-  }
   return (
     <div className="flex flex-col space-y-10">
       <Loader loading={isLoading} />

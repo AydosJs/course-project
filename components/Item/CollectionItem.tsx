@@ -1,25 +1,35 @@
+"use client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ItemDescription from "./ItemDescription";
 import Link from "next/link";
 import { ImageOff } from "lucide-react";
+import useSWR from "swr";
 dayjs.extend(relativeTime);
-import prisma from "@/lib/prisma";
 
-async function getTagsById(id: string[]): Promise<Tags[] | null> {
-  const tags = await prisma.tags.findMany({
-    where: {
-      id: {
-        in: id,
-      },
+const fetchTags = async (url: string, tagsId: string[]) => {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({ ids: tagsId }),
   });
 
-  return tags;
-}
+  if (!res.ok) {
+    throw new Error("Failed to fetch");
+  }
 
-export default async function CollectionItem(item: Readonly<Item>) {
-  const tags = await getTagsById(item?.tagsId ? item?.tagsId : []);
+  return res.json();
+};
+
+export default function CollectionItem(item: Readonly<Item>) {
+  const tagsId = item.tagsId;
+
+  const { data, isLoading } = useSWR(
+    ["/api/tag/byId", tagsId],
+    ([url, tagsId]) => fetchTags(url, tagsId),
+  );
 
   return (
     <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300 hover:bg-slate-100  dark:border-2 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
@@ -40,13 +50,11 @@ export default async function CollectionItem(item: Readonly<Item>) {
       <div className="space-y-2 p-5 py-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
           <div className="flex min-h-6 items-center gap-2">
-            {tags &&
-              tags?.length !== 0 &&
-              tags.slice(0, 2).map((item: Tags) => (
-                <Link
-                  href={`/search?q=${encodeURI(item.text as string)}`}
-                  key={item.id}
-                >
+            {isLoading && "loading..."}
+            {data?.tags &&
+              data?.tags?.length !== 0 &&
+              data?.tags.slice(0, 2).map((item: Tags) => (
+                <Link href={`/search?q=${encodeURI(item.text)}`} key={item.id}>
                   <span className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300">
                     #{item.text}
                   </span>
