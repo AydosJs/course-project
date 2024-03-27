@@ -33,6 +33,7 @@ import { useTranslation } from "react-i18next";
 import DOMPurify from "dompurify";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 
 export const ItemColumns: ColumnDef<Item>[] = [
   {
@@ -118,16 +119,7 @@ export const ItemColumns: ColumnDef<Item>[] = [
     header: "Tags",
 
     cell: ({ row }) => {
-      return (
-        <div className="flex flex-row space-x-2">
-          {row.original.Tags?.length !== 0 &&
-            row.original.Tags?.map((tag) => (
-              <span className="truncate" key={tag.id}>
-                #{tag.text}
-              </span>
-            ))}
-        </div>
-      );
+      return <Tags tagsId={row.original.tagsId} />;
     },
   },
   {
@@ -282,6 +274,41 @@ function Actions({
     </>
   );
 }
+
+const fetchTags = async (url: string, tagsId: string[]) => {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids: tagsId }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch");
+  }
+
+  return res.json();
+};
+
+const Tags = ({ tagsId }: { tagsId: string[] }) => {
+  const { data, isLoading } = useSWR(
+    ["/api/tag/byId", tagsId],
+    ([url, tagsId]) => fetchTags(url, tagsId),
+  );
+  return (
+    <div className="flex flex-row space-x-2">
+      {isLoading && "loading..."}
+      {!isLoading &&
+        data?.tags?.length !== 0 &&
+        data?.tags?.map((tag: Tags) => (
+          <span className="truncate" key={tag.id}>
+            #{tag.text}
+          </span>
+        ))}
+    </div>
+  );
+};
 
 const ReusableAlertDialog = ({
   open,
