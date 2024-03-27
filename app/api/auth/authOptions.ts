@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
         if (user?.status === "blocked") {
           throw new Error("User is blocked");
         }
-        if (user) {
+        if (user && user.password) {
           const isPasswordValid = await compare(
             credentials?.password ?? "",
             user.password,

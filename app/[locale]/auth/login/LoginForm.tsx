@@ -19,7 +19,10 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Pick<User, "email" | "password">>({
+  } = useForm<{
+    email: string;
+    password: string;
+  }>({
     resolver: yupResolver(loginValidationSchema),
   });
 

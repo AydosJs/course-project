@@ -18,7 +18,7 @@ type User = {
   image: string | null;
   email: string;
   emailVerified: Date | null;
-  password: string;
+  password: string | null;
   isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;
