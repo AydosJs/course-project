@@ -74,7 +74,7 @@ export default function Header() {
               </Link>
             )}
 
-            {status === "authenticated" && (
+            {session && (
               <AlertDialog>
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="outline-none">
@@ -129,7 +129,7 @@ export default function Header() {
                 </AlertDialogContent>
               </AlertDialog>
             )}
-            {status === "unauthenticated" && (
+            {session && (
               <div className="fle-row flex items-center  gap-4 pl-2">
                 <Link href={"/auth/register"}>
                   <Button className="rounded-full px-3 py-1.5 text-sm dark:border-opacity-30 dark:bg-opacity-30 dark:text-sky-50 dark:hover:bg-opacity-100 dark:hover:text-sky-50">
