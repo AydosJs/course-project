@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
+import { Tags } from "lucide-react";
 import { NextRequest, NextResponse } from "next/server";
+import { text } from "stream/consumers";
 
 export async function GET(request: NextRequest): Promise<Response> {
   const query = request.nextUrl.searchParams.get("q");
@@ -66,6 +68,16 @@ export async function GET(request: NextRequest): Promise<Response> {
                       },
                     },
                   },
+                  {
+                    Tags: {
+                      some: {
+                        text: {
+                          contains: query,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
                 ],
               },
             },
@@ -91,6 +103,16 @@ export async function GET(request: NextRequest): Promise<Response> {
 
               {
                 ItemComments: {
+                  some: {
+                    text: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+              {
+                Tags: {
                   some: {
                     text: {
                       contains: query,
