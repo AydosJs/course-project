@@ -59,6 +59,12 @@ export async function GET(request: NextRequest): Promise<Response> {
                     },
                   },
                   {
+                    customFields: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
                     ItemComments: {
                       some: {
                         text: {
@@ -96,6 +102,12 @@ export async function GET(request: NextRequest): Promise<Response> {
               },
               {
                 description: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                customFields: {
                   contains: query,
                   mode: "insensitive",
                 },
