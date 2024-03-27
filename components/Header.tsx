@@ -78,16 +78,12 @@ export default function Header() {
               <AlertDialog>
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="outline-none">
-                    {session.user.image && (
-                      <Avatar className="size-7 border-2">
-                        <AvatarImage src={session.user.image as string} />
-                        <AvatarFallback className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
-                          {session.user.name
-                            ? session.user.name.charAt(0)
-                            : "?"}
-                        </AvatarFallback>
-                      </Avatar>
-                    )}
+                    <Avatar className="size-7 border-2">
+                      <AvatarImage src={session?.user?.image as string} />
+                      <AvatarFallback className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
+                        {session.user.name ? session.user.name.charAt(0) : "?"}
+                      </AvatarFallback>
+                    </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="mt-5 rounded border bg-slate-50 p-0 shadow-lg backdrop-blur dark:border-slate-50/[0.06] dark:bg-slate-900">
                     <Link href={"/profile"}>
@@ -129,7 +125,7 @@ export default function Header() {
                 </AlertDialogContent>
               </AlertDialog>
             )}
-            {session && (
+            {!session && (
               <div className="fle-row flex items-center  gap-4 pl-2">
                 <Link href={"/auth/register"}>
                   <Button className="rounded-full px-3 py-1.5 text-sm dark:border-opacity-30 dark:bg-opacity-30 dark:text-sky-50 dark:hover:bg-opacity-100 dark:hover:text-sky-50">
