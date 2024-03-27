@@ -1,7 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Tags } from "lucide-react";
 import { NextRequest, NextResponse } from "next/server";
-import { text } from "stream/consumers";
 
 export async function GET(request: NextRequest): Promise<Response> {
   const query = request.nextUrl.searchParams.get("q");

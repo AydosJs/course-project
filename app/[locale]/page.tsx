@@ -7,6 +7,7 @@ import { authOptions } from "../api/auth/authOptions";
 import CollectionList from "@/components/CollectionList";
 import CollectionItemsList from "@/components/CollectionItemsList";
 import FabButton from "./FabButton";
+import prisma from "@/lib/prisma";
 
 interface HomeProps {
   params: {
@@ -14,18 +15,26 @@ interface HomeProps {
   };
 }
 
+async function getTags(): Promise<Tags[]> {
+  const tags = await prisma.tags.findMany();
+
+  return tags || [];
+}
+
 export default async function Home({
   params: { locale },
 }: Readonly<HomeProps>) {
   const { t } = await initTranslations(locale, ["default"]);
   const session = await getServerSession(authOptions);
+  const tags = await getTags();
+
   return (
     <>
       <div className="absolute inset-0 bottom-0  left-0  right-0 top-0 -z-10 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:64px_64px] opacity-10 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_140%)]"></div>
 
       {session?.user.id && <FabButton />}
       <div className="py-20 md:mt-20">
-        <Search />
+        <Search tags={tags} />
       </div>
 
       <main className="my-10 flex min-h-[calc(100vh-108px)] flex-col items-center justify-between lg:py-12">

@@ -3,31 +3,14 @@ import React, { useEffect } from "react";
 import Badge from "./Badge";
 import { Search as SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import useSWR from "swr";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 
-const fetchTags = async (url: string) => {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch");
-  }
-
-  return res.json();
-};
-
-export default function Search() {
+export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
   const search = useSearchParams();
   const searchQueryOld = search ? search.get("q") : "";
   const [searchQuery, setSearchQuery] = React.useState(searchQueryOld ?? "");
   const router = useRouter();
-  const { data, isLoading } = useSWR(`/api/tag/all`, fetchTags);
 
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
@@ -67,8 +50,8 @@ export default function Search() {
 
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="mt-3 flex flex-row flex-nowrap gap-2 pb-4">
-            {!isLoading &&
-              data?.tags.map((item: Tags) => (
+            {tags.length !== 0 &&
+              tags.map((item: Tags) => (
                 <Link
                   onClick={() => setSearchQuery(item.text)}
                   key={item.id}
