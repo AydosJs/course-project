@@ -1,6 +1,5 @@
 "use client";
-
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function Description(description: {
   description: string | undefined;

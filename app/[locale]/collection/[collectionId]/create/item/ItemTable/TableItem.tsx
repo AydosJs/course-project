@@ -26,7 +26,7 @@ import {
 import toast from "react-hot-toast";
 import { useState } from "react";
 import Loader from "@/components/loader/Loader";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function TableItem({
   item,

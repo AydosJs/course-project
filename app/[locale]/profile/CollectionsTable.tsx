@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import Loader from "@/components/loader/Loader";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 type Props = {
   userCollections: Collection[];

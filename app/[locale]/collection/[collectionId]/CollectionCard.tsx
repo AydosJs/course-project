@@ -86,20 +86,21 @@ export default function CollectionCard({
         <div className="flex flex-row items-center space-x-2 ">
           <Link
             className="w-1/2 opacity-50 hover:opacity-100"
-            href={`/collection/${collection.id}/edit`}
-          >
-            <Button className="w-full">
-              <Pencil className="mr-2 size-4" />
-              {t("edit")}
-            </Button>
-          </Link>
-          <Link
-            className="w-1/2 opacity-50 hover:opacity-100"
             href={`/collection/${collection.id}/create/item`}
           >
             <Button className="w-full">
               <Plus className="mr-2 size-4" />
               {t("add_item")}
+            </Button>
+          </Link>
+
+          <Link
+            className="w-1/2 opacity-50 hover:opacity-100"
+            href={`/collection/${collection.id}/edit`}
+          >
+            <Button className="w-full">
+              <Pencil className="mr-2 size-4" />
+              {t("edit")}
             </Button>
           </Link>
 

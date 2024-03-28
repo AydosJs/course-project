@@ -1,8 +1,9 @@
 "use client";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 const ItemDescription = ({ description }: { description: string }) => {
-  const sanitizedDescription = DOMPurify?.sanitize(JSON.parse(description));
+  const dirty = JSON.parse(description);
+  const sanitizedDescription = DOMPurify.sanitize(dirty);
 
   return (
     <div

@@ -54,11 +54,12 @@ export default function CollectionItem(item: Readonly<Item>) {
             {data?.tags &&
               data?.tags?.length !== 0 &&
               data?.tags.slice(0, 2).map((item: Tags) => (
-                <Link href={`/search?q=${encodeURI(item.text)}`} key={item.id}>
-                  <span className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300">
-                    #{item.text}
-                  </span>
-                </Link>
+                <span
+                  key={item.id}
+                  className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300"
+                >
+                  #{item.text}
+                </span>
               ))}
           </div>
 

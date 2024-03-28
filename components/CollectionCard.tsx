@@ -1,5 +1,5 @@
 "use client";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { ImageOff } from "lucide-react";
 
 export default function CollectionCard(item: Collection, colSpan: string) {
