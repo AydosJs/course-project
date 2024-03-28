@@ -55,6 +55,7 @@ export default function ItemViewActions({ item }: { item: Item }) {
           id: "successDeleting",
         });
         router.push(`/collection/${item.collectionId}`);
+        router.refresh();
       } else {
         toast.error("Error deleting Item", {
           id: "errorDeleting",
