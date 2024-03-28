@@ -4,6 +4,7 @@ dayjs.extend(relativeTime);
 import CollectionCommentAction from "./CollectionCommentAction";
 import CollectionCommentLikeButton from "./CollectionCommentLikeButton";
 import { useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function CollectionCommentItem({
   comment,
@@ -14,24 +15,12 @@ export default function CollectionCommentItem({
     <>
       {comment.user && (
         <div className="group flex w-full flex-row space-x-3 dark:border-slate-700">
-          <div>
-            {comment.user.image && (
-              <div
-                style={{
-                  backgroundImage: `url(${comment.user.image ?? ""})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-                className="size-8 rounded-full"
-              ></div>
-            )}
-            {!comment.user.image && comment.user.name && (
-              <span className="flex size-8 items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
-                {comment.user.name.charAt(0)}
-              </span>
-            )}
-          </div>
+          <Avatar className="size-8 border-2">
+            <AvatarImage src={comment.user.image as string} />
+            <AvatarFallback className="flex items-center justify-center rounded-full bg-sky-500 p-2 text-sky-50">
+              {comment.user.name ? comment.user.name.charAt(0) : "?"}
+            </AvatarFallback>
+          </Avatar>
           <div className="w-full py-0">
             <p className="text-[.9rem] font-normal text-slate-500 transition-all duration-300 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-400">
               <span className="mr-2 inline-block font-medium text-slate-900 dark:text-slate-100">

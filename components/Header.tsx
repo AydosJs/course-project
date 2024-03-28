@@ -29,7 +29,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Header() {
   const { t } = useTranslation();
-  const { status, data: session } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const pathname = usePathname();

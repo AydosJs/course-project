@@ -27,7 +27,9 @@ const fetchComments = async (url: string, collectionId: string) => {
   return res.json();
 };
 
-export default function CCom({ collectionId }: { collectionId: string }) {
+export default function CCom({
+  collectionId,
+}: Readonly<{ collectionId: string }>) {
   const [open, setOpen] = useState(false);
 
   const { data, isLoading, mutate } = useSWR(
