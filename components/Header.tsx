@@ -50,14 +50,17 @@ export default function Header() {
         <div className="flex flex-row items-center">
           <div className="text-slate-900 dark:text-sky-50">
             <Link href="/" className="hidden sm:block">
-              <h1 className="text-md font-normal">Aydos Sankibaev</h1>
+              <h1 className="text-md uppercase">
+                Collection
+                <span> Hub</span>
+              </h1>
             </Link>
             <Link href="/" className="sm:hidden">
-              <h1 className="text-md font-normal ">A.S</h1>
+              <h1 className="text-md font-normal ">CH</h1>
             </Link>
           </div>
         </div>
-        <div className="">
+        <div>
           <div className="flex flex-row items-center space-x-4">
             <LanguageToggler />
             <ThemeToggler />
