@@ -72,7 +72,7 @@ export default function CollectionCard({
         style={{
           backgroundImage: `url(${collection.cover})`,
         }}
-        className="relative h-44 w-full rounded border bg-slate-100/20 bg-cover bg-center bg-no-repeat dark:bg-slate-800/20 md:h-60"
+        className="relative h-64 w-full rounded border bg-slate-100/20 bg-cover bg-center bg-no-repeat dark:bg-slate-800/20"
       >
         {collection.cover === "" && (
           <>
