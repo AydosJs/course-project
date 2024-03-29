@@ -22,7 +22,7 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
-export default function ItemsPage({ tags }: { tags: Tags[] }) {
+export default function ItemsPage({ tags }: Readonly<{ tags: Tags[] }>) {
   const search = useSearchParams();
   const searchQuery = search ? search.get("q") : "";
   const encodedSearchquery = encodeURI(searchQuery ?? "");
