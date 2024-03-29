@@ -115,7 +115,7 @@ export default async function page({
             </div>
 
             <div className="flex flex-col divide-y rounded font-normal">
-              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-400">
+              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
                 {t("item_info")}
               </h1>
               {tags?.length !== 0 && (

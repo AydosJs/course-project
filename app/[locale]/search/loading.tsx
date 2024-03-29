@@ -10,7 +10,7 @@ export default function Loading() {
       </div>
 
       <main className="mt-14 flex flex-col items-center justify-between">
-        <div className=" flex w-full flex-col items-center justify-center">
+        <div className=" mb-10 flex w-full flex-col items-center justify-center">
           <div className="container flex w-full max-w-7xl flex-col space-y-20">
             <div className="flex flex-col">
               <div className="mb-6 w-96 animate-pulse">

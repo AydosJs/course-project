@@ -9,8 +9,8 @@ export default function Loading() {
         </form>
       </div>
 
-      <main className="mt-28 flex min-h-[calc(100vh-108px)] flex-col items-center justify-between lg:py-12">
-        <div className=" flex w-full flex-col items-center justify-center">
+      <main className="mt-28 flex flex-col items-center justify-between">
+        <div className=" mb-10 flex w-full flex-col items-center justify-center">
           <div className="container flex w-full max-w-7xl flex-col space-y-20">
             <div className="flex flex-col">
               <div className="mb-6 w-96 animate-pulse">
