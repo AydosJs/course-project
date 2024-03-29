@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import CollectionsPage from "./CollectionsPage";
+import { Suspense } from "react";
 
 async function getAllTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany();
