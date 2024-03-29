@@ -79,7 +79,9 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
   },
   {
     accessorKey: "name_description",
-    header: "Name / Description",
+    header: () => {
+      return <span className="truncate">Collection Name</span>;
+    },
 
     cell: ({ row }) => {
       const sanitizedDescription = DOMPurify.sanitize(
@@ -87,9 +89,11 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
       );
       return (
         <div className="flex flex-col space-y-1">
-          <span>{row.original.name}</span>
+          <span className="truncate font-medium dark:text-slate-300">
+            {row.original.name}
+          </span>
           <div
-            className="line-clamp-1 h-4"
+            className="line-clamp-1 h-4 text-slate-500 [&>*]:text-sm [&>*]:font-normal [&_strong]:font-normal"
             dangerouslySetInnerHTML={{
               __html: sanitizedDescription,
             }}
@@ -117,6 +121,9 @@ export const CollectionColumns: ColumnDef<Collection>[] = [
   {
     accessorKey: "topic",
     header: "Topic",
+    cell: ({ row }) => {
+      return <span className="truncate">{row?.original?.topic}</span>;
+    },
   },
   {
     accessorKey: "items",

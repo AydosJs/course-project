@@ -158,7 +158,7 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                       </td>
                       <td className="px-2 py-3 text-sm">
                         <div className="flex flex-col">
-                          <span className="line-clamp-2">
+                          <span className="line-clamp-2 font-medium text-slate-50">
                             {collection.name}
                           </span>
                           <div
@@ -167,11 +167,13 @@ export default function CollectionsTable({ userCollections }: Readonly<Props>) {
                                 collection.description,
                               ),
                             }}
-                            className="line-clamp-1 max-h-[1.2rem] overflow-hidden"
+                            className="line-clamp-1 max-h-[1.2rem] overflow-hidden [&>*]:text-sm [&>*]:font-normal [&_strong]:font-normal"
                           ></div>
                         </div>
                       </td>
-                      <td className="px-2 py-3 text-sm">{collection.topic}</td>
+                      <td className="truncate px-2 py-3 text-sm">
+                        {collection.topic}
+                      </td>
                       <td className="truncate px-2 py-3 text-sm">
                         {dayjs(collection.publishedAt).format("DD MMM YYYY")}
                       </td>

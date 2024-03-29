@@ -85,17 +85,21 @@ export const ItemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: "name_description",
-    header: "Name / Description",
+    header: () => {
+      return <span className="truncate">Name / Description</span>;
+    },
 
     cell: ({ row }) => {
       const sanitizedDescription = DOMPurify.sanitize(
         JSON.parse(row.original.description ?? '""'),
       );
       return (
-        <div className="flex flex-col space-y-1">
-          <span>{row.original.name}</span>
+        <div className="flex max-w-80 flex-col space-y-1">
+          <span className="truncate font-medium dark:text-slate-300">
+            {row.original.name}
+          </span>
           <div
-            className="line-clamp-1 h-4"
+            className="line-clamp-1 h-4 text-slate-500 [&>*]:text-sm [&>*]:font-normal [&_strong]:font-normal"
             dangerouslySetInnerHTML={{
               __html: sanitizedDescription,
             }}
