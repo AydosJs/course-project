@@ -32,7 +32,7 @@ export default function CollectionItem(item: Readonly<Item>) {
   );
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded bg-slate-50 transition-all duration-300 hover:bg-slate-100  dark:border-2 dark:bg-slate-800/30 dark:hover:bg-slate-800/70">
+    <div className="group flex flex-col overflow-hidden rounded transition-all duration-300">
       <div
         style={{
           backgroundImage: `url(${item.cover})`,
@@ -47,7 +47,7 @@ export default function CollectionItem(item: Readonly<Item>) {
         )}
       </div>
 
-      <div className="space-y-2 p-5 py-4">
+      <div className="space-y-2 pt-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
           <div className="flex min-h-6 items-center gap-2">
             {isLoading && "loading..."}
@@ -56,7 +56,7 @@ export default function CollectionItem(item: Readonly<Item>) {
               data?.tags.slice(0, 2).map((item: Tags) => (
                 <span
                   key={item.id}
-                  className="truncate text-sm text-sky-500 transition-all  duration-300 dark:hover:text-sky-300"
+                  className="truncate text-sm text-slate-500 transition-all duration-300 group-hover:text-slate-800 group-hover:dark:text-slate-300"
                 >
                   #{item.text}
                 </span>
@@ -75,8 +75,8 @@ export default function CollectionItem(item: Readonly<Item>) {
           </div>
         </div>
 
-        <div className="pt-1">
-          <h1 className="truncate text-sm text-slate-800 dark:text-slate-300">
+        <div className="">
+          <h1 className="text-md mb-1 truncate font-medium text-slate-800 dark:text-slate-300">
             {item.name}
           </h1>
 
