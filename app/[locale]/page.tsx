@@ -9,6 +9,7 @@ import FabButton from "./FabButton";
 import prisma from "@/lib/prisma";
 import { ArrowRight } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
+import { Suspense } from "react";
 
 interface HomeProps {
   params: {
@@ -47,7 +48,7 @@ export default async function Home({
                   {t("most_liked_items")}
                 </h1>
                 <Link href={"/items"}>
-                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:text-sky-500 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500">
+                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:text-sky-500 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500 hover:dark:text-sky-500">
                     {t("explore_items")}
                     <ArrowRight className="ml-2 size-4 transition group-hover:translate-x-1" />
                   </p>
@@ -62,7 +63,7 @@ export default async function Home({
                   {t("most_largest_collections")}
                 </h1>
                 <Link href={"/collection"}>
-                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:text-sky-500 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500">
+                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:text-sky-500 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500 hover:dark:text-sky-500">
                     {t("explore_collections")}
                     <ArrowRight className="ml-2 size-4 transition group-hover:translate-x-1" />
                   </p>
