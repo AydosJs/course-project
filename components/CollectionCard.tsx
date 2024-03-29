@@ -26,7 +26,7 @@ export default function CollectionCard(item: Collection, colSpan: string) {
       <div className="absolute -bottom-96 left-0 h-full w-full bg-gradient-to-t from-slate-900/30 transition-all duration-300 group-hover:visible group-hover:bottom-0 dark:from-slate-900"></div>
       <div className="absolute bottom-0 left-0 flex h-full w-full items-end bg-gradient-to-t from-slate-900/80 to-slate-900/0 p-5 transition-all duration-300 dark:from-slate-900">
         <div className="flex flex-col space-y-1 transition-all duration-300">
-          <h1 className="text-lg text-slate-50">{item.name}</h1>
+          <h1 className="text-lg font-medium text-slate-50">{item.name}</h1>
           <div
             className="line-clamp-2 text-sm text-slate-200 transition-all duration-300 dark:text-slate-400"
             dangerouslySetInnerHTML={{
