@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import SearchComponent from "./SearchComponent";
+import CollectionsPage from "./CollectionsPage";
 
 async function getAllTags(): Promise<Tags[]> {
   const tags = await prisma.tags.findMany();
@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <div>
-      <SearchComponent allTags={allTags || []} />
+      <CollectionsPage tags={allTags} />
     </div>
   );
 }

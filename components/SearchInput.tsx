@@ -1,12 +1,16 @@
 "use client";
 import React, { useEffect } from "react";
-import Badge from "./Badge";
 import { Search as SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
+import Badge from "@/components/Badge";
+import { useTranslation } from "react-i18next";
 
-export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
+export default function SearchInput({
+  tags,
+  url,
+}: Readonly<{ tags: Tags[]; url: "collection" | "search" | "items" }>) {
   const search = useSearchParams();
   const searchQueryOld = search ? search.get("q") : "";
   const [searchQuery, setSearchQuery] = React.useState(searchQueryOld ?? "");
@@ -17,7 +21,7 @@ export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
     if (searchQuery.trim() === "") return;
 
     const encodedSearchquery = encodeURI(searchQuery);
-    router.push(`/search?q=${encodedSearchquery}`);
+    router.push(`/${url}?q=${encodedSearchquery}`);
   };
 
   useEffect(() => {
@@ -25,6 +29,8 @@ export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
       setSearchQuery(searchQueryOld ?? "");
     }
   }, [searchQueryOld]);
+
+  const { t } = useTranslation();
 
   return (
     <div className="relative flex h-full w-full items-center justify-center">
@@ -37,7 +43,7 @@ export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={`peer w-full rounded-full border-2 border-sky-200 bg-white !p-4 py-3 text-sm  font-normal text-sky-500/90 outline-none backdrop-blur-sm backdrop-filter transition-all duration-300 placeholder:text-sky-300 focus:border-sky-300 dark:border-sky-500/30  dark:bg-sky-500/10  dark:placeholder:text-sky-500/50  dark:focus:border-sky-500/50 lg:text-[1rem] `}
-            placeholder="Full-text search..."
+            placeholder={t("full_text_search") || "Full text search"}
           />
 
           <button
@@ -55,7 +61,7 @@ export default function Search({ tags }: Readonly<{ tags: Tags[] }>) {
                 <Link
                   onClick={() => setSearchQuery(item.text)}
                   key={item.id}
-                  href={`/search?q=${encodeURI(item.text)}`}
+                  href={`/${url}?q=${encodeURI(item.text)}`}
                 >
                   <Badge
                     className="border-sky-200 bg-white font-normal text-sky-500 opacity-80 backdrop-blur-sm backdrop-filter transition-all duration-300 hover:border-sky-200 hover:bg-white hover:text-sky-600 hover:opacity-100 dark:hover:text-sky-100"

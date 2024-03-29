@@ -1,4 +1,3 @@
-import Search from "@/components/Search";
 import TagsList from "@/components/TagsList";
 import Link from "next/link";
 import initTranslations from "../i18n";
@@ -8,6 +7,8 @@ import CollectionList from "@/components/CollectionList";
 import CollectionItemsList from "@/components/CollectionItemsList";
 import FabButton from "./FabButton";
 import prisma from "@/lib/prisma";
+import { ArrowRight } from "lucide-react";
+import SearchInput from "@/components/SearchInput";
 
 interface HomeProps {
   params: {
@@ -34,23 +35,39 @@ export default async function Home({
 
       {session?.user.id && <FabButton />}
       <div className="py-20 md:mt-20">
-        <Search tags={tags} />
+        <SearchInput url="search" tags={tags || []} />
       </div>
 
       <main className="my-10 flex min-h-[calc(100vh-108px)] flex-col items-center justify-between lg:py-12">
         <div className=" flex w-full flex-col items-center justify-center">
           <div className="container flex w-full max-w-7xl flex-col space-y-20">
             <div>
-              <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-                {t("most_items")}
-              </h1>
+              <div className="mb-6 w-fit">
+                <h1 className="text-2xl font-medium text-slate-900 dark:text-slate-400">
+                  {t("most_liked_items")}
+                </h1>
+                <Link href={"/items"}>
+                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500 hover:dark:text-sky-500">
+                    {t("explore_items")}
+                    <ArrowRight className="ml-2 size-4 transition group-hover:translate-x-1" />
+                  </p>
+                </Link>
+              </div>
               <CollectionItemsList />
             </div>
 
             <div>
-              <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-                {t("most_collections")}
-              </h1>
+              <div className="mb-6 w-fit">
+                <h1 className="text-2xl font-medium text-slate-900 dark:text-slate-400">
+                  {t("most_largest_collections")}
+                </h1>
+                <Link href={"/collection"}>
+                  <p className="after:ease-[cubic-bezier(0.65_0.05_0.36_1)] text-md group relative flex w-fit flex-row items-center font-medium text-slate-600 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:rounded-full after:bg-sky-500 after:transition-transform after:duration-300 hover:after:origin-bottom-left hover:after:scale-x-100 dark:dark:text-slate-500 hover:dark:text-sky-500">
+                    {t("explore_collections")}
+                    <ArrowRight className="ml-2 size-4 transition group-hover:translate-x-1" />
+                  </p>
+                </Link>
+              </div>
               <div className="grid w-full grid-cols-1 gap-y-4 md:grid-cols-4 md:gap-4 xl:grid-cols-6">
                 <CollectionList />
 
