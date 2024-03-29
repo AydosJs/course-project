@@ -18,7 +18,7 @@ export default function FabButton() {
         <Tooltip>
           <Link href="/collection/create">
             <TooltipTrigger>
-              <span className="group flex size-12 items-center justify-center rounded-full bg-sky-500 p-1 shadow hover:bg-sky-600 dark:text-sky-50">
+              <span className="group flex size-12 items-center justify-center rounded-full bg-sky-500 p-1 text-sky-50 shadow hover:bg-sky-600">
                 <Plus className="size-6 transition-all duration-300 group-hover:rotate-90" />
               </span>
             </TooltipTrigger>
