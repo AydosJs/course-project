@@ -11,6 +11,8 @@ import SessionProviderContext from "@/providers/SessionProviderContext";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/authOptions";
 import Header from "@/components/Header";
+import { Suspense } from "react";
+import Loader from "@/components/loader/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,7 +51,6 @@ export default async function RootLayout({
               namespaces={["default"]}
             >
               <Header />
-
               {children}
               <Toaster position="top-center" reverseOrder={false} />
               {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
