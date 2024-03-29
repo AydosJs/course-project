@@ -43,27 +43,29 @@ export default function ItemsPage({ tags }: Readonly<{ tags: Tags[] }>) {
       <main className="flex flex-col items-center justify-between pb-20">
         <div className="container flex w-full max-w-7xl flex-col">
           <div className="mt-20">
-            <div className="w-fit">
-              <Link href={"/items"}>
-                <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-                  {t("items")}
-                </h1>
-              </Link>
-              {!isLoading && data?.items?.length === 0 && (
-                <p>{t("no_results_found")}</p>
-              )}
-            </div>
             {!isLoading && data?.items && (
-              <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
-                {data?.items?.map((item: Item) => (
-                  <Link
-                    key={item.id}
-                    href={`/collection/${item.collectionId}/${item.id}`}
-                  >
-                    <CollectionItem {...item} />
+              <>
+                <div className="w-fit">
+                  <Link href={"/items"}>
+                    <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
+                      {t("items")}
+                    </h1>
                   </Link>
-                ))}
-              </div>
+                  {!isLoading && data?.items?.length === 0 && (
+                    <p>{t("no_results_found")}</p>
+                  )}
+                </div>
+                <div className="grid h-fit w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
+                  {data?.items?.map((item: Item) => (
+                    <Link
+                      key={item.id}
+                      href={`/collection/${item.collectionId}/${item.id}`}
+                    >
+                      <CollectionItem {...item} />
+                    </Link>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
