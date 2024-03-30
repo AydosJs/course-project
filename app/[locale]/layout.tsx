@@ -13,6 +13,7 @@ import { authOptions } from "../api/auth/authOptions";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import Loader from "@/components/loader/Loader";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,6 +53,7 @@ export default async function RootLayout({
             >
               <Header />
               {children}
+              {/* <Footer /> */}
               <Toaster position="top-center" reverseOrder={false} />
               {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white "></div> */}
             </TranslationsProvider>

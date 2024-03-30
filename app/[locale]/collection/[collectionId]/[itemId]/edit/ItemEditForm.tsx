@@ -125,6 +125,7 @@ export default function ItemEditForm({
       });
       if (res.status === 200) {
         await res.json();
+        setSelectedTags([]);
         reset();
         toast.success("Successfully updated!", {
           id: "successfullyCreated",
@@ -133,7 +134,6 @@ export default function ItemEditForm({
         reset();
         route.back();
         route.refresh();
-        setSelectedTags([]);
       }
     } catch (error) {
     } finally {
@@ -280,6 +280,7 @@ export default function ItemEditForm({
         </label>
 
         <TagsInput
+          value={selectedTags}
           options={allTags.map((tag) => ({
             value: tag.id, // Assuming ID is the unique identifier for the tag
             label: tag.text,

@@ -40,6 +40,7 @@ export type OnChangeFunction = (value: ReactSelectTypes) => void;
 const TagsInput = (props: any) => {
   return (
     <CreatableSelect
+      key={"tagsId"}
       instanceId={"tags-input"}
       isClearable={true}
       placeholder="Add or create tags"
