@@ -5,7 +5,11 @@ export async function GET(request: NextRequest): Promise<Response> {
   const query = request.nextUrl.searchParams.get("q");
   if (typeof query !== "string") throw new Error("Invalid query");
   if (query.trim() === "") {
-    const items = await prisma.item.findMany();
+    const items = await prisma.collection.findMany({
+      include: {
+        Item: true,
+      },
+    });
     return NextResponse.json({ res: items });
   }
   try {

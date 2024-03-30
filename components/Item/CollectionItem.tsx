@@ -50,7 +50,12 @@ export default function CollectionItem(item: Readonly<Item>) {
       <div className="space-y-2 pt-4">
         <div className="flex flex-row flex-nowrap items-center justify-between">
           <div className="flex min-h-6 items-center gap-2">
-            {isLoading && "loading..."}
+            {isLoading && (
+              <div className="flex h-6 animate-pulse flex-row items-center gap-2">
+                <div className="h-4 w-10 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                <div className="h-4 w-16 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+              </div>
+            )}
             {data?.tags &&
               data?.tags?.length !== 0 &&
               data?.tags.slice(0, 2).map((item: Tags) => (

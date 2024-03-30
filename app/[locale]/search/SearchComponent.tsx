@@ -5,7 +5,7 @@ import Loader from "@/components/loader/Loader";
 import Search from "@/components/SearchInput";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useSWR from "swr";
 
@@ -39,8 +39,8 @@ export default function SearchComponent({
   const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
-    setItems([]);
     if (data?.res && data.res.length > 0 && !isLoading) {
+      setItems([]);
       const allItems: Item[] = [];
       data?.res.forEach(
         (itemObject: Partial<Collection & { Item: Item[] }>) => {
@@ -59,15 +59,22 @@ export default function SearchComponent({
       <Loader loading={isLoading} />
       <div className="absolute inset-0 bottom-0  left-0 right-0 top-0 -z-10 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:64px_64px] opacity-5 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_140%)]"></div>
 
-      <div className="">
+      <div>
         <Search url="search" tags={allTags || []} />
       </div>
+
       <main className="flex flex-col items-center justify-between pb-20">
         <div className="container flex w-full max-w-7xl flex-col">
           <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
-            {t("search_results_for")}&nbsp;
-            <span className="text-sky-500">&quot;{searchQuery}&quot;</span>
+            {searchQuery?.trim() !== "" && searchQuery && (
+              <>
+                {t("search_results_for")}&nbsp;
+                <span className="text-sky-500">&quot;{searchQuery}&quot;</span>
+              </>
+            )}
+            {!isLoading && searchQuery === null && t("items")}
           </h1>
+
           {items.length > 0 && (
             <div className="grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-2 xl:grid-cols-4">
               {items?.map((item: Item) => (
@@ -81,7 +88,7 @@ export default function SearchComponent({
             </div>
           )}
 
-          {data?.res && (
+          {items.length > 0 && data?.res && (
             <div className="mt-20">
               <h1 className="mb-8 text-2xl font-medium text-slate-900 dark:text-slate-400">
                 {t("explore_full_collection")}
