@@ -49,6 +49,11 @@ export async function GET(request: NextRequest): Promise<Response> {
               some: {
                 OR: [
                   {
+                    tagsForSearch: {
+                      hasSome: query.split(" "),
+                    },
+                  },
+                  {
                     name: {
                       contains: query,
                       mode: "insensitive",
@@ -96,6 +101,11 @@ export async function GET(request: NextRequest): Promise<Response> {
         Item: {
           where: {
             OR: [
+              {
+                tagsForSearch: {
+                  hasSome: query.split(" "),
+                },
+              },
               {
                 name: {
                   contains: query,

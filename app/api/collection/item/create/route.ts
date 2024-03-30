@@ -27,16 +27,25 @@ export async function POST(request: Request): Promise<Response> {
             },
           });
 
-          console.log("newtagsitem", tagsRes);
           newTagsFresh.push(tagsRes.id);
         }
       }
       if (newTagsFresh.length > 0) {
+        const tagsId = [...res.tagsId, ...newTagsFresh];
+        const tags = await prisma.tags.findMany({
+          where: {
+            id: {
+              in: tagsId,
+            },
+          },
+        });
+
         const updatedRes = await prisma.item.update({
           where: {
             id: res.id,
           },
           data: {
+            tagsForSearch: tags.map((tag) => tag.text),
             tagsId: [...res.tagsId, ...newTagsFresh],
           },
         });
@@ -56,10 +65,27 @@ export async function POST(request: Request): Promise<Response> {
         },
       );
     } else {
+      const tags = await prisma.tags.findMany({
+        where: {
+          id: {
+            in: res.tagsId,
+          },
+        },
+      });
+
+      const updatedRes = await prisma.item.update({
+        where: {
+          id: res.id,
+        },
+        data: {
+          tagsForSearch: tags.map((tag) => tag.text),
+        },
+      });
+
       return NextResponse.json(
         {
           message: "Sussed!",
-          res,
+          updatedRes,
         },
         {
           status: 200,

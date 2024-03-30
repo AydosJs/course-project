@@ -55,15 +55,16 @@ model Collection {
 }
 
 model Item {
-    id           String   @id @default(cuid())
-    name         String
-    description  String
-    publishedAt  DateTime @default(now())
-    cover        String
-    likeCount    Int
-    customFields String
+    id            String   @id @default(cuid())
+    name          String
+    description   String
+    publishedAt   DateTime @default(now())
+    cover         String
+    likeCount     Int
+    customFields  String
+    tagsId        String[]
+    tagsForSearch String[]
 
-    tagsId       String[]
     ownerId      String
     collectionId String
 
