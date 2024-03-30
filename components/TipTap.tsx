@@ -46,6 +46,7 @@ const extensions = [
 const Tiptap = ({
   description,
   onChange,
+  ...otherProps
 }: {
   description?: string;
   onChange: (richText: string) => void;
@@ -58,12 +59,14 @@ const Tiptap = ({
             class: "p-3 outline-none min-h-32",
           },
         }}
+        key={"description"}
         content={description}
         onUpdate={({ editor }) => {
           onChange(editor.getHTML());
         }}
         slotBefore={<MenuBar />}
         extensions={extensions}
+        {...otherProps}
       >{` `}</EditorProvider>
     </div>
   );

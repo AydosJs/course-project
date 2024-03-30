@@ -4,7 +4,7 @@ import CancelAndCreateButtons from "@/components/CancelAndCreateButtons";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -18,6 +18,7 @@ import UploadDropzoneInput from "@/components/form-elements/UploadDropzoneInput"
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
 import Tiptap from "@/components/TipTap";
+import { useCurrentEditor } from "@tiptap/react";
 
 import {
   AlertDialog,
@@ -120,7 +121,6 @@ export default function ItemForm({
       });
       if (res.status === 200) {
         setSelectedTags([]);
-        reset();
         toast.success("Successfully created!", {
           id: "successfullyCreated",
         });
@@ -260,7 +260,11 @@ export default function ItemForm({
           control={control}
           name="description"
           render={({ field: { onChange, value } }) => (
-            <Tiptap description={value} onChange={onChange} />
+            <Tiptap
+              key={"description"}
+              description={value}
+              onChange={onChange}
+            />
           )}
         />
       </div>
