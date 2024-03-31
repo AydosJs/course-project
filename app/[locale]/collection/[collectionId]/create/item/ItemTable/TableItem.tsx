@@ -117,7 +117,7 @@ export default function TableItem({
                 ></span>
               </div>
             </Link>
-            <div>
+            <div className="max-w-xs">
               <span className="text-sky-100 group-hover:text-slate-900 dark:font-medium dark:group-hover:text-slate-200">
                 {item.name}
               </span>

@@ -9,6 +9,7 @@ import {
   List,
   ListOrdered,
   Strikethrough,
+  X,
 } from "lucide-react";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
@@ -136,6 +137,15 @@ const MenuBar = () => {
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
       >
         <ListOrdered className="size-4" />
+      </Toggle>
+
+      <Toggle
+        className="rounded-none"
+        size={"sm"}
+        pressed={editor.isActive("clearContent")}
+        onPressedChange={() => editor.chain().focus().clearContent().run()}
+      >
+        <X className="size-4" />
       </Toggle>
     </div>
   );
