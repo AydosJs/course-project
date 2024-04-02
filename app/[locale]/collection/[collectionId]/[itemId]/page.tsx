@@ -83,11 +83,30 @@ export default async function page({
                 </>
               )}
             </div>
+            {tags?.length !== 0 && (
+              <div className="flex flex-row flex-wrap gap-x-2 gap-y-4">
+                {tags &&
+                  tags.length !== 0 &&
+                  tags.map((item) => (
+                    <Link
+                      href={`/search?q=${encodeURI(item.text)}`}
+                      key={item.id}
+                    >
+                      <span
+                        className="cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 py-1 text-sm font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
+                        key={item.id}
+                      >
+                        #{item.text}
+                      </span>
+                    </Link>
+                  ))}
+              </div>
+            )}
 
             <div className="flex w-full flex-row-reverse items-center justify-between pr-4 lg:flex-row lg:pl-4 lg:pr-0">
               <ItemLikeButton
                 itemId={item.id as string}
-                likeCount={item.likeCount as number}
+                likeCount={item.likeCount}
                 likes={item.ItemLike as ItemLike[]}
               />
 
@@ -102,8 +121,8 @@ export default async function page({
               <Description description={item?.description} />
             </div>
 
-            <div className="flex flex-col divide-y rounded font-normal">
-              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
+            <div className="flex flex-col rounded font-normal">
+              <h1 className="mb-2 border-b pb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
                 {t("collection_info")}
               </h1>
               <ListItem label="Name" value={item.collection?.name as string} />
@@ -114,34 +133,10 @@ export default async function page({
               <ListItem label="Owner" value={item.user?.name as string} />
             </div>
 
-            <div className="flex flex-col divide-y rounded font-normal">
-              <h1 className="mb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
+            <div className="flex flex-col rounded font-normal">
+              <h1 className="mb-2 border-b pb-2 text-lg font-medium text-slate-600 dark:text-slate-100">
                 {t("item_info")}
               </h1>
-              {tags?.length !== 0 && (
-                <div className="flex flex-row items-center text-sm">
-                  <p className="w-1/2 py-3 text-slate-600 dark:text-slate-400 md:w-1/3">
-                    {t("tags")}
-                  </p>
-                  <div className="flex w-1/2 flex-row flex-wrap gap-x-2 gap-y-4 py-3 md:w-2/3 ">
-                    {tags &&
-                      tags.length !== 0 &&
-                      tags.map((item) => (
-                        <Link
-                          href={`/search?q=${encodeURI(item.text)}`}
-                          key={item.id}
-                        >
-                          <span
-                            className="cursor-pointer whitespace-nowrap text-nowrap rounded-full border-2 border-sky-500/20 bg-sky-500/10 px-2 py-1 font-normal text-sky-500 hover:border-sky-500/50 hover:text-sky-400"
-                            key={item.id}
-                          >
-                            #{item.text}
-                          </span>
-                        </Link>
-                      ))}
-                  </div>
-                </div>
-              )}
 
               {customFields?.map(
                 (
@@ -180,11 +175,12 @@ export default async function page({
 
 const ListItem = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className="flex flex-row items-center text-sm">
-      <p className="w-1/2 py-3 capitalize dark:text-slate-400 md:w-1/3">
+    <div className="flex flex-row items-center space-x-2 text-sm">
+      <p className="w-fit truncate py-3 capitalize dark:text-slate-400">
         {label}
       </p>
-      <p className="w-1/2 py-3 text-slate-400 md:w-2/3">{value}</p>
+      <div className="flex-grow border-t border-dashed"></div>
+      <p className="w-fit truncate py-3 text-right text-slate-400">{value}</p>
     </div>
   );
 };
