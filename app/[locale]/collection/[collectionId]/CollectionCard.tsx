@@ -148,7 +148,7 @@ export default function CollectionCard({
         ></div>
       </div>
 
-      <div className="flex flex-col divide-y rounded font-normal">
+      <div className="flex flex-col font-normal">
         <ListItem label={t("owner")} value={ownerUser?.name as string} />
 
         <ListItem label={t("topic")} value={collection.topic} />
@@ -164,9 +164,10 @@ export default function CollectionCard({
 
 const ListItem = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className="flex flex-row items-center text-sm">
-      <p className="w-1/3 py-3">{label}</p>
-      <p className="w-2/3 py-3 text-slate-400">{value}</p>
+    <div className="flex flex-row items-center space-x-2 text-sm">
+      <p className="w-fit py-3">{label}</p>
+      <div className="flex-grow border-t border-dashed"></div>
+      <p className="w-fit py-3 text-slate-400">{value}</p>
     </div>
   );
 };
