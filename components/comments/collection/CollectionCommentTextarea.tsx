@@ -100,11 +100,14 @@ export default function CollectionCommentTextarea({
             <div className={`${!watch("text") ? "opacity-50" : "opacity-100"}`}>
               <Button
                 loading={loading}
-                disabled={Boolean(
-                  errors.text || watch("text")
-                    ? watch("text").trim().length === 0
-                    : true,
-                )}
+                disabled={
+                  loading ||
+                  Boolean(
+                    errors.text || watch("text")
+                      ? watch("text").trim().length === 0
+                      : true,
+                  )
+                }
                 type="submit"
                 className="w-auto rounded p-1 px-3 text-sm"
               >
